@@ -10,7 +10,7 @@
 
 class Battery():
 
-    # initialises a battery with a location and capacity
+    # initialises a battery with a location and capacity.
     def __init__(self, float x_axis, float y_axis, float capacity):
 
         # saves battery location on grid
