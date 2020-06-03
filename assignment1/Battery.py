@@ -15,7 +15,7 @@ class Battery():
 
         # saves battery location on grid
         self.position_x = x_axis
-         
+
         self.position_y = y_axis
 
         # saves battery capacity
@@ -33,10 +33,13 @@ class Battery():
 
     # check if house can be added & add house - Olaf
 
+
+
     # calculate how much cable has to layed to add house - Sam
+        def cable_length(self, house):
+            return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
 
     # calculate how much costs are added - Ruben
         def add_cost(self, cable_length):
             self.costs += cable_length * 9
-            
-        
+
