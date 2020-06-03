@@ -1,4 +1,5 @@
 from House import *
+import Battery.py
 
 # Maybe TODO: use more efficient sorting algorithm
 def sortHouse(houses):
@@ -23,3 +24,23 @@ def totalCosts(batteries):
     for all battery in batteries:
         total_costs += battery.costs
     return total_costs
+
+def adding_houses():
+    
+    battery_numb = 0
+    
+    for house in district_1["houses"]:
+        
+       # add house to battery
+        if Battery.add_house(house):
+            
+            # go to next house
+            continue
+        else:
+           
+            # go to next battery
+            battery_numb += 1
+
+        if battery_numb >= len(district_1[batteries]):
+            # all batteries full!
+            return 1
