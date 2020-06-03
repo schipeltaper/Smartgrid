@@ -25,7 +25,7 @@ class Battery():
         self.energy_production
 
         # total costs of cable length & battery
-        self.costs
+        self.costs = 5000
 
         # list of houses connected to battery
         self.houses_in_batteries
@@ -36,3 +36,7 @@ class Battery():
     # calculate how much cable has to layed to add house - Sam
 
     # calculate how much costs are added - Ruben
+        def add_cost(self, cable_length):
+            self.costs += cable_length * 9
+            
+        
