@@ -1,5 +1,4 @@
 from House import *
-import Battery.py
 
 # Maybe TODO: use more efficient sorting algorithm
 def sortHouse(houses):
@@ -21,7 +20,7 @@ def sortHouse(houses):
 # calculate costs for list of batteries
 def totalCosts(batteries):
     total_costs = 0
-    for all battery in batteries:
+    for battery in batteries:
         total_costs += battery.costs
     return total_costs
 

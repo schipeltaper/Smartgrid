@@ -11,7 +11,7 @@
 class Battery():
 
     # initialises a battery with a location and capacity
-    def __init__(self, float x_axis, float y_axis, float capacity):
+    def __init__(self, x_axis, y_axis, capacity):
 
         # saves battery location on grid
         self.position_x = x_axis
@@ -33,24 +33,23 @@ class Battery():
         # list of houses connected to battery
         self.houses_in_battery = []
 
-    # check if house can be added & add house - Olaf
     # return true if house added and False if not
-    def add_house(self, house):
+    def add_house(self, new_house):
 
         # make sure house fits in battery
-        if self.capacity < self.energy_production + production:
+        if self.capacity < self.energy_production + new_house.capacity:
             
-            # battery not enought capacity
+            # battery not enough capacity
             return False
     
         # add battery
-        self.capacity += production
+        self.capacity += new_house.capacity
 
         # add house to houses
-        self.houses_in_battery.append(house)
+        self.houses_in_battery.append(new_house)
 
         # add costs
-        self.costs += add_cost(cable_length(house))
+        self.costs += add_cost(cable_length(new_house))
 
     # calculate how much cable has to layed to add house - Sam
     def cable_length(self, house):

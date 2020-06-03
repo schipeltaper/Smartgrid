@@ -1,5 +1,6 @@
 from House import *
 from Algorithms import *
+from House import *
 
 def main():
     house1 = House(1, 2, 3)
