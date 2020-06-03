@@ -15,8 +15,24 @@ class Battery():
 
         # saves battery location on grid
         self.position_x = x_axis
-        
+         
         self.position_y = y_axis
 
         # saves battery capacity
         self.capacity = capacity
+
+        # total energy usage of all houses connected to battery
+        self.energy_production
+
+        # total costs of cable length & battery
+        self.costs
+
+        # list of houses connected to battery
+        self.houses_in_batteries
+
+
+    # check if house can be added & add house - Olaf
+
+    # calculate how much cable has to layed to add house - Sam
+
+    # calculate how much costs are added - Ruben
