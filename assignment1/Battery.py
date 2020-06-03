@@ -8,6 +8,8 @@
 *
 '''
 
+from House import *
+
 class Battery():
 
     # initialises a battery with a location and capacity
