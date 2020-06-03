@@ -3,17 +3,17 @@ from House import *
 # Maybe TODO: use more efficient sorting algorithm
 def sortHouse(houses):
     # Selection Sort
-    for i in range(len(houses)):
-        grootste_locatie = i
+    for house_numb in range(len(houses)):
+        biggest_location = house_numb
 
-        # We zoeken naar de grootste capaciteit
-        for j in range(i, len(houses)):
-            if houses[j].capaciteit > houses[grootste_locatie].capaciteit:
-                grootste_locatie = j
+        # We're searching for the highest capacity
+        for house_numb2 in range(house_numb, len(houses)):
+            if houses[house_numb2].capacity > houses[biggest_location].capacity:
+                biggest_location = house_numb2
 
-        temp = houses[i]
-        houses[i] = houses[grootste_locatie]
-        houses[grootste_locatie] = temp
+        temp = houses[house_numb]
+        houses[house_numb] = houses[biggest_location]
+        houses[biggest_location] = temp
 
     return houses
     

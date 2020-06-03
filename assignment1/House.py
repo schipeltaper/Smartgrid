@@ -1,7 +1,7 @@
 class House:
-    def __init__(self, x_coordinaat, y_coordinaat, capaciteit):
-        self.capaciteit = capaciteit
-        self.x_coordinaat = x_coordinaat
-        self.y_coordinaat = y_coordinaat
+    def __init__(self, x_coordinate, y_coordinate, capacity):
+        self.capacity = capacity
+        self.x_coordinate = x_coordinate
+        self.y_coordinate = y_coordinate
 
 

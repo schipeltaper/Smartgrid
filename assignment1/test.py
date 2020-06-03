@@ -7,15 +7,15 @@ def main():
     house3 = House(1, 6, 9)
     house4 = House(1, 4, 0)
     houses = [house1, house2, house3, house4]
-    print(house1.capaciteit)
-    print(house2.capaciteit)
-    print(house3.capaciteit)
-    print(house4.capaciteit)
+    print(house1.capacity)
+    print(house2.capacity)
+    print(house3.capacity)
+    print(house4.capacity)
 
-    print(sortHouse(houses)[0].capaciteit)
-    print(sortHouse(houses)[1].capaciteit)
-    print(sortHouse(houses)[2].capaciteit)
-    print(sortHouse(houses)[3].capaciteit)
+    print(sortHouse(houses)[0].capacity)
+    print(sortHouse(houses)[1].capacity)
+    print(sortHouse(houses)[2].capacity)
+    print(sortHouse(houses)[3].capacity)
 
 if __name__ == "__main__":
     main()
