@@ -32,7 +32,7 @@ def adding_houses():
     for house in district_1["houses"]:
         
        # add house to battery
-        if district_1[batteries][battery_numb]:
+        if Battery.add_house(house):
             
             # go to next house
             continue
