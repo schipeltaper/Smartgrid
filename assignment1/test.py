@@ -4,6 +4,7 @@ from configuration import *
 from greedy_algorithm import *
 
 def main():
+
     greedy_solution = Greedy()
     greedy_solution.adding_houses()
 
@@ -13,6 +14,7 @@ def main():
     print(greedy_solution.batteries[0].houses_in_battery[3].production)
     print(greedy_solution.batteries[1].houses_in_battery[0].production)
     print(greedy_solution.batteries[2].houses_in_battery[0].production)
+
 
     print(totalCosts(greedy_solution.batteries)
 
