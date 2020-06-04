@@ -56,7 +56,7 @@ class Battery():
         self.houses_in_battery.append(new_house)
 
         # add costs
-        self.costs += cable_length(self, new_house) * 9
+        self.costs += self.cable_length(new_house) * 9
 
         return True
 
