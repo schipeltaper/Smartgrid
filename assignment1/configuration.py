@@ -1,5 +1,6 @@
 from House import House
 from Battery import Battery
+
 # format: house = House(x,y, maxoutput), battery = House(x,y,capacity)
 district_1 = {
     "houses": [
