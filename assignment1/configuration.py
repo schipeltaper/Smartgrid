@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-from House import *
-from Battery import *
-=======
 from House import House
 from Battery import Battery
->>>>>>> bafbc124a4419f9d44dfad4f53bf7c3770f6cfdc
 # format: house = House(x,y, maxoutput), battery = House(x,y,capacity)
 district_1 = {
     "houses": [
