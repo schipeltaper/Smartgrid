@@ -17,5 +17,7 @@ def main():
     print(sortHouse(houses)[2].capacity)
     print(sortHouse(houses)[3].capacity)
 
+    adding_houses()
+
 if __name__ == "__main__":
     main()

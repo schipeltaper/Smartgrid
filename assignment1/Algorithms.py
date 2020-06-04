@@ -1,4 +1,5 @@
 from House import *
+from configuration import *
 
 # Maybe TODO: use more efficient sorting algorithm
 def sortHouse(houses):
