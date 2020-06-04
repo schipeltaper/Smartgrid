@@ -39,7 +39,7 @@ class Greedy():
             
         # looping through houses
         for house in self.all_houses:
-            
+
             # make sure house is not already in battery
             if not house in self.connected_houses:
                 
