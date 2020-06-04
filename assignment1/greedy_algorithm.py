@@ -3,35 +3,54 @@ from configuration import *
 
 class Greedy():
 
+    # initialises a battery with a location and capacity
+    def __init__(self):
+
+        self.batteries = []
+
     # sorting houses
     def sortHouse(self, houses):
         
         # Selection Sort
-        for house_numb in range(len(houses)):
-            biggest_location = house_numb
+        for self.house_numb in range(len(houses)):
+            biggest_location = self.house_numb
 
             # We're searching for the highest production
-            for house_numb2 in range(house_numb, len(houses)):
-                if houses[house_numb2].production > houses[biggest_location].production:
-                    biggest_location = house_numb2
+            for self.house_numb2 in range(self.house_numb, len(houses)):
+                if houses[self.house_numb2].production > houses[biggest_location].production:
+                    biggest_location = self.house_numb2
 
-            temp = houses[house_numb]
-            houses[house_numb] = houses[biggest_location]
-            houses[biggest_location] = temp
+            self.temp = houses[self.house_numb]
+            houses[self.house_numb] = houses[biggest_location]
+            houses[biggest_location] = self.temp
 
         return houses
 
-
-    # function to make a configuration of batteries with connected houses
+    # function to add houses to batteries
     def adding_houses(self):
+        
+        # temp location to store list of all houses
+        self.all_houses = self.sortHouse(district_1["houses"])
+        self.connected_houses = []
+        self.batteries = district_1["batteries"]
 
-        houses = self.sortHouse(district_1["houses"])
-        batteries = district_1["batteries"]
+        # battery currently storing houses in
+        self.battery_numb = 0
+            
+        # looping through houses
+        for house in self.all_houses:
+            
+            # make sure house is not already in battery
+            if not house in self.connected_houses:
+                
+                # check if battery is full and add house to battery
+                if battery.battery_full(house):
+                    
+                    # move to next battery
+                    self.battery_numb += 1
 
-        for battery in batteries:
-            for house in houses:
-                # add house to battery
-                if battery.add_house(house):
-                    houses.remove(house)
-                    # go to next house
-                    continue
+                # add house in next battery
+                battery.add_house(house)
+                    
+                # add house to already sorted house
+                self.connected_houses.append(house)
