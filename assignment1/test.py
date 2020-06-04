@@ -1,7 +1,6 @@
 from House import *
 from Algorithms import *
-from configuration import district_1
-
+from configuration import *
 
 def main():
     adding_houses()
