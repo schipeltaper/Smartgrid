@@ -1,18 +1,22 @@
 from House import *
 from Algorithms import *
-from configuration import district_1
-
+from configuration import *
+from greedy_algorithm import *
 
 def main():
-    adding_houses()
-    print(district_1["batteries"][0].houses_in_battery[0].production)
-    print(district_1["batteries"][0].houses_in_battery[1].production)
-    print(district_1["batteries"][0].houses_in_battery[2].production)
-    print(district_1["batteries"][0].houses_in_battery[3].production)
-    print(district_1["batteries"][1].houses_in_battery[0].production)
-    print(district_1["batteries"][2].houses_in_battery[0].production)
-    print(district_1["batteries"][2].costs)
 
+    greedy_solution = Greedy()
+    greedy_solution.adding_houses()
+
+    print(greedy_solution.batteries[0].houses_in_battery[1].production)
+    print(greedy_solution.batteries[0].houses_in_battery[1].production)
+    print(greedy_solution.batteries[0].houses_in_battery[2].production)
+    print(greedy_solution.batteries[0].houses_in_battery[3].production)
+    print(greedy_solution.batteries[1].houses_in_battery[0].production)
+    print(greedy_solution.batteries[2].houses_in_battery[0].production)
+
+
+    print(totalCosts(greedy_solution.batteries)
 
     # house1 = House(1, 2, 3)
     # house2 = House(1, 3, 2)

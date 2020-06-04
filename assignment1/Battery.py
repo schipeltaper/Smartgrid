@@ -9,6 +9,8 @@
 '''
 
 from House import *
+from configuration import *
+from Algorithms import *
 
 class Battery():
 
@@ -40,11 +42,15 @@ class Battery():
         return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
 
 
+    # return true if battery is not full
+    def battery_full(self, new_house):
+        return self.capacity < self.energy_production + new_house.production
+
     # return true if house added and False if not
     def add_house(self, new_house):
 
         # make sure house fits in battery
-        if self.capacity < self.energy_production + new_house.production:
+        if battery_full(new_house):
 
             # battery not enough capacity
             return False
