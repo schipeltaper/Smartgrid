@@ -28,12 +28,11 @@ def totalCosts(batteries):
 # function to make a configuration of batteries with connected houses
 def adding_houses():
     houses = sortHouse(district_1["houses"])
+    connected_houses = []
     batteries = district_1["batteries"]
 
     for battery in batteries:
         for house in houses:
             # add house to battery
-            if battery.add_house(house):
-                houses.remove(house)
-                # go to next house
-                continue
+            if not house in connected_houses and battery.add_house(house):
+                connected_houses.append(house)
