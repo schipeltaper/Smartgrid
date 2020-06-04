@@ -1,4 +1,5 @@
-
+from House import House
+from Battery import Battery
 # format: house = House(x,y, maxoutput), battery = House(x,y,capacity)
 district_1 = {
     "houses": [
@@ -151,7 +152,7 @@ district_1 = {
     House(21,48,71.35472201),
     House(22,17,66.78438663),
     House(26,27,56.65609954),
-    House(10,27,26.19979919)], 
+    House(10,27,26.19979919)],
     "batteries": [
     Battery(38,12,1507),
     Battery(43,13,1507),
@@ -313,8 +314,8 @@ district_2 = {
     House(38,47,35.5552718),
     House(3,25,38.40802103),
     House(34,1,37.82715244),
-    House(40,31,57.12008594)        
-    ], 
+    House(40,31,57.12008594)
+    ],
     "batteries": [
     Battery(19,20,1508.25),
     Battery(1,36,1508.25),
@@ -476,8 +477,8 @@ district_3 = {
     House(14,18,51.07946117),
     House(35,24,48.82801588),
     House(20,41,46.27510427),
-    House(29,11,47.73944395)        
-    ], 
+    House(29,11,47.73944395)
+    ],
     "batteries": [
     Battery(18,34,1506.75),
     Battery(32,11,1506.75),
