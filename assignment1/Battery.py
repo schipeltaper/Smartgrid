@@ -50,7 +50,7 @@ class Battery():
             return False
 
         # add battery
-        self.capacity += new_house.production
+        self.energy_production += new_house.production
 
         # add house to houses
         self.houses_in_battery.append(new_house)
