@@ -7,9 +7,9 @@ def sortHouse(houses):
     for house_numb in range(len(houses)):
         biggest_location = house_numb
 
-        # We're searching for the highest capacity
+        # We're searching for the highest production
         for house_numb2 in range(house_numb, len(houses)):
-            if houses[house_numb2].capacity > houses[biggest_location].capacity:
+            if houses[house_numb2].production > houses[biggest_location].production:
                 biggest_location = house_numb2
 
         temp = houses[house_numb]
