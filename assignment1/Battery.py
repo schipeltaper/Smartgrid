@@ -44,13 +44,13 @@ class Battery():
     def add_house(self, new_house):
 
         # make sure house fits in battery
-        if self.capacity < self.energy_production + new_house.capacity:
+        if self.capacity < self.energy_production + new_house.production:
 
             # battery not enough capacity
             return False
 
         # add battery
-        self.capacity += new_house.capacity
+        self.capacity += new_house.production
 
         # add house to houses
         self.houses_in_battery.append(new_house)
