@@ -1,5 +1,5 @@
 from House import *
-import Battery.py
+from configuration import *
 
 # Maybe TODO: use more efficient sorting algorithm
 def sortHouse(houses):
@@ -17,30 +17,23 @@ def sortHouse(houses):
         houses[biggest_location] = temp
 
     return houses
-    
+
 # calculate costs for list of batteries
 def totalCosts(batteries):
     total_costs = 0
-    for all battery in batteries:
+    for battery in batteries:
         total_costs += battery.costs
     return total_costs
 
+# function to make a configuration of batteries with connected houses
 def adding_houses():
-    
-    battery_numb = 0
-    
-    for house in district_1["houses"]:
-        
-       # add house to battery
-        if Battery.add_house(house):
-            
-            # go to next house
-            continue
-        else:
-           
-            # go to next battery
-            battery_numb += 1
+    houses = sortHouse(district_1["houses"])
+    batteries = district_1["batteries"]
 
-        if battery_numb >= len(district_1[batteries]):
-            # all batteries full!
-            return 1
+    for battery in batteries:
+        for house in houses:
+            # add house to battery
+            if battery.add_house(house):
+                houses.remove(house)
+                # go to next house
+                continue

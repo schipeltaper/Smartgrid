@@ -8,10 +8,12 @@
 *
 '''
 
+from House import *
+
 class Battery():
 
     # initialises a battery with a location and capacity
-    def __init__(self, float x_axis, float y_axis, float capacity):
+    def __init__(self, x_axis, y_axis, capacity):
 
         # saves battery location on grid
         self.position_x = x_axis
@@ -22,24 +24,40 @@ class Battery():
         self.capacity = capacity
 
         # total energy usage of all houses connected to battery
-        self.energy_production
+        self.energy_production = 0
+
+        # length of connected cables
+        self.length_cables = 0
 
         # total costs of cable length & battery
         self.costs = 5000
 
         # list of houses connected to battery
-        self.houses_in_batteries
-
-
-    # check if house can be added & add house - Olaf
-
-
+        self.houses_in_battery = []
 
     # calculate how much cable has to layed to add house - Sam
-        def cable_length(self, house):
-            return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
+    def cable_length(self, house):
+        return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
 
-    # calculate how much costs are added - Ruben
-        def add_cost(self, cable_length):
-            self.costs += cable_length * 9
+
+    # return true if house added and False if not
+    def add_house(self, new_house):
+
+        # make sure house fits in battery
+        if self.capacity < self.energy_production + new_house.capacity:
+
+            # battery not enough capacity
+            return False
+
+        # add battery
+        self.capacity += new_house.capacity
+
+        # add house to houses
+        self.houses_in_battery.append(new_house)
+
+        # add costs
+        self.costs += self.cable_length(new_house) * 9
+
+        return True
+
 
