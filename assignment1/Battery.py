@@ -17,17 +17,17 @@ class Battery():
 
         # saves battery location on grid
         self.position_x = x_axis
-         
+
         self.position_y = y_axis
 
         # saves battery capacity
         self.capacity = capacity
 
         # total energy usage of all houses connected to battery
-        self.energy_production
+        self.energy_production = 0
 
         # length of connected cables
-        self.length_cables
+        self.length_cables = 0
 
         # total costs of cable length & battery
         self.costs = 5000
@@ -39,11 +39,11 @@ class Battery():
     def add_house(self, new_house):
 
         # make sure house fits in battery
-        if self.capacity < self.energy_production + new_house.capacity:
-            
-            # battery not enough capacity
+        if self.capacity < self.energy_production + new_house.capacity or new_house in self.houses_in_battery:
+
+            # battery not enough capacity or house already in battery
             return False
-    
+
         # add battery
         self.capacity += new_house.capacity
 
@@ -52,6 +52,8 @@ class Battery():
 
         # add costs
         self.costs += add_cost(cable_length(new_house))
+
+        return True
 
     # calculate how much cable has to layed to add house - Sam
     def cable_length(self, house):
