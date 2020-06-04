@@ -1,9 +1,12 @@
 from House import *
 from Algorithms import *
 from configuration import *
+from greedy_algorithm import *
 
 def main():
-    adding_houses()
+    greedy_solution = Greedy()
+    greedy_solution.adding_houses()
+
     print(district_1["batteries"][0].houses_in_battery[0].production)
     print(district_1["batteries"][0].houses_in_battery[1].production)
     print(district_1["batteries"][0].houses_in_battery[2].production)
@@ -26,6 +29,7 @@ def main():
     # print(sortHouse(houses)[1].capacity)
     # print(sortHouse(houses)[2].capacity)
     # print(sortHouse(houses)[3].capacity)
-
+    
+    
 if __name__ == "__main__":
     main()
