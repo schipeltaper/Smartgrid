@@ -11,6 +11,7 @@ def main():
     print(district_1["batteries"][0].houses_in_battery[3].production)
     print(district_1["batteries"][1].houses_in_battery[0].production)
     print(district_1["batteries"][2].houses_in_battery[0].production)
+    print(district_1["batteries"][2].costs)
 
 
     # house1 = House(1, 2, 3)
