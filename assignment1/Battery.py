@@ -37,6 +37,11 @@ class Battery():
         # list of houses connected to battery
         self.houses_in_battery = []
 
+    # calculate how much cable has to layed to add house - Sam
+    def cable_length(self, house):
+        return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
+
+
     # return true if house added and False if not
     def add_house(self, new_house):
 
@@ -45,7 +50,7 @@ class Battery():
         # make sure house fits in battery
         if self.capacity < self.energy_production + self.new_house.production:
 
-            # battery not enough capacity or house already in battery
+            # battery not enough capacity
             return False
 
         # add battery
@@ -55,14 +60,8 @@ class Battery():
         self.houses_in_battery.append(self.new_house)
 
         # add costs
-        self.costs += self.add_cost(self.cable_length(self.new_house))
+        self.costs += self.cable_length(new_house) * 9
 
         return True
 
-    # calculate how much cable has to layed to add house - Sam
-    def cable_length(self, house):
-        return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
 
-    # calculate how much costs are added - Ruben
-    def add_cost(self, cable_length):
-            return cable_length * 9

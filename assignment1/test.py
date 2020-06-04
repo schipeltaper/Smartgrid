@@ -4,7 +4,10 @@ from configuration import *
 
 def main():
     adding_houses()
-    print(district1["batteries"][0].houses_in_batteries[0].capacity)
+    print(district_1["batteries"][0].houses_in_battery[0].capacity)
+    print(district_1["batteries"][0].houses_in_battery[1].capacity)
+    print(district_1["batteries"][0].houses_in_battery[2].capacity)
+    print(district_1["batteries"][0].houses_in_battery[3].capacity)
 
     # house1 = House(1, 2, 3)
     # house2 = House(1, 3, 2)
