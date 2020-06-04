@@ -9,7 +9,7 @@ class Greedy():
         self.batteries = []
 
     # sorting houses
-    def sortHouse(self, houses):
+    def sort_house(self, houses):
         
         # Selection Sort
         for self.house_numb in range(len(houses)):
@@ -30,7 +30,7 @@ class Greedy():
     def adding_houses(self):
         
         # temp location to store list of all houses
-        self.all_houses = self.sortHouse(district_1["houses"])
+        self.all_houses = self.sort_house(district_1["houses"])
         self.connected_houses = []
         self.batteries = district_1["batteries"]
 
