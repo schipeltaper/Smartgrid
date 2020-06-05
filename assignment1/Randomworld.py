@@ -2,6 +2,7 @@ from House import *
 from Algorithms import *
 from Battery import *
 from configuration import *
+from greedy_algorithm import *
 import numpy as np
 #import matplotlib.mlab as mlab
 #import matplotlib.pyplot as plt
@@ -11,7 +12,7 @@ import numpy as np
 class Randomworld_1():
     def __init__(self, district):
         self.batteries = district["batteries"]
-        self.houses = sortHouse(district["houses"])
+        self.houses = Greedy().sort_house(district["houses"])
         self.costs = 0
     
     def distribute_houses(self):
