@@ -9,7 +9,6 @@
 '''
 
 from House import *
-from configuration import *
 from Algorithms import *
 
 class Battery():
@@ -49,10 +48,10 @@ class Battery():
     def add_house(self, new_house):
 
         # make sure house fits in battery
-        if self.battery_full(new_house):
+        #if self.battery_full(new_house):
 
             # battery not enough capacity
-            return False
+            #return False
 
         # add battery
         self.energy_production += new_house.production
@@ -67,7 +66,7 @@ class Battery():
 
     # removes house from battery and returns if battery removed
     def remove_house(self, del_house):
-        
+
         #  remove house if in battery
         if del_house in self.houses_in_battery:
             
@@ -78,10 +77,10 @@ class Battery():
                         
             # house removed from battery
             return True
-        
+
         # house not in battery
         return False
-        
+
 
     # empty
     def empty_battery(self):
