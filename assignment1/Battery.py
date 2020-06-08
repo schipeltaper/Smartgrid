@@ -71,12 +71,11 @@ class Battery():
         #  remove house if in battery
         if del_house in self.houses_in_battery:
             
-            self.energy_production -= del_house.production
-            
+            # removing all information of house from battery
             self.houses_in_battery.remove(del_house)
-            
+            self.energy_production -= del_house.production
             self.costs -= self.cable_length(del_house) * 9
-            
+                        
             # house removed from battery
             return True
         
@@ -86,6 +85,7 @@ class Battery():
 
     # empty
     def empty_battery(self):
+        # setting everything to 0 to empty battery
         self.houses_in_battery = []
         self.energy_production = 0
         self.costs = 5000
