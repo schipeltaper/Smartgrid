@@ -9,7 +9,6 @@
 '''
 
 from House import *
-from configuration import *
 from Algorithms import *
 
 class Battery():
@@ -67,7 +66,7 @@ class Battery():
 
     # removes house from battery and returns if battery removed
     def remove_house(self, del_house):
-        
+
         #  remove house if in battery
         if del_house in self.houses_in_battery:
             
@@ -78,10 +77,10 @@ class Battery():
                         
             # house removed from battery
             return True
-        
+
         # house not in battery
         return False
-        
+
 
     # empty
     def empty_battery(self):

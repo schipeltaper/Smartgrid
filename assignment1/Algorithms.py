@@ -1,5 +1,4 @@
 from House import *
-from configuration import *
 
 # calculate costs for list of batteries
 def totalCosts(batteries):
