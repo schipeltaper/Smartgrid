@@ -49,10 +49,10 @@ class Battery():
     def add_house(self, new_house):
 
         # make sure house fits in battery
-        if self.battery_full(new_house):
+        #if self.battery_full(new_house):
 
             # battery not enough capacity
-            return False
+            #return False
 
         # add battery
         self.energy_production += new_house.production
