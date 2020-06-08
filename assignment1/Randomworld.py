@@ -3,8 +3,6 @@ from Algorithms import *
 from Battery import *
 from configuration import *
 import numpy as np
-#import matplotlib.mlab as mlab
-#import matplotlib.pyplot as plt
 
 
 # random solution that doesn't violate max. battery capacities
@@ -59,9 +57,6 @@ while k < 100000:
     costs.append(world.costs)
     k += 1
 
-#num_bins = 50
-#plt.hist(costs, num_bins, facecolor='blue', alpha=0.5)
-#plt.show()
 print(costs)       
             
             

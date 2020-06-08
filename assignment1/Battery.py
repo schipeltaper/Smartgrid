@@ -41,7 +41,6 @@ class Battery():
     def cable_length(self, house):
         return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
 
-
     # return true if battery is not full
     def battery_full(self, new_house):
         return self.capacity < self.energy_production + new_house.production
@@ -50,7 +49,7 @@ class Battery():
     def add_house(self, new_house):
 
         # make sure house fits in battery
-        if battery_full(new_house):
+        if self.battery_full(new_house):
 
             # battery not enough capacity
             return False
@@ -66,3 +65,21 @@ class Battery():
 
         return True
 
+    # removes house from battery and returns if battery removed
+    def remove_house(self, del_house):
+        
+        #  remove house if in battery
+        if del_house in self.houses_in_battery:
+            
+            self.houses_in_battery.remove(del_house)
+            
+            # house removed from battery
+            return True
+        
+        # house not in battery
+        return False
+        
+
+    # empty
+    def empty_battery(self):
+        self.houses_in_battery.clear()
