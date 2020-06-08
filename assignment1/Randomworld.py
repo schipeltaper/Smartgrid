@@ -11,7 +11,7 @@ import numpy as np
 class Randomworld_1():
     def __init__(self, district):
         self.batteries = district["batteries"]
-        self.houses = sortHouse(district["houses"])
+        self.houses = district["houses"]
         self.costs = 0
     
     def distribute_houses(self):
@@ -49,7 +49,7 @@ class Randomworld_1():
 costs = []
 k = 0
 world = Randomworld_1(district_1)
-while k < 10000:
+while k < 100000:
     valid = False
     tries = 0
     while valid == False:
