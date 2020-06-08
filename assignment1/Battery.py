@@ -86,6 +86,6 @@ class Battery():
 
     # empty
     def empty_battery(self):
-        self.houses_in_battery.clear()
+        self.houses_in_battery = []
         self.energy_production = 0
         self.costs = 5000

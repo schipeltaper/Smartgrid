@@ -31,23 +31,13 @@ class Randomworld_1():
         return True
     def reset_world(self):
         for battery in self.batteries:
-            battery.energy_production = 0
-
-            # length of connected cables
-            battery.length_cables = 0
-
-            # total costs of cable length & battery
-            battery.costs = 5000
-
-            # list of houses connected to battery
-            battery.houses_in_battery = []
-            
+            battery.empty_battery()
             self.costs = 0
 
 costs = []
 k = 0
 world = Randomworld_1(district_1)
-while k < 100000:
+while k < 10000:
     valid = False
     tries = 0
     while valid == False:
