@@ -2,17 +2,14 @@ from House import *
 from Algorithms import *
 from Battery import *
 from configuration import *
-from greedy_algorithm import *
 import numpy as np
-#import matplotlib.mlab as mlab
-#import matplotlib.pyplot as plt
 
 
 # random solution that doesn't violate max. battery capacities
 class Randomworld_1():
     def __init__(self, district):
         self.batteries = district["batteries"]
-        self.houses = Greedy().sort_house(district["houses"])
+        self.houses = district["houses"]
         self.costs = 0
     
     def distribute_houses(self):
@@ -34,17 +31,7 @@ class Randomworld_1():
         return True
     def reset_world(self):
         for battery in self.batteries:
-            battery.energy_production = 0
-
-            # length of connected cables
-            battery.length_cables = 0
-
-            # total costs of cable length & battery
-            battery.costs = 5000
-
-            # list of houses connected to battery
-            battery.houses_in_battery = []
-            
+            battery.empty_battery()
             self.costs = 0
 
 costs = []
@@ -60,9 +47,6 @@ while k < 10000:
     costs.append(world.costs)
     k += 1
 
-#num_bins = 50
-#plt.hist(costs, num_bins, facecolor='blue', alpha=0.5)
-#plt.show()
 print(costs)       
             
             
