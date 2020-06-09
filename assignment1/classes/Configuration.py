@@ -1,3 +1,18 @@
+'''
+* configuration and point class
+*
+* Programmeertheorie
+* Optimum Prime
+*
+* Configuration class defines a configuration of a smartgrid with a chosen width and height.
+* In a configuration object you can add and delete batteries, houses and cables.
+* In the configuration class we use a point-class to define the information on each point.
+*
+* The point class defines a point on the grid.
+* This point saves all its neighbours which are connected through cables
+*
+'''
+
 from Battery import Battery
 from House import House
 
@@ -20,6 +35,7 @@ class Configuration():
     def add_house(self, x, y, house):
         self.configuration[x][y].content = house
 
+    # Cables are saved by saving the neighbours of each point
     def add_cable(self, point1, point2, battery):
         if point1.neighbours[battery] is None:
             point1.neighbours[battery] = [point2]
@@ -43,7 +59,7 @@ class Configuration():
         point1.neighbours[battery].remove(point2)
         point2.neighbours[battery].remove(point1)
 
-
+# Defines a point on the grid
 class Point():
     def __init__(self, x, y):
         # Shows the position of this point
