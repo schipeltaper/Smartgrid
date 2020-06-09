@@ -5,7 +5,12 @@ from greedy_algorithm import *
 
 def main():
 
+    prox_greedy_solution = Greedy()
+    prox_greedy_solution.proximity_sort()
+    print(totalCosts(prox_greedy_solution.batteries))
+
     greedy_solution = Greedy()
+
     greedy_solution.adding_houses()
 
     # print amout of items in battery 1
@@ -25,6 +30,7 @@ def main():
     print(greedy_solution.batteries[2].houses_in_battery[0].production)
 
     print(totalCosts(greedy_solution.batteries))
+
 
     # house1 = House(1, 2, 3)
     # house2 = House(1, 3, 2)

@@ -1,57 +1,57 @@
+from Battery import Battery
+from House import House
+
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
-    def __init__(width, height):
+    def __init__(self, width, height):
 
         # Creates a correctly sized grid of points
         self.configuration = []
         for j in range(height):
             row = []
             for i in range(width):
-                point = Point()
+                point = Point(j, i)
                 row.append(point)
             self.configuration.append(row)
 
-    def add_battery(x, y, battery):
+    def add_battery(self, x, y, battery):
         self.configuration[x][y].content = battery
 
-    def add_house(x, y, house):
+    def add_house(self, x, y, house):
         self.configuration[x][y].content = house
 
-    def add_cable(x, y, orientation, battery):
-        if orientation == "right":
-            self.configuration[x][y].right.append(battery)
+    def add_cable(self, point1, point2, battery):
+        if point1.neighbours[battery] is None:
+            point1.neighbours[battery] = [point2]
+        else:
+            point1.neighbours[battery].append(point2)
 
-        if orientation == "down":
-            self.configuration[x][y].down.append(battery)
+        if point2.neighbours[battery] is None:
+            point2.neighbours[battery] = [point1]
+        else:
+            point2.neighbours[battery].append(point1)
 
-    def delete_battery(x, y):
+    def delete_battery(self, x, y):
         if type(self.configuration[x][y].content) == 'Battery.Battery':
             self.configuration[x][y].content = None
 
-    def delete_house(x, y, house):
+    def delete_house(self, x, y, house):
         if type(self.configuration[x][y].content) == 'House.House':
             self.configuration[x][y].content = None
 
-    def delete_cable(x, y, orientation, battery):
-        if orientation == "right":
-            if battery in self.configuration[x][y].right:
-                self.configuration[x][y].right.remove(battery)
+    def delete_cable(self, point1, point2, battery):
+        point1.neighbours[battery].remove(point2)
+        point2.neighbours[battery].remove(point1)
 
-        if orientation == "down":
-            if battery in self.configuration[x][y].down:
-                self.configuration[x][y].down.remove(battery)
 
 class Point():
-    def __init__(x, y):
+    def __init__(self, x, y):
         # Shows the position of this point
         self.x = x
         self.y = y
 
-        # Here comes the list of batteries that is connected to a cable to the right of this point
-        self.right = []
-
-        # Here comes the list of batteries that is connected to a cable below this point
-        self.down = []
+        # If a cable goes through this point, shows all neighbours of this point for each relevant battery
+        self.neighbours = dict()
 
         # The content on this point. Could be a house or battery
         self.content = None
