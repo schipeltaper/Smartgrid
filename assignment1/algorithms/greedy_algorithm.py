@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath('../classes'))
 from House import House
 from map_lists import district_1, district_2, district_3
 import copy

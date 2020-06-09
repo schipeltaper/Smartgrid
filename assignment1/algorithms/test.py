@@ -1,7 +1,16 @@
+import sys
+import os
+sys.path.append(os.path.abspath('../classes'))
 from House import House
-from Algorithms import totalCosts
 from map_lists import district_1, district_2, district_3
 from greedy_algorithm import Greedy
+
+# calculate costs for list of batteries
+def totalCosts(batteries):
+    total_costs = 0
+    for battery in batteries:
+        total_costs += battery.costs
+    return total_costs
 
 def main():
 

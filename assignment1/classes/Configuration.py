@@ -1,5 +1,5 @@
-from Battery import Battery
 from House import House
+from Battery import Battery
 
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
