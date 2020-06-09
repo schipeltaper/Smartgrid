@@ -1,5 +1,6 @@
-from House import *
-from Configuration import *
+
+from House import House
+from map_lists import district_1, district_2, district_3
 import copy
 
 class Greedy():

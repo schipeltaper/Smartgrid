@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 from House import *
 from Algorithms import *
 from Configuration import *
 from map_lists import *
 from greedy_algorithm import *
+=======
+from House import House
+from Algorithms import totalCosts
+from map_lists import district_1, district_2, district_3
+from greedy_algorithm import Greedy
+>>>>>>> 2accab34e9048a06e2f23773050787ddaf745475
 
 def main():
 
