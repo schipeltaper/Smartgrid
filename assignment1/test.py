@@ -1,6 +1,7 @@
 from House import *
 from Algorithms import *
-from configuration import *
+from Configuration import *
+from map_lists import *
 from greedy_algorithm import *
 
 def main():

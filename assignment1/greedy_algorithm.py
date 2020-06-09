@@ -1,5 +1,5 @@
 from House import *
-from configuration import *
+from Configuration import *
 import copy
 
 class Greedy():
