@@ -56,5 +56,3 @@ class Point():
         # The content on this point. Could be a house or battery
         self.content = None
 
-
-
