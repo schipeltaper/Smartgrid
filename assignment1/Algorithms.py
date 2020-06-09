@@ -1,4 +1,4 @@
-from House import *
+from House import House
 
 # calculate costs for list of batteries
 def totalCosts(batteries):

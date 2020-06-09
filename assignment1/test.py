@@ -1,7 +1,7 @@
-from House import *
-from Algorithms import *
-from configuration import *
-from greedy_algorithm import *
+from House import House
+from Algorithms import totalCosts
+from map_lists import district_1, district_2, district_3
+from greedy_algorithm import Greedy
 
 def main():
 
