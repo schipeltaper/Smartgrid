@@ -1,3 +1,18 @@
+'''
+* configuration and point class
+*
+* Programmeertheorie
+* Optimum Prime
+*
+* Configuration class defines a configuration of a smartgrid with a chosen width and height.
+* In a configuration object you can add and delete batteries, houses and cables.
+* In the configuration class we use a point-class to define the information on each point.
+*
+* The point class defines a point on the grid.
+* This point saves all its neighbours which are connected through cables
+*
+'''
+
 from House import House
 from Battery import Battery
 
