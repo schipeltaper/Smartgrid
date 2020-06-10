@@ -5,6 +5,10 @@ from House import House
 class Configuration():
     def __init__(self, width, height):
 
+        self.height_district = height
+
+        self.width_disditrict = width
+        
         # Creates a correctly sized grid of points
         self.configuration = []
         for j in range(height):
@@ -47,8 +51,8 @@ class Configuration():
 class Point():
     def __init__(self, x, y):
         # Shows the position of this point
-        self.x = x
-        self.y = y
+        self.position_x = x
+        self.position_y = y
 
         # If a cable goes through this point, shows all neighbours of this point for each relevant battery
         self.neighbours = dict()
