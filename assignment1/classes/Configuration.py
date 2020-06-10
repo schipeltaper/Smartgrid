@@ -55,11 +55,11 @@ class Configuration():
             point2.neighbours[battery].append(point1)
 
     def delete_battery(self, x, y):
-        if type(self.configuration[x][y].content) == 'Battery.Battery':
+        if type(self.configuration[x][y].content) is Battery:
             self.configuration[x][y].content = None
 
     def delete_house(self, x, y, house):
-        if type(self.configuration[x][y].content) == 'House.House':
+        if type(self.configuration[x][y].content) is House:
             self.configuration[x][y].content = None
 
     def delete_cable(self, point1, point2, battery):
