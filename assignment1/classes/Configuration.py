@@ -14,6 +14,14 @@ class Configuration():
                 row.append(point)
             self.configuration.append(row)
 
+    # to put the info of district1 into a configuration object
+    def create_district(self, district_info):
+        for house in district_info["houses"]:
+            self.add_house(house.position_x, house.position_y, house)
+
+        for battery in district_info["batteries"]:
+            self.add_battery(battery.position_x, battery.position_y, battery)
+
     def add_battery(self, x, y, battery):
         self.configuration[x][y].content = battery
 
