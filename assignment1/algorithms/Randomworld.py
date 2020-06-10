@@ -1,5 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath('../classes'))
 from House import House
-from Algorithms import totalCosts
 from Battery import Battery
 from map_lists import district_1, district_2, district_3
 import numpy as np

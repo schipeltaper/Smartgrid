@@ -9,7 +9,6 @@
 '''
 
 from House import House
-from Algorithms import totalCosts
 
 class Battery():
 

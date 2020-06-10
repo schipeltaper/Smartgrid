@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath('../classes'))
 from House import House
 
 # calculate costs for list of batteries
