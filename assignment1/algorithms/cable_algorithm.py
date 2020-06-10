@@ -11,6 +11,24 @@ class Cable():
 
         self.cable_costs = 0
     
+    def cable_list_batteries(self, batteries):
+        
+        # adds list of cables to list of cables in every battery
+        for battery in batteries:
+            battery.list_cables.append(self.connect_battery_houses(battery))
+    
+    def connect_battery_houses(self, battery):
+        
+        # stores all cables connected to battery
+        self.battery_cables = []
+
+        # itterates through batteries and places a calbe
+        for house in battery:
+            self.battery_cables.append(self.connect_points_Astar(battery, house))
+
+        # returns all cables connected to battery
+        return self.battery_cables
+    
     # lay cable between house and battery using best option
     def connect_points_Astar(self, start, end):
         

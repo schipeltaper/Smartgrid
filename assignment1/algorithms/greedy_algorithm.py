@@ -94,7 +94,6 @@ class Greedy():
                     # go to next house
                     break
     
-    
     # adds batteries too battiers in Greedy object
     def adding_batteries(self):
         self.batteries = copy.deepcopy(district_1["batteries"])

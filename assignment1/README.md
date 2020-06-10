@@ -1,7 +1,12 @@
-## Assignment 1:
-Verbind alle huizen in de eerste wijk aan een batterij. De maximumcapaciteit van de huizen mag die van de batterijen uiteraard niet overschrijden.
 
-## Assignment 2:
-De batterijen kosten 5000 per stuk. De kabels kosten 9 per grid-segment. De kabels liggen op de gridlijnen, mogen ook gridpunten met een huis passeren, en de afstand van een huis tot een batterij wordt berekend volgens de Manhattan distance.
+Gebruik:
+In Algorithms.py kun je verschillende heuristieken vinden oplossingen voor de case te vinden. Individuele heuristieken gebruiken verschillende combinaties van algorithms om de huizen te verdelen in de batterijen en om kabels aan te leggen om deze aan te sluiten.
 
-Bereken de kosten voor de in 1. geconfigureerde wijken. Probeer je SmartGrid te optimaliseren en vind een zo goed mogelijke configuratie van kabels.
+Structuur:
+
+De hierop volgende lijst beschrijft de belangrijkste mappen en files in het project, en waar je ze kan vinden:
+
+/assignment1: bevat alle code van dit project
+/assignment1/algorithms: verzameling van de code voor algoritmes
+/assignment1/classes: verzameling van de vier benodigde classes voor deze case en de informatie voor de kaarten
+
