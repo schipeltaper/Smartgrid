@@ -74,7 +74,7 @@ class Nearest_battery_world_1():
     
     def distribute_houses(self):
         for house in self.houses:
-            mindist = 1000000000
+            mindist = float('inf')
             i=0
             while(i < len(self.batteries)):
                 dist = self.batteries[i].cable_length(house)
