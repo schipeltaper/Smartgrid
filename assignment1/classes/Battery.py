@@ -29,6 +29,9 @@ class Battery():
         # length of connected cables
         self.length_cables = 0
 
+        # cables connected
+        self.list_cables = []
+
         # total costs of cable length & battery
         self.costs = 5000
 

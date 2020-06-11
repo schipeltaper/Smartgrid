@@ -1,9 +1,12 @@
 import sys
 import os
 sys.path.append(os.path.abspath('../classes'))
+from Battery import Battery
 from House import House
 from map_lists import district_1, district_2, district_3
 from greedy_algorithm import Greedy
+from cable_algorithm import Cable
+from cable import Cable_instance
 
 # calculate costs for list of batteries
 def totalCosts(batteries):
@@ -14,9 +17,21 @@ def totalCosts(batteries):
 
 def main():
 
-    prox_greedy_solution = Greedy()
-    prox_greedy_solution.proximity_sort()
-    print(totalCosts(prox_greedy_solution.batteries))
+    # testing cable class
+    battery_example = Battery(10, 15, 10)
+
+    house_example = House(1, 2, 5)
+    
+    cable_line = Cable()
+
+    cable_line.connect_points_Astar(battery_example, house_example)
+
+    print(cable_line.cable_network[0])
+    print()
+
+    prox_greedy_solution_1 = Greedy()
+    prox_greedy_solution_1.proximity_sort()
+    print(totalCosts(prox_greedy_solution_1.batteries))
 
     greedy_solution = Greedy()
 
@@ -39,7 +54,6 @@ def main():
     print(greedy_solution.batteries[2].houses_in_battery[0].production)
 
     print(totalCosts(greedy_solution.batteries))
-
 
     # house1 = House(1, 2, 3)
     # house2 = House(1, 3, 2)
