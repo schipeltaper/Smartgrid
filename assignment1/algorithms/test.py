@@ -1,12 +1,10 @@
-import sys
-import os
-sys.path.append(os.path.abspath('../classes'))
-from Battery import Battery
-from House import House
-from map_lists import district_1, district_2, district_3
-from greedy_algorithm import Greedy
-from cable_algorithm import Cable
-from cable import Cable_instance
+
+from classes.Battery import Battery
+from classes.House import House
+from classes.map_lists import district_1, district_2, district_3
+from algorithms.greedy_algorithm import Greedy
+from algorithms.cable_algorithm import Cable
+from classes.cable import Cable_instance
 
 # calculate costs for list of batteries
 def totalCosts(batteries):
@@ -15,7 +13,7 @@ def totalCosts(batteries):
         total_costs += battery.costs
     return total_costs
 
-def main():
+def test_version():
 
     # testing cable class
     battery_example = Battery(10, 15, 10)
@@ -69,6 +67,3 @@ def main():
     # print(sortHouse(houses)[1].capacity)
     # print(sortHouse(houses)[2].capacity)
     # print(sortHouse(houses)[3].capacity)
-
-if __name__ == "__main__":
-    main()

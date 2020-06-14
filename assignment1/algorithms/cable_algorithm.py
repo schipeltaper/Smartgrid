@@ -1,13 +1,13 @@
-import sys
-import os
-sys.path.append(os.path.abspath('../classes'))
 
-from cable import Cable_instance
+from classes.cable import Cable_instance
 
 class Cable():
-    def __init__(self):
+    def __init__(self, district_instance):
 
+        # all cables layed in object
         self.cable_network = []
+
+        self.district_instance = district_instance
 
         self.cable_costs = 0
     
@@ -23,7 +23,7 @@ class Cable():
         self.battery_cables = []
 
         # itterates through batteries and places a calbe
-        for house in battery:
+        for house in battery.houses_in_battery:
             self.battery_cables.append(self.connect_points_Astar(battery, house))
 
         # returns all cables connected to battery
@@ -33,6 +33,9 @@ class Cable():
     def connect_points_Astar(self, start, end):
         
         self.current_point = Cable_instance(start.position_x, start.position_y)
+        
+        # add the starting point to the configuration
+        self.district_instance.adding_calbe_class_calbe(self.current_point)
 
         self.end_point = Cable_instance(end.position_x, end.position_y)
 
@@ -84,6 +87,12 @@ class Cable():
             
             # save former point to current point
             self.current_point.former_cable_inst = self.former_point
+
+            # add costs
+            self.cable_costs += 9
+
+            # lay cables inside configuration
+            self.district_instance.adding_calbe_class_calbe(self.current_point)
           
         # adding cable list to nextwork
         self.cable_network.append(self.current_cable)

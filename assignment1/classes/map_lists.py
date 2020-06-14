@@ -1,5 +1,5 @@
-from House import House
-from Battery import Battery
+from classes.House import House
+from classes.Battery import Battery
 
 district_1 = {
     "houses": [

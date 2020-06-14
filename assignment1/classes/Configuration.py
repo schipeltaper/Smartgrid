@@ -13,19 +13,25 @@
 *
 '''
 
-from House import House
-from Battery import Battery
-import sys
-import os
-import numpy as np
-sys.path.append(os.path.abspath('../algorithms'))
-from Algorithms import dijkstra_algo
-from scipy.sparse import csr_matrix
+from classes.House import House
+from classes.Battery import Battery
+#import numpy as np
+#from sparse.csr import csr_matrix
+#from sparse.csgraph import dijkstra
 
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
     def __init__(self, width, height):
 
+        # saving grid information
+        self.grid_width = width
+        self.grid_height = height
+
+        # saving grid content information
+        self.all_batteries = []
+        self.all_houses = []
+        self.all_cables = []
+        
         # Creates a correctly sized grid of points
         self.configuration = []
         for j in range(height):
@@ -35,20 +41,114 @@ class Configuration():
                 row.append(point)
             self.configuration.append(row)
 
+        # beta visualisation
+        self.visualise_grid_beta = []
+
+    def print_the_dam_thing(self):
+        self.load_hb_in_beta_visiualisation()
+        self.load_cables_in_beta_visiualisation()
+
+        # itterate through visualise_grid_beta y_axis
+        for self.y_axis in self.visualise_grid_beta:
+            
+            # itterate through visualise_grid_beta x_axis
+            for self.x_axis in self.y_axis:
+                print(self.x_axis, end = '')
+            
+            # print next line
+            print()
+        
+
+    # load houses and batteries into visiualisation without cables
+    def load_hb_in_beta_visiualisation(self):
+                
+        # itterate through the lenght
+        for self.y_axis_lines in self.configuration:
+
+            self.y_axis_row1 = []
+            self.y_axis_row2 = []
+            
+            # itterate through the width
+            for self.x_axis_lines in self.y_axis_lines:
+                
+                # display B if battery present
+                if self.x_axis_lines.battery_item is not None:
+                    self.y_axis_row1.append("B")
+                    
+                # display H if house present
+                elif self.x_axis_lines.house_item is not None:
+                    self.y_axis_row1.append("H")
+                    
+                # display . if neither battery nor house present
+                else:
+                    self.y_axis_row1.append(".")
+                
+                self.y_axis_row1.append(".")
+                self.y_axis_row2.append(".")
+                self.y_axis_row2.append(".")
+            
+            # adding items to grid in visualise_grid_beta
+            self.visualise_grid_beta.append(self.y_axis_row1)
+            self.visualise_grid_beta.append(self.y_axis_row2)
+
+    # loads cables into array of visualisation
+    def load_cables_in_beta_visiualisation(self):    
+        
+        # itterating through configuration
+        for self.y_axis in self.configuration:
+            for self.x_axis in self.y_axis:
+
+                # find coordinates of the cable
+                if self.x_axis.cable_item != []:
+                    for self.cable_point in self.x_axis.cable_item:
+
+                        # get direction of cable
+                        self.cable_direction = self.cable_point.determine_direction_cable()
+                        
+                        # add cable to visualise_grid_beta
+                        if self.cable_direction == "EMPTY":
+                            continue
+                        
+                        elif self.cable_direction == "UP":
+                            # UP 
+                            self.visualise_grid_beta[self.cable_point.position_y*2-1][self.cable_point.position_x*2] = "|"
+
+                        elif self.cable_direction == "DOWN":
+                            # DOWN
+                            self.visualise_grid_beta[self.cable_point.position_y*2+1][self.cable_point.position_x*2] = "|"
+
+                        elif self.cable_direction == "LEFT":
+                            # LEFT
+                            self.visualise_grid_beta[self.cable_point.position_y*2][self.cable_point.position_x*2-1] = "-"
+
+                        elif self.cable_direction == "RIGHT":
+                            # RIGHT
+                            self.visualise_grid_beta[self.cable_point.position_y*2][self.cable_point.position_x*2+1] = "-"
+    
+    
     # to put the info of district1 into a configuration object
     def create_district(self, district_info):
         for house in district_info["houses"]:
-            self.add_house(house.position_x, house.position_y, house)
+            self.add_house(house)
 
         for battery in district_info["batteries"]:
-            self.add_battery(battery.position_x, battery.position_y, battery)
+            self.add_battery(battery)
 
-    def add_battery(self, x, y, battery):
-        self.configuration[x][y].content = battery
+    def add_battery(self, battery):   
+        
+        # adds battery to configuration
+        self.configuration[battery.position_x][battery.position_y].content = battery
+        self.configuration[battery.position_x][battery.position_y].battery_item = battery
 
-    def add_house(self, x, y, house):
-        self.configuration[x][y].content = house
+    def add_house(self, house):
+        # adds house to configuration
+        self.configuration[house.position_x][house.position_y].content = house
+        self.configuration[house.position_x][house.position_y].house_item = house
 
+    # adding a cable using calble class to grid
+    def adding_calbe_class_calbe(self, cable):
+        self.configuration[cable.position_x][cable.position_y].cable_item.append(cable)
+    
     def add_cable(self, point1, point2, battery):
         if point1.neighbours[battery] is None:
             point1.neighbours[battery] = [point2]
@@ -105,6 +205,10 @@ class Configuration():
         for battery in batteries:
             costs += battery[2].costs
                     
+        # updating the information of the grid
+        self.all_batteries = batteries
+        self.all_houses = houses
+        
         return [batteries, houses, int(costs)]
         
     def check(self):
@@ -196,3 +300,12 @@ class Point():
         # The content on this point. Could be a house or battery
         self.content = None
 
+        # place to store all things
+        self.cable_item = []
+        self.battery_item = None
+        self.house_item = None
+
+
+#def dijkstra_algo(graph, indices):
+#    dist_matrix, predecessors = dijkstra(graph, directed=False, indices=indices, return_predecessors=True)
+#    return [dist_matrix, predecessors]

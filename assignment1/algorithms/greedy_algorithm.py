@@ -1,23 +1,24 @@
-import sys
-import os
-sys.path.append(os.path.abspath('../classes'))
-from House import House
-from map_lists import district_1, district_2, district_3
+
+from classes.House import House
+from classes.map_lists import district_1, district_2, district_3
 import copy
 
 class Greedy():
 
     # initialises a battery with a location and capacity
-    def __init__(self):
+    def __init__(self, district):
 
         # place to store batteries
         self.batteries = []
 
+        # saves the costs in this object
+        self.costs = 0
+        
         # adding batteries
-        self.adding_batteries()
+        self.adding_batteries(district)
 
-        # temp location to store list of all houses -- specificly for district_1 for now
-        self.all_houses = district_1["houses"]
+        # temp location to store list of all houses
+        self.all_houses = district["houses"]
         self.connected_houses = []
 
 
@@ -95,8 +96,10 @@ class Greedy():
                     break
     
     # adds batteries too battiers in Greedy object
-    def adding_batteries(self):
-        self.batteries = copy.deepcopy(district_1["batteries"])
+    def adding_batteries(self, district):
+        # adds the costs of the battery
+        self.costs += 5000 * len(district["batteries"])
+        self.batteries = copy.deepcopy(district["batteries"])
     
     # function to add houses to batteries
     def adding_houses(self):
