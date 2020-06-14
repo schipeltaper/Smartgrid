@@ -6,19 +6,21 @@ import copy
 class Greedy():
 
     # initialises a battery with a location and capacity
-    def __init__(self, district):
+    def __init__(self, district_configuration):
 
+        self.district = district_configuration
+        
         # place to store batteries
-        self.batteries = []
+        self.batteries = district_configuration.all_batteries
 
         # saves the costs in this object
         self.costs = 0
         
         # adding batteries
-        self.adding_batteries(district)
+        self.adding_batteries()
 
         # temp location to store list of all houses
-        self.all_houses = district["houses"]
+        self.all_houses = self.district.all_houses
         self.connected_houses = []
 
 
@@ -40,7 +42,7 @@ class Greedy():
 
         return houses
     
-    # sorting houses low too high
+    # sorting houses low too high production
     def house_low_sort(self, houses):
 
         # Selection Sort
@@ -60,46 +62,53 @@ class Greedy():
     # sorting batteries by closest battery
     def proximity_sort(self):
 
-        self.house_low_sort(self.all_houses)
-
-        self.closses_batteries = self.batteries.copy()
+        # sorting houses low too high production
+        self.all_houses = self.house_low_sort(self.all_houses)
         
         # itterate through all houses
         for self.the_house in self.all_houses:
 
             # itterate through batteries
-            for self.battery_numb in range(len(self.closses_batteries)):
+            for self.battery_numb in range(len(self.batteries)):
 
                 # itterate through remaining batteries
-                for self.battery_numb2 in range(self.battery_numb, len(self.closses_batteries)):
+                for self.battery_numb2 in range(self.battery_numb, len(self.batteries)):
                     
                     # check if contested battery is closses to other battery further down
-                    if self.closses_batteries[self.battery_numb2].cable_length(self.the_house) < self.closses_batteries[self.battery_numb].cable_length(self.the_house):
+                    if self.batteries[self.battery_numb2].distance(self.the_house) < self.batteries[self.battery_numb].distance(self.the_house):
                         
                         # switch batteries in list
-                        self.temp_save = self.closses_batteries[self.battery_numb]
+                        self.temp_save = self.batteries[self.battery_numb]
 
-                        self.closses_batteries[self.battery_numb] = self.closses_batteries[self.battery_numb2]
+                        self.batteries[self.battery_numb] = self.batteries[self.battery_numb2]
 
-                        self.closses_batteries[self.battery_numb2] = self.temp_save
+                        self.batteries[self.battery_numb2] = self.temp_save
             
             # add house to closest none full house
-            for self.the_battery in self.closses_batteries:
+            for self.the_battery in self.batteries:
 
                 # make sure battery is not full
                 if self.the_battery.battery_full(self.the_house) is not True:
                     
                     # add house to battery
                     self.the_battery.add_house(self.the_house)
-                    
+
                     # go to next house
                     break
+
+                else:
+                    # warn user if not all houses allocated
+                    if self.the_battery == self.batteries[len(self.batteries)-1]:
+                        print("Not all houses added to batteries because all batteries full!")
+                
+        self.district.all_batteries = self.batteries
+        self.district.add_multiple_batteries(self.batteries)
     
     # adds batteries too battiers in Greedy object
-    def adding_batteries(self, district):
+    def adding_batteries(self):
         # adds the costs of the battery
-        self.costs += 5000 * len(district["batteries"])
-        self.batteries = copy.deepcopy(district["batteries"])
+        self.costs += 5000 * len(self.district.all_batteries)
+        self.batteries = copy.deepcopy(self.district.all_batteries)
     
     # function to add houses to batteries
     def adding_houses(self):

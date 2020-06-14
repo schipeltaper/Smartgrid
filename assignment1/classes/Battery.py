@@ -39,7 +39,7 @@ class Battery():
         self.houses_in_battery = []
 
     # calculate how much cable has to layed to add house - Sam
-    def cable_length(self, house):
+    def distance(self, house):
         return abs(self.position_x - house.position_x) + abs(self.position_y - house.position_y)
 
     # return true if battery is not full
@@ -62,7 +62,7 @@ class Battery():
         self.houses_in_battery.append(new_house)
 
         # add costs
-        self.costs += self.cable_length(new_house) * 9
+        self.costs += self.distance(new_house) * 9
 
         return True
 

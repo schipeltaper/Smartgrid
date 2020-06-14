@@ -31,4 +31,42 @@ class Cable_instance():
         elif self.position_x < self.next_cable_inst.position_x:
             return "RIGHT" 
 
+class Cable_line():
+    def __init__(self, start):
+
+        # saves the start of the cable
+        self.start = start
+        
+        # saves the end of the cable
+        self.end = None
+
+        # saves cable costs
+        self.costs = 0
+
+        # saves the coordinates of the full cable
+        self.cable_coordinates = []
+        
+        # directly saves the start of the cable when fist coordinates are entered
+        self.add_cable_instance(start)
+
+    def add_cable_instance(self, cable_instance):
+        
+        # adds cable instance to cable line
+        self.cable_coordinates.append(cable_instance)
+
+        # add the costs of a cable
+        self.costs += 9
+        
+        # add cable instance as ending of the cable
+        self.end = cable_instance
+
+    def draw_cable_in_configuration(self, configuration_object):
+        
+        # adds the full cable to the configuration object of choice
+        configuration_object.add_cable_into_configuration(self.cable_coordinates)
+
+    def print_cable_line_coordinates(self):
+        for cables in self.cable_coordinates:
+            print(f"x: {cables.position_x}, y: {cables.position_y}")
+
 

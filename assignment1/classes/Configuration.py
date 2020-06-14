@@ -92,7 +92,7 @@ class Configuration():
             self.visualise_grid_beta.append(self.y_axis_row2)
 
     # loads cables into array of visualisation
-    def load_cables_in_beta_visiualisation(self):    
+    def load_cables_in_beta_visiualisation(self):
         
         # itterating through configuration
         for self.y_axis in self.configuration:
@@ -109,21 +109,22 @@ class Configuration():
                         if self.cable_direction == "EMPTY":
                             continue
                         
+                        # ok so the up, down, left and right are all wrong but now it prints it good
                         elif self.cable_direction == "UP":
                             # UP 
-                            self.visualise_grid_beta[self.cable_point.position_y*2-1][self.cable_point.position_x*2] = "|"
+                            self.visualise_grid_beta[self.cable_point.position_x*2][self.cable_point.position_y*2-1] = "-"
 
                         elif self.cable_direction == "DOWN":
                             # DOWN
-                            self.visualise_grid_beta[self.cable_point.position_y*2+1][self.cable_point.position_x*2] = "|"
+                            self.visualise_grid_beta[self.cable_point.position_x*2][self.cable_point.position_y*2+1] = "-"
 
                         elif self.cable_direction == "LEFT":
                             # LEFT
-                            self.visualise_grid_beta[self.cable_point.position_y*2][self.cable_point.position_x*2-1] = "-"
+                            self.visualise_grid_beta[self.cable_point.position_x*2-1][self.cable_point.position_y*2] = "|"
 
                         elif self.cable_direction == "RIGHT":
                             # RIGHT
-                            self.visualise_grid_beta[self.cable_point.position_y*2][self.cable_point.position_x*2+1] = "-"
+                            self.visualise_grid_beta[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
     
     
     # to put the info of district1 into a configuration object
@@ -134,20 +135,34 @@ class Configuration():
         for battery in district_info["batteries"]:
             self.add_battery(battery)
 
+    # adds multiple batteries to the configuration
+    def add_multiple_batteries(self, batteries):
+        for self.battery_put in batteries:
+            self.add_battery(self.battery_put)
+    
     def add_battery(self, battery):   
         
         # adds battery to configuration
         self.configuration[battery.position_x][battery.position_y].content = battery
         self.configuration[battery.position_x][battery.position_y].battery_item = battery
 
+        # add battery to list of batteries if not there yet
+        if battery not in self.all_batteries:
+            self.all_batteries.append(battery)
+
     def add_house(self, house):
         # adds house to configuration
         self.configuration[house.position_x][house.position_y].content = house
         self.configuration[house.position_x][house.position_y].house_item = house
 
-    # adding a cable using calble class to grid
-    def adding_calbe_class_calbe(self, cable):
-        self.configuration[cable.position_x][cable.position_y].cable_item.append(cable)
+        # add house to list of houses if not there yet
+        if house not in self.all_houses:
+            self.all_houses.append(house)
+
+    # adding a cable line to configuration
+    def add_cable_into_configuration(self, cable_line):
+        for self.cable_point in cable_line:
+            self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
     
     def add_cable(self, point1, point2, battery):
         if point1.neighbours[battery] is None:

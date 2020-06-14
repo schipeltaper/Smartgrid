@@ -1,7 +1,7 @@
 
 from classes.Battery import Battery
 from classes.House import House
-from classes.map_lists import district_1, district_2, district_3
+from classes.map_lists import district_1, district_2, district_3, district_test
 from algorithms.greedy_algorithm import Greedy
 from algorithms.cable_algorithm import Cable
 from classes.cable import Cable_instance
@@ -27,7 +27,7 @@ def main():
     results1.the_district.print_the_dam_thing()
 
     print("The Greedy_house allocation & Astar cable drawing: ")
-    print(f"Costs:{results1.greedy_house_devide.costs}")
+    #print(f"Costs:{results1.greedy_house_devide.costs}")
     
     
     

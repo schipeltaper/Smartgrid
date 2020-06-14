@@ -1,6 +1,12 @@
 from classes.House import House
 from classes.Battery import Battery
 
+district_test = {"houses": [
+    House(2,3,53.97543253)],
+    "batteries": [
+    Battery(1,5,1507)]
+    }
+
 district_1 = {
     "houses": [
     House(34,47,53.97543253),
