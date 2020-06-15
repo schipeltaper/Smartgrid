@@ -15,9 +15,9 @@
 
 from classes.House import House
 from classes.Battery import Battery
-#import numpy as np
-#from sparse.csr import csr_matrix
-#from sparse.csgraph import dijkstra
+import numpy as np
+from scipy.sparse.csr import csr_matrix
+from scipy.sparse.csgraph import dijkstra
 
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
