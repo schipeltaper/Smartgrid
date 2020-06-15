@@ -12,7 +12,7 @@
 * This point saves all its neighbours which are connected through cables
 *
 '''
-
+import os
 from House import House
 from Battery import Battery
 import numpy as np
@@ -31,6 +31,7 @@ class Configuration():
         self.all_batteries = []
         self.all_houses = []
         self.all_cables = []
+        self.district_id = -1
         
         # Creates a correctly sized grid of points
         self.configuration = []
@@ -226,8 +227,13 @@ class Configuration():
         
         return [batteries, houses, int(costs)]
         
-    def check(self):
+    def check(self, algorithm_name):
         # check if configuration is valid
+        
+        # check district_id
+        
+        if self.district_id not in [1,2,3]:
+            return('Set district_id!')
         
         # set height and width of grid
         height = len(self.configuration)
@@ -294,11 +300,13 @@ class Configuration():
         if bat_cap_violation == 0:
             bat_cap_not_exceeded = True
     
-        # if valid and costs are smallest ever, save solution
-        
         valid = False
         if all_houses_in_battery and bat_cap_not_exceeded and all_houses_connected:
             valid = True
+            result_reg(self.district_id,costs,algorithm_name)
+        
+        # if valid and costs are smallest ever, save solution
+        
         
         return [valid, all_houses_in_battery, bat_cap_not_exceeded, all_houses_connected, bat_cap_violation, houses_disconnected]
 
@@ -321,6 +329,30 @@ class Point():
         self.house_item = None
 
 
-#def dijkstra_algo(graph, indices):
-#    dist_matrix, predecessors = dijkstra(graph, directed=False, indices=indices, return_predecessors=True)
-#    return [dist_matrix, predecessors]
+class result_reg():
+    def __init__(self, district_id, costs, class_name):
+        with open("../results.txt","r") as f:
+            new_file = ''
+            f.seek(0)
+            rank = 1
+            new_cost_placed = False
+            for i in range(34):
+                line = f.readline()
+                if(-1 < i + 9 - 11 * district_id < 10):
+                    rank_cost = int(line[11:16])
+                    if rank_cost > costs and new_cost_placed == False and rank < 11:
+                        costs_str = str(costs).zfill(5)
+                        row = str(rank).zfill(2) + ': costs: ' + costs_str + ', algorithm: ' + str(class_name)
+                        new_file += row + '\n'
+                        rank += 1
+                        new_cost_placed = True
+                    if rank < 11:
+                        row = str(rank).zfill(2) + line[2:-1]
+                        new_file += row + '\n'
+                        rank += 1
+                else:
+                    new_file += line
+            f.close()
+        with open("../results.txt", 'w') as f2:
+            f2.write(new_file)
+            f2.close()
