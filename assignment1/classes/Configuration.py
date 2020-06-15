@@ -13,8 +13,8 @@
 *
 '''
 
-from classes.House import House
-from classes.Battery import Battery
+from House import House
+from Battery import Battery
 import numpy as np
 from scipy.sparse.csr import csr_matrix
 from scipy.sparse.csgraph import dijkstra
