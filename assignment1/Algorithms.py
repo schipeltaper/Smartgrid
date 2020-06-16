@@ -6,11 +6,12 @@ from algorithms.greedy_algorithm import Greedy
 from algorithms.cable_algorithm import Cable
 from classes.cable import Cable_instance
 from classes.Configuration import Configuration
+from algorithms.simulated_annealing import simulated_annealing
 
 class Combining_algorithms():
     def __init__(self, height, width, district):
-        self.the_district = Configuration(height, width)
-        self.the_district.create_district(district)
+        self.the_district = Configuration(height, width, district)
+        self.the_district.create_district()
 
         self.choosen_district = district
  
@@ -29,6 +30,22 @@ class Combining_algorithms():
         # laying cables for every battery between its own houses
         self.astar_cable.cable_list_batteries(self.the_district.all_batteries)
 
+        self.the_district.cal_costs()
+        print(f"The total costs of configuration: {self.the_district.total_costs}")
+
+    
+    # simulated anealing house distribution & Astar cable drawing - assumption 1 cable 1 house
+    def simulated_annealing_house_astar_cable(self):
+        self.sa_distribution = simulated_annealing(self.the_district)
+        self.sa_distribution.creating_starting_possition()
+
+        self.sa_distribution.running_simulated_annealing()
+
+        self.astar_cable2 = Cable(self.the_district)
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries)
+        
+
+        self.the_district.cal_costs()
         print(f"The total costs of configuration: {self.the_district.total_costs}")
 
 # calculate costs for list of batteries

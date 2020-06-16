@@ -49,6 +49,10 @@ class Cable_line():
         # directly saves the start of the cable when fist coordinates are entered
         self.add_cable_instance(start)
 
+    def cal_cable_costs(self):
+        self.costs = len(self.cable_coordinates) * 9
+        return self.costs
+
     def add_cable_instance(self, cable_instance):
         
         # adds cable instance to cable line
@@ -59,11 +63,6 @@ class Cable_line():
         
         # add cable instance as ending of the cable
         self.end = cable_instance
-
-    def draw_cable_in_configuration(self, configuration_object):
-        
-        # adds the full cable to the configuration object of choice
-        configuration_object.add_cable_into_configuration(self.cable_coordinates, self.costs)
 
     def print_cable_line_coordinates(self):
         for cables in self.cable_coordinates:

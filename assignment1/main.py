@@ -24,12 +24,18 @@ def main():
 
     results1.greedy_house_astar_cable()
 
-    results1.the_district.print_the_dam_thing()
+    results1.the_district.refresh_config()
 
     print("The Greedy_house allocation & Astar cable drawing: ")
-    #print(f"Costs:{results1.greedy_house_devide.costs}")
+    print(f"Costs:{results1.greedy_house_devide.costs}")
+
+    # ------------ Greedy_house allocation & Astar cable drawing ------------
     
-    
+    results2 = Combining_algorithms(55, 55, district_1)
+
+    results2.simulated_annealing_house_astar_cable()
+
+    results2.the_district.refresh_config()
     
     
     #print(cable_line.cable_network[0])

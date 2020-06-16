@@ -81,8 +81,7 @@ class Cable():
         # adding cable list to nextwork
         self.cable_network.append(self.current_cable)
 
-        # drawing cable onto configuration
-        self.current_cable.draw_cable_in_configuration(self.district_instance)
+        self.district_instance.all_cables.append(self.current_cable)
         
         return self.current_cable
 
