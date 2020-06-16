@@ -11,7 +11,7 @@ class Greedy():
         self.district = district_configuration
         
         # place to store batteries
-        self.batteries = district_configuration.all_batteries
+        self.batteries = self.district.all_batteries
 
         # saves the costs in this object
         self.costs = 0
@@ -62,8 +62,8 @@ class Greedy():
     # sorting batteries by closest battery
     def proximity_sort(self):
 
-        # sorting houses low too high production
-        self.all_houses = self.house_low_sort(self.all_houses)
+        # sorting houses high too low production
+        self.all_houses = self.sort_house(self.all_houses)
         
         # itterate through all houses
         for self.the_house in self.all_houses:
@@ -102,7 +102,6 @@ class Greedy():
                         print("Not all houses added to batteries because all batteries full!")
                 
         self.district.all_batteries = self.batteries
-        self.district.add_multiple_batteries(self.batteries)
     
     # adds batteries too battiers in Greedy object
     def adding_batteries(self):

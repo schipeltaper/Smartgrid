@@ -29,6 +29,8 @@ class Combining_algorithms():
         # laying cables for every battery between its own houses
         self.astar_cable.cable_list_batteries(self.the_district.all_batteries)
 
+        print(f"The total costs of configuration: {self.the_district.total_costs}")
+
 # calculate costs for list of batteries
 def totalCosts(batteries):
     total_costs = 0

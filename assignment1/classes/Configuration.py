@@ -15,14 +15,17 @@
 
 from classes.House import House
 from classes.Battery import Battery
-#import numpy as np
-#from sparse.csr import csr_matrix
-#from sparse.csgraph import dijkstra
+import numpy as np
+from scipy.sparse.csr import csr_matrix
+from scipy.sparse.csgraph import dijkstra
 
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
     def __init__(self, width, height):
 
+        # keep track of costs of things on configuration
+        self.total_costs = 0
+        
         # saving grid information
         self.grid_width = width
         self.grid_height = height
@@ -140,7 +143,7 @@ class Configuration():
         for self.battery_put in batteries:
             self.add_battery(self.battery_put)
     
-    def add_battery(self, battery):   
+    def add_battery(self, battery):
         
         # adds battery to configuration
         self.configuration[battery.position_x][battery.position_y].content = battery
@@ -149,6 +152,9 @@ class Configuration():
         # add battery to list of batteries if not there yet
         if battery not in self.all_batteries:
             self.all_batteries.append(battery)
+            
+            # adding costs of battery to configuration
+            self.total_costs += 5000
 
     def add_house(self, house):
         # adds house to configuration
@@ -160,9 +166,12 @@ class Configuration():
             self.all_houses.append(house)
 
     # adding a cable line to configuration
-    def add_cable_into_configuration(self, cable_line):
+    def add_cable_into_configuration(self, cable_line, costs):
         for self.cable_point in cable_line:
             self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
+        
+        # adding costs of laying cable to total costs
+        self.total_costs += costs
     
     def add_cable(self, point1, point2, battery):
         if point1.neighbours[battery] is None:

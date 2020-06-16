@@ -63,7 +63,7 @@ class Cable_line():
     def draw_cable_in_configuration(self, configuration_object):
         
         # adds the full cable to the configuration object of choice
-        configuration_object.add_cable_into_configuration(self.cable_coordinates)
+        configuration_object.add_cable_into_configuration(self.cable_coordinates, self.costs)
 
     def print_cable_line_coordinates(self):
         for cables in self.cable_coordinates:
