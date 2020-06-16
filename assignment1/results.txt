@@ -1,0 +1,34 @@
+Results:
+District  1:
+01: costs: 80000, algorithm: greedyXL
+02: costs: 80000, algorithm: greedyXL
+03: costs: 80000, algorithm: greedyXL
+04: costs: 80000, algorithm: greedyXL
+05: costs: 80000, algorithm: greedyXL
+06: costs: 80000, algorithm: greedyXL
+07: costs: 80000, algorithm: greedyXL
+08: costs: 80000, algorithm: greedyXL
+09: costs: 80000, algorithm: greedyXL
+10: costs: 80000, algorithm: greedyXL
+District  2:
+01: costs: 79000, algorithm: 3
+02: costs: 79500, algorithm: 3
+03: costs: 79501, algorithm: henkie
+04: costs: 79998, algorithm: japie
+05: costs: 79999, algorithm: japie
+06: costs: 79999, algorithm: japie
+07: costs: 79999, algorithm: japie
+08: costs: 79999, algorithm: japie
+09: costs: 79999, algorithm: japie
+10: costs: 79999, algorithm: japie
+District  3:
+01: costs: 80000, algorithm: greedyXL
+02: costs: 80000, algorithm: greedyXL
+03: costs: 80000, algorithm: greedyXL
+04: costs: 80000, algorithm: greedyXL
+05: costs: 80000, algorithm: greedyXL
+06: costs: 80000, algorithm: greedyXL
+07: costs: 80000, algorithm: greedyXL
+08: costs: 80000, algorithm: greedyXL
+09: costs: 80000, algorithm: greedyXL
+10: costs: 80000, algorithm: greedyXL

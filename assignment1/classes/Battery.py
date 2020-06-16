@@ -8,7 +8,7 @@
 *
 '''
 
-from classes.House import House
+from House import House
 
 class Battery():
 
@@ -60,9 +60,6 @@ class Battery():
 
         # add house to houses
         self.houses_in_battery.append(new_house)
-
-        # add costs
-        self.costs += self.distance(new_house) * 9
 
         return True
 
