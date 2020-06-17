@@ -25,14 +25,14 @@ class Configuration():
     def __init__(self, district_id):
         # set district var
         if district_id == 1:
-            district = district_1
+            self.district = district_1
         elif district_id == 2:
-            district = district_2
+            self.district = district_2
         elif district_id == 3:
-            district = district_3
+            self.district = district_3
         else:
             return False
-    
+        
         # saving grid information
         self.grid_width = 51
         self.grid_height = 51

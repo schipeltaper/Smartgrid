@@ -54,3 +54,5 @@ def totalCosts(batteries):
     for battery in batteries:
         total_costs += battery.costs
     return total_costs
+
+
