@@ -70,6 +70,17 @@ class Configuration():
         self.lay_cables_in_configuration()
 
         self.print_the_dam_thing()
+
+        self.houses_with_ovorcapacity()
+    
+    # returns True if there are one or more batteries over capacity
+    def houses_with_ovorcapacity(self):
+        #  make batteries not over capacity
+        for self.bat in self.all_batteries:
+            if self.bat.battery_over_capacity():
+                print("Battery full")
+                return True
+            return False
     
     # calculating total costs of configuration
     def cal_costs(self):
