@@ -27,7 +27,6 @@ def main():
     results1.the_district.refresh_config()
 
     print("The Greedy_house allocation & Astar cable drawing: ")
-    print(f"Costs:{results1.greedy_house_devide.costs}")
 
     # ------------ Greedy_house allocation & Astar cable drawing ------------
     

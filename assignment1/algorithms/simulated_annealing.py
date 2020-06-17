@@ -29,26 +29,22 @@ class simulated_annealing():
 
     def running_simulated_annealing(self):
 
-        while not(self.max_energy_costs < 0):
+        while not(self.energy < 0):
             self.distributing_houses_amoung_batteries()
             
             # laying the cables
             self.astar_cable5 = Cable(self.district)
             self.astar_cable5.cable_list_batteries(self.district.all_batteries)
             self.district.cal_costs()
-            print(f"The total costs of configuration: {self.district.total_costs}")
             self.district.all_cables = []
             
-            self.max_energy_costs -= 0.01
-            print(f"Energy: {self.max_energy_costs}")
+            self.energy -= 5
+        
+        if self.district.houses_with_ovorcapacity():
+            self.energy = 100
+            self.running_simulated_annealing()
+            
 
-        #  make batteries not over capacity
-        for self.bat in self.district.all_batteries:
-            if self.bat.battery_over_capacity():
-                print("Battery full")
-            print(len(self.bat.houses_in_battery))
-            print(len(self.district.all_houses))
-    
     # distributes all houses in district randomly
     def distributing_houses_amoung_batteries(self):
         
