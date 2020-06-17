@@ -303,13 +303,41 @@ class Configuration():
         valid = False
         if all_houses_in_battery and bat_cap_not_exceeded and all_houses_connected:
             valid = True
-            result_reg(self.district_id,costs,algorithm_name)
+            self.result_reg(costs,algorithm_name)
         
         # if valid and costs are smallest ever, save solution
         
         
         return [valid, all_houses_in_battery, bat_cap_not_exceeded, all_houses_connected, bat_cap_violation, houses_disconnected]
-
+    
+    def result_reg(self, costs, class_name):
+        district_id = self.district_id
+        with open("../results.txt","r") as f:
+            new_file = ''
+            f.seek(0)
+            rank = 1
+            new_cost_placed = False
+            for i in range(34):
+                line = f.readline()
+                if(-1 < i + 9 - 11 * district_id < 10):
+                    rank_cost = int(line[11:17])
+                    if rank_cost > costs and new_cost_placed == False and rank < 11:
+                        costs_str = str(costs).zfill(6)
+                        row = str(rank).zfill(2) + ': costs: ' + costs_str + ', algorithm: ' + str(class_name)
+                        new_file += row + '\n'
+                        rank += 1
+                        new_cost_placed = True
+                    if rank < 11:
+                        row = str(rank).zfill(2) + line[2:-1]
+                        new_file += row + '\n'
+                        rank += 1
+                else:
+                    new_file += line
+            f.close()
+        with open("../results.txt", 'w') as f2:
+            f2.seek(0)
+            f2.write(new_file)
+            f2.close()
 
 class Point():
     def __init__(self, x, y):
@@ -327,32 +355,3 @@ class Point():
         self.cable_item = []
         self.battery_item = None
         self.house_item = None
-
-
-class result_reg():
-    def __init__(self, district_id, costs, class_name):
-        with open("../results.txt","r") as f:
-            new_file = ''
-            f.seek(0)
-            rank = 1
-            new_cost_placed = False
-            for i in range(34):
-                line = f.readline()
-                if(-1 < i + 9 - 11 * district_id < 10):
-                    rank_cost = int(line[11:16])
-                    if rank_cost > costs and new_cost_placed == False and rank < 11:
-                        costs_str = str(costs).zfill(5)
-                        row = str(rank).zfill(2) + ': costs: ' + costs_str + ', algorithm: ' + str(class_name)
-                        new_file += row + '\n'
-                        rank += 1
-                        new_cost_placed = True
-                    if rank < 11:
-                        row = str(rank).zfill(2) + line[2:-1]
-                        new_file += row + '\n'
-                        rank += 1
-                else:
-                    new_file += line
-            f.close()
-        with open("../results.txt", 'w') as f2:
-            f2.write(new_file)
-            f2.close()
