@@ -12,3 +12,4 @@ class House():
         self.production = production
         self.position_x = x_coordinate
         self.position_y = y_coordinate
+        self.battery = None

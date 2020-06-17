@@ -8,7 +8,7 @@
 *
 '''
 
-from House import House
+from classes.House import House
 
 class Battery():
 
@@ -23,7 +23,7 @@ class Battery():
         # saves battery capacity
         self.capacity = capacity
 
-        # total energy usage of all houses connected to battery
+        # total energy production of all houses connected to battery
         self.energy_production = 0
 
         # length of connected cables
@@ -33,7 +33,7 @@ class Battery():
         self.list_cables = []
 
         # total costs of cable length & battery
-        self.costs = 5000
+        self.costs_battery = 5000
 
         # list of houses connected to battery
         self.houses_in_battery = []
@@ -45,6 +45,10 @@ class Battery():
     # return true if battery is not full
     def battery_full(self, new_house):
         return self.capacity < self.energy_production + new_house.production
+
+    # returns True if battery is over capacity
+    def battery_over_capacity(self):
+        return self.capacity < self.energy_production
 
     # return true if house added and False if not
     def add_house(self, new_house):
@@ -72,8 +76,7 @@ class Battery():
             # removing all information of house from battery
             self.houses_in_battery.remove(del_house)
             self.energy_production -= del_house.production
-            self.costs -= self.cable_length(del_house) * 9
-                        
+
             # house removed from battery
             return True
 
