@@ -46,6 +46,17 @@ class Combining_algorithms():
 
         print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
 
+    def random_greedy_astar_cable(self, rounds):
+        self.random_greedy = Greedy(self.the_district)
+        self.random_greedy.random_greedy(rounds)
+
+        self.astar_cable2 = Cable(self.the_district)
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries)
+
+        self.the_district.print_the_dam_thing()
+
+        print(f"The total costs random greedy: {self.the_district.cal_costs()}")
+
 # calculate costs for list of batteries
 def totalCosts(batteries):
     total_costs = 0

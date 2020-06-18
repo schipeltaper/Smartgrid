@@ -2,6 +2,7 @@
 from classes.House import House
 from classes.map_lists import district_1, district_2, district_3
 import copy
+import random
 
 class Greedy():
 
@@ -119,10 +120,10 @@ class Greedy():
         self.battery_numb = 0
             
         # looping through houses
-        for house in self.all_houses:
+        for self.house in self.all_houses:
             
             # make sure house is not already in battery
-            if not house in self.connected_houses:
+            if not self.house in self.connected_houses:
                 
                 # loop through batteries for every house
                 self.battery_numb += 1
@@ -131,13 +132,49 @@ class Greedy():
                     self.battery_numb = 0
                 
                 # check if battery is full and add house to battery
-                if self.batteries[self.battery_numb].battery_full(house):
+                if self.batteries[self.battery_numb].battery_full(self.house):
                     
                     # move to next battery
                     self.battery_numb += 1
 
                 # add house in next battery
-                self.batteries[self.battery_numb].add_house(house)
+                self.batteries[self.battery_numb].add_house(self.house)
                     
                 # add house to already sorted house
-                self.connected_houses.append(house)
+                self.connected_houses.append(self.house)
+
+    # random Greedy
+    def random_greedy(self, rounds):
+        from algorithms.simulated_annealing import simulated_annealing
+        
+        # getting access to functions in simulated anneaaling
+        self.functions_in_sa_class = simulated_annealing(self.district)
+        
+        # distributing houses randomly amoung batteries
+        self.functions_in_sa_class.distributing_houses_amoung_batteries()
+
+        self.rounds_done = 0
+        # consier move for all houses rounds times
+        while self.rounds_done < rounds:
+            
+            for self.one_house in self.district.all_houses:
+                self.proximity_move(self.one_house)
+
+            self.rounds_done += 1
+
+
+    # choosing if house should move to different battery
+    def proximity_move(self, house):
+        
+        # move if option better than current situation
+        self.choosen_battery = random.choice(self.district.all_batteries)
+
+        if self.choosen_battery.distance(house) < house.battery.distance(house):
+            
+            # removing house from former battery
+            house.battery.remove_house(house)
+                
+            # adding house to battery & battery to house
+            self.choosen_battery.add_house(house)
+
+            house.battery = self.choosen_battery

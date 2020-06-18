@@ -32,12 +32,17 @@ def main():
 
     print("The Greedy_house allocation & Astar cable drawing: ")
 
-    # ------------ Greedy_house allocation & Astar cable drawing ------------
+    # ------------ simulated annealing house allocation & Astar cable drawing ------------
     
     results2 = Combining_algorithms(1)
 
     results2.simulated_annealing_house_astar_cable()
-    
+
+    # ------------ Random_Greedy_house allocation & Astar cable drawing ------------
+
+    results3 = Combining_algorithms(1)
+
+    results3.random_greedy_astar_cable(5)
     
     #print(cable_line.cable_network[0])
     #print()

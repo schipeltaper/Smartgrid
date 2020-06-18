@@ -94,3 +94,17 @@ class Cable():
     def list_position(self, x_loc, y_loc):
         
         return (y_loc - 1) * (x_loc) + x_loc
+
+    def A_star(self, house, end):
+        
+        # place to store cable
+        self.actual_cable = 0
+
+        # place to store nodes to explore
+        self.nodes_to_explore = {}
+
+        
+
+
+
+        
