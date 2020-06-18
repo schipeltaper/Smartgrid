@@ -20,7 +20,7 @@ def main():
     
     # ------------ Greedy_house allocation & Astar cable drawing ------------
     
-    results1 = Combining_algorithms(55, 55, district_1)
+    results1 = Combining_algorithms(1)
 
     results1.greedy_house_astar_cable()
 
@@ -30,7 +30,7 @@ def main():
 
     # ------------ Greedy_house allocation & Astar cable drawing ------------
     
-    results2 = Combining_algorithms(55, 55, district_1)
+    results2 = Combining_algorithms(1)
 
     results2.simulated_annealing_house_astar_cable()
 

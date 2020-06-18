@@ -9,11 +9,9 @@ from classes.Configuration import Configuration
 from algorithms.simulated_annealing import simulated_annealing
 
 class Combining_algorithms():
-    def __init__(self, height, width, district):
-        self.the_district = Configuration(height, width, district)
+    def __init__(self, district_numb):
+        self.the_district = Configuration(district_numb)
         self.the_district.create_district()
-
-        self.choosen_district = district
  
     # Greedy_house allocation & Astar cable drawing - assumption 1 cable 1 house
     def greedy_house_astar_cable(self):
@@ -45,10 +43,10 @@ class Combining_algorithms():
         
         self.the_district.cal_costs()
 
-        while self.the_district.total_costs > 60000:
+        while self.the_district.cal_costs() > 75000:
             self.simulated_annealing_house_astar_cable()
 
-        print(f"The total costs simulated annealing astar: {self.the_district.total_costs}")
+        print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
 
 # calculate costs for list of batteries
 def totalCosts(batteries):

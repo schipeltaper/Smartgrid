@@ -12,24 +12,25 @@
 * This point saves all its neighbours which are connected through cables
 *
 '''
+
 import os
-from House import House
-from Battery import Battery
+from classes.House import House
+from classes.Battery import Battery
 import numpy as np
 from scipy.sparse.csr import csr_matrix
 from scipy.sparse.csgraph import dijkstra
-from map_lists import district_1, district_2, district_3
+from classes.map_lists import district_1, district_2, district_3
 
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
     def __init__(self, district_id):
         # set district var
         if district_id == 1:
-            district = district_1
+            self.district = district_1
         elif district_id == 2:
-            district = district_2
+            self.district = district_2
         elif district_id == 3:
-            district = district_3
+            self.district = district_3
         else:
             return False
     
@@ -52,6 +53,8 @@ class Configuration():
                 row.append(point)
             self.configuration.append(row)
         
+        self.visualise_grid = []
+        
         # loading in all houses & batteries
         self.create_district()
 
@@ -70,23 +73,44 @@ class Configuration():
                 return True
             return False
     
+    def refresh_config(self):
+
+        self.configuration.clear()
+
+        # reloading all points
+        for j in range(self.grid_height):
+            row = []
+            for i in range(self.grid_width):
+                point = Point(j, i)
+                row.append(point)
+            self.configuration.append(row)
+
+        # loading in all houses & batteries
+        self.create_district()
+
+        self.lay_cables_in_configuration()
+    
     # calculating total costs of configuration
     def cal_costs(self):
 
         # put houses and batteries in grid
-        self.create_district(district)
+        self.refresh_config()
+        self.total_costs = 0
 
+        for self.battery in self.all_batteries:
+            self.total_costs += self.battery.costs_battery
+
+        for self.cable in self.all_cables:
+            self.total_costs += self.cable.cal_cable_costs()
         
-        
-        # beta visualisation
-        self.visualise_grid_beta = []
+        return self.total_costs
 
     def print_the_dam_thing(self):
         self.load_hb_in_beta_visiualisation()
         self.load_cables_in_beta_visiualisation()
 
         # itterate through visualise_grid_beta y_axis
-        for self.y_axis in self.visualise_grid_beta:
+        for self.y_axis in self.visualise_grid:
             
             # itterate through visualise_grid_beta x_axis
             for self.x_axis in self.y_axis:
@@ -94,7 +118,6 @@ class Configuration():
             
             # print next line
             print()
-        
 
     # load houses and batteries into visiualisation without cables
     def load_hb_in_beta_visiualisation(self):
@@ -125,8 +148,8 @@ class Configuration():
                 self.y_axis_row2.append(".")
             
             # adding items to grid in visualise_grid_beta
-            self.visualise_grid_beta.append(self.y_axis_row1)
-            self.visualise_grid_beta.append(self.y_axis_row2)
+            self.visualise_grid.append(self.y_axis_row1)
+            self.visualise_grid.append(self.y_axis_row2)
 
     # loads cables into array of visualisation
     def load_cables_in_beta_visiualisation(self):
@@ -165,12 +188,16 @@ class Configuration():
     
     
     # to put the info of district1 into a configuration object
-    def create_district(self, district_info):
-        for house in district_info["houses"]:
-            self.add_house(house)
+    def create_district(self):
+        
+        self.all_houses = []
+        self.all_batteries = []
 
-        for battery in district_info["batteries"]:
-            self.add_battery(battery)
+        for self.house in self.district["houses"]:
+            self.add_house(self.house)
+
+        for self.battery in self.district["batteries"]:
+            self.add_battery(self.battery)
 
     # adds multiple batteries to the configuration
     def add_multiple_batteries(self, batteries):
@@ -197,9 +224,10 @@ class Configuration():
             self.all_houses.append(house)
 
     # adding a cable line to configuration
-    def add_cable_into_configuration(self, cable_line):
-        for self.cable_point in cable_line:
-            self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
+    def lay_cables_in_configuration(self):
+         for self.cable_line in self.all_cables:
+             for self.cable_point in self.cable_line.cable_coordinates:
+                 self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
     
     def add_cable(self, point1, point2, battery):
         if point1.neighbours[battery] is None:

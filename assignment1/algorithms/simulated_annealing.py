@@ -44,7 +44,6 @@ class simulated_annealing():
             self.energy = 100
             self.running_simulated_annealing()
             
-
     # distributes all houses in district randomly
     def distributing_houses_amoung_batteries(self):
         
