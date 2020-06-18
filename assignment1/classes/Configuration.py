@@ -60,8 +60,6 @@ class Configuration():
 
         self.lay_cables_in_configuration()
 
-        self.print_the_dam_thing()
-
         self.houses_with_ovorcapacity()
     
     # returns True if there are one or more batteries over capacity
@@ -106,13 +104,15 @@ class Configuration():
         return self.total_costs
 
     def print_the_dam_thing(self):
+        
+        self.refresh_config()
         self.load_hb_in_beta_visiualisation()
         self.load_cables_in_beta_visiualisation()
 
-        # itterate through visualise_grid_beta y_axis
+        # itterate through visualise_grid y_axis
         for self.y_axis in self.visualise_grid:
             
-            # itterate through visualise_grid_beta x_axis
+            # itterate through visualise_grid x_axis
             for self.x_axis in self.y_axis:
                 print(self.x_axis, end = '')
             
@@ -147,7 +147,7 @@ class Configuration():
                 self.y_axis_row2.append(".")
                 self.y_axis_row2.append(".")
             
-            # adding items to grid in visualise_grid_beta
+            # adding items to grid in visualise_grid
             self.visualise_grid.append(self.y_axis_row1)
             self.visualise_grid.append(self.y_axis_row2)
 
@@ -165,26 +165,26 @@ class Configuration():
                         # get direction of cable
                         self.cable_direction = self.cable_point.determine_direction_cable()
                         
-                        # add cable to visualise_grid_beta
+                        # add cable to visualise_grid
                         if self.cable_direction == "EMPTY":
                             continue
                         
                         # ok so the up, down, left and right are all wrong but now it prints it good
                         elif self.cable_direction == "UP":
                             # UP 
-                            self.visualise_grid_beta[self.cable_point.position_x*2][self.cable_point.position_y*2-1] = "-"
+                            self.visualise_grid[self.cable_point.position_x*2][self.cable_point.position_y*2-1] = "-"
 
                         elif self.cable_direction == "DOWN":
                             # DOWN
-                            self.visualise_grid_beta[self.cable_point.position_x*2][self.cable_point.position_y*2+1] = "-"
+                            self.visualise_grid[self.cable_point.position_x*2][self.cable_point.position_y*2+1] = "-"
 
                         elif self.cable_direction == "LEFT":
                             # LEFT
-                            self.visualise_grid_beta[self.cable_point.position_x*2-1][self.cable_point.position_y*2] = "|"
+                            self.visualise_grid[self.cable_point.position_x*2-1][self.cable_point.position_y*2] = "|"
 
                         elif self.cable_direction == "RIGHT":
                             # RIGHT
-                            self.visualise_grid_beta[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
+                            self.visualise_grid[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
     
     
     # to put the info of district1 into a configuration object

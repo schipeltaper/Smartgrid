@@ -22,9 +22,13 @@ def main():
     
     results1 = Combining_algorithms(1)
 
+    print("make variable")
+
     results1.greedy_house_astar_cable()
 
-    results1.the_district.refresh_config()
+    print("Greedy done")
+
+    print("Refresh done")
 
     print("The Greedy_house allocation & Astar cable drawing: ")
 
@@ -33,8 +37,6 @@ def main():
     results2 = Combining_algorithms(1)
 
     results2.simulated_annealing_house_astar_cable()
-
-    results2.the_district.refresh_config()
     
     
     #print(cable_line.cable_network[0])

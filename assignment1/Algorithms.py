@@ -28,8 +28,9 @@ class Combining_algorithms():
         # laying cables for every battery between its own houses
         self.astar_cable.cable_list_batteries(self.the_district.all_batteries)
 
-        self.the_district.cal_costs()
-        print(f"The total costs of greedy astar: {self.the_district.total_costs}")
+        self.the_district.print_the_dam_thing()
+
+        print(f"The total costs of greedy astar: {self.the_district.cal_costs()}")
     
     # simulated anealing house distribution & Astar cable drawing - assumption 1 cable 1 house
     def simulated_annealing_house_astar_cable(self):
@@ -41,10 +42,7 @@ class Combining_algorithms():
         self.astar_cable2 = Cable(self.the_district)
         self.astar_cable2.cable_list_batteries(self.the_district.all_batteries)
         
-        self.the_district.cal_costs()
-
-        while self.the_district.cal_costs() > 75000:
-            self.simulated_annealing_house_astar_cable()
+        self.the_district.print_the_dam_thing()
 
         print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
 
