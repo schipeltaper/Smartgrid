@@ -33,7 +33,7 @@ class Configuration():
             self.district = district_3
         else:
             return False
-    
+        
         # saving grid information
         self.grid_width = 51
         self.grid_height = 51
