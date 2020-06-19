@@ -1,5 +1,5 @@
-from House import House
-from Battery import Battery
+from classes.House import House
+from classes.Battery import Battery
 
 district_test = {"houses": [
     House(2,3,53.97543253)],
@@ -491,5 +491,27 @@ district_3 = {
     Battery(41,1,1506.75),
     Battery(3,35,1506.75),
     Battery(39,41,1506.75)
+    ]
+}
+
+
+district_4 = {
+    "houses": [
+    House(34,47,53.97543253),
+    House(24,22,66.13020717),
+    House(49,44,39.82123377),
+    House(19,38,46.4333204),
+    House(22,46,62.43058175),
+    House(17,11,62.14055349),
+    House(19,4,52.43116675),
+    House(8,6,30.48448777),
+    House(9,37,63.19785578),
+    House(16,38,65.00367928)],
+    "batteries": [
+    # Battery(38,12,1507),
+    # Battery(43,13,1507),
+    # Battery(42,3,1507),
+    Battery(49,23,300),
+    Battery(3,45,300)
     ]
 }

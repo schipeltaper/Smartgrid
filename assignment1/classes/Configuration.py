@@ -13,12 +13,12 @@
 *
 '''
 import os
-from House import House
-from Battery import Battery
+from classes.House import House
+from classes.Battery import Battery
 import numpy as np
 from scipy.sparse.csr import csr_matrix
 from scipy.sparse.csgraph import dijkstra
-from map_lists import district_1, district_2, district_3
+from classes.map_lists import district_1, district_2, district_3, district_4
 
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
@@ -30,6 +30,8 @@ class Configuration():
             self.district = district_2
         elif district_id == 3:
             self.district = district_3
+        elif district_id == 4:
+            self.district = district_4
         else:
             return False
         
@@ -53,13 +55,13 @@ class Configuration():
             self.configuration.append(row)
         
         # loading in all houses & batteries
-        self.create_district()
+        self.create_district(self.district)
 
-        self.lay_cables_in_configuration()
+        #self.lay_cables_in_configuration()
 
-        self.print_the_dam_thing()
+        #self.print_the_dam_thing()
 
-        self.houses_with_ovorcapacity()
+        #self.houses_with_ovorcapacity()
     
     # returns True if there are one or more batteries over capacity
     def houses_with_ovorcapacity(self):
@@ -202,12 +204,12 @@ class Configuration():
             self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
     
     def add_cable(self, point1, point2, battery):
-        if point1.neighbours[battery] is None:
+        if battery not in point1.neighbours:
             point1.neighbours[battery] = [point2]
         else:
             point1.neighbours[battery].append(point2)
 
-        if point2.neighbours[battery] is None:
+        if battery not in point2.neighbours:
             point2.neighbours[battery] = [point1]
         else:
             point2.neighbours[battery].append(point1)
@@ -255,20 +257,45 @@ class Configuration():
                         costs += 9/2
                         
         for battery in batteries:
-            costs += battery[2].costs
+            costs += battery[2].costs_battery
                     
         # updating the information of the grid
         self.all_batteries = batteries
         self.all_houses = houses
         
         return [batteries, houses, int(costs)]
+    
+    def text_grid(self):
+        grid = ''
+        for i in range(102):
+            grid += '·' * 102
+            grid += '\n'
+        state = self.get_lists()
+        batteries = state[0]
+        houses = state[1]
+        costs = state[2]
+        for battery in batteries:
+            i = (2 * battery[0]) * 103 + (2 * battery[1])
+            grid = grid[:i] + 'B' + grid[i + 1:]
+            for cable in battery[3]:
+                char = '|'
+                if abs(cable[0][0] - cable[1][0]) == 0:
+                    char = '-'
+                loc = [cable[0][0] + cable[1][0], cable[0][1] + cable[1][1]]
+                i = (loc[0]) * 103 + (loc[1])
+                grid = grid[:i] + char + grid[i + 1:]
+        for house in houses:
+            i = (2 * house[0]) * 103 + (2 * house[1])
+            grid = grid[:i] + 'H' + grid[i + 1:]
+        return grid
+            
         
     def check(self, algorithm_name):
         # check if configuration is valid
         
         # check district_id
         
-        if self.district_id not in [1,2,3]:
+        if self.district_id not in [1,2,3,4]:
             return('Set district_id!')
         
         # set height and width of grid
@@ -314,7 +341,12 @@ class Configuration():
             battery_index = battery[0] * width + battery[1]
             graph = csr_matrix((data, (row, col)), shape=(N, N))
             
-            dijkstra_0 = dijkstra_algo(graph,[battery_index])[1][0]
+            
+            dist_matrix, predecessors = dijkstra(graph, directed=False, indices=[battery_index], return_predecessors=True)
+            
+            
+            
+            dijkstra_0 = predecessors[0]
             houses = battery[2].houses_in_battery
             for house in houses:
                 i = house.position_x
@@ -348,6 +380,8 @@ class Configuration():
     
     def result_reg(self, costs, class_name):
         district_id = self.district_id
+        if district_id == 4:
+            return 'test result not registered'
         with open("../results.txt","r") as f:
             new_file = ''
             f.seek(0)
