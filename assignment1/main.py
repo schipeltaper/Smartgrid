@@ -7,6 +7,7 @@ from algorithms.cable_algorithm import Cable
 from classes.cable import Cable_instance
 from Algorithms import Combining_algorithms
 
+
 # calculate costs for list of batteries
 def totalCosts(batteries):
     total_costs = 0
@@ -17,33 +18,50 @@ def totalCosts(batteries):
 def main():
 
     # Houses and battery locations are static and no cable sharing
-    
+
     # ------------ Greedy_house allocation & Astar cable drawing ------------
-    
-    results1 = Combining_algorithms(1)
 
-    print("make variable")
 
-    results1.greedy_house_astar_cable()
+    # results1 = Combining_algorithms(1)
 
-    print("Greedy done")
+    # print("make variable")
 
-    print("Refresh done")
 
-    print("The Greedy_house allocation & Astar cable drawing: ")
+
+
+    # results1 = Combining_algorithms(55, 55, district_1)
+
+
+    # print("Greedy done")
+
+
+    # print("Greedy done")
+
+    # print("Refresh done")
+
+    # print("Refresh done")
+
+    # results1.the_district.refresh_config()
+
+    # print("The Greedy_house allocation & Astar cable drawing: ")
 
     # ------------ simulated annealing house allocation & Astar cable drawing ------------
-    
-    results2 = Combining_algorithms(1)
 
-    results2.simulated_annealing_house_astar_cable()
+    # results2 = Combining_algorithms(1)
+
+    # results2.simulated_annealing_house_astar_cable()
+
+    # ------------ simulated annealing house allocation & Hill climber ------------
+    results4 = Combining_algorithms(1)
+    results4.annealing_hill_climber()
+
 
     # ------------ Random_Greedy_house allocation & Astar cable drawing ------------
 
-    results3 = Combining_algorithms(1)
+    # results3 = Combining_algorithms(1)
 
-    results3.random_greedy_astar_cable(5)
-    
+    # results3.random_greedy_astar_cable(5)
+
     #print(cable_line.cable_network[0])
     #print()
 
@@ -60,7 +78,7 @@ def main():
 
     # removes second house from first battery
     greedy_solution.batteries[0].remove_house(greedy_solution.batteries[0].houses_in_battery[1])
-    
+
     # print amout of items in battery 1 after item removed
     print(len(greedy_solution.batteries[0].houses_in_battery))
 
