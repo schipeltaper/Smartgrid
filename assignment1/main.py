@@ -7,7 +7,7 @@ from algorithms.cable_algorithm import Cable
 from classes.cable import Cable_instance
 from Algorithms import Combining_algorithms
 
-# calculate costs for list of batteries
+# calculate costs for list of batteries Get rid of this!!!!!!!!!!!!!!!!!!!
 def totalCosts(batteries):
     total_costs = 0
     for battery in batteries:
@@ -20,29 +20,39 @@ def main():
     
     # ------------ Greedy_house allocation & Astar cable drawing ------------
     
-    results1 = Combining_algorithms(1)
+    # results1 = Combining_algorithms(1)
 
-    print("make variable")
+    # print("make variable")
 
-    results1.greedy_house_astar_cable()
+    # results1.greedy_house_astar_cable()
 
-    print("Greedy done")
+    # print("Greedy done")
 
-    print("Refresh done")
+    # print("Refresh done")
 
-    print("The Greedy_house allocation & Astar cable drawing: ")
+    # print("The Greedy_house allocation & Astar cable drawing: ")
 
     # ------------ simulated annealing house allocation & Astar cable drawing ------------
     
-    results2 = Combining_algorithms(1)
+    # results2 = Combining_algorithms(1)
 
-    results2.simulated_annealing_house_astar_cable()
+    # results2.simulated_annealing_house_astar_cable()
 
     # ------------ Random_Greedy_house allocation & Astar cable drawing ------------
 
-    results3 = Combining_algorithms(1)
+    #resultaten = []
+    #for x in range(10):
+    #    results3 = Combining_algorithms(1)
+    #    resultaten.append(results3.random_greedy_astar_cable(10))
 
-    results3.random_greedy_astar_cable(5)
+    #print(resultaten)
+
+    # ------------ Random_Greedy_house allocation & Astar cable drawing ------------
+
+    results4 = Combining_algorithms(1)
+    print(results4.sa_cable_share_astar())
+    
+    
     
     #print(cable_line.cable_network[0])
     #print()

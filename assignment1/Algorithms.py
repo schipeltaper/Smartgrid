@@ -26,7 +26,7 @@ class Combining_algorithms():
         self.astar_cable = Cable(self.the_district)
         
         # laying cables for every battery between its own houses
-        self.astar_cable.cable_list_batteries(self.the_district.all_batteries)
+        self.astar_cable.cable_list_batteries(self.the_district.all_batteries, False)
 
         self.the_district.print_the_dam_thing()
 
@@ -36,12 +36,9 @@ class Combining_algorithms():
     def simulated_annealing_house_astar_cable(self):
         self.sa_distribution = simulated_annealing(self.the_district)
         self.sa_distribution.creating_starting_possition()
-
         self.sa_distribution.running_simulated_annealing()
-
         self.astar_cable2 = Cable(self.the_district)
-        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries)
-        
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
         self.the_district.print_the_dam_thing()
 
         print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
@@ -51,17 +48,24 @@ class Combining_algorithms():
         self.random_greedy.random_greedy(rounds)
 
         self.astar_cable2 = Cable(self.the_district)
-        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries)
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
 
+        return self.the_district.cal_costs()
+
+    # simulated anealing house distribution & Astar cable sharing drawing - assumption cable sharing
+    def sa_cable_share_astar(self):
+        self.sa_distribution = simulated_annealing(self.the_district)
+        self.sa_distribution.creating_starting_possition()
+        self.sa_distribution.running_simulated_annealing(True)
+        self.astar_cable2 = Cable(self.the_district)
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, True)
         self.the_district.print_the_dam_thing()
 
-        print(f"The total costs random greedy: {self.the_district.cal_costs()}")
+        print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
 
-# calculate costs for list of batteries
+# calculate costs for list of batteries Get rid of this!!!!!!!!!!!!!!!!!!!
 def totalCosts(batteries):
     total_costs = 0
     for battery in batteries:
         total_costs += battery.costs
     return total_costs
-
-

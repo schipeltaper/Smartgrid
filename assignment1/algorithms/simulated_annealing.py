@@ -15,7 +15,7 @@ class simulated_annealing():
         
         self.energy = 100
 
-        # keeps track of the amount of moves made
+        # keeps track of the amount of moves made -- Tracking variable!!!!!!!!!!!!!!!!!
         self.moves_made = 0
 
         self.greedy_class_var = Greedy(self.district)
@@ -27,22 +27,16 @@ class simulated_annealing():
 
         self.distributing_houses_amoung_batteries()
 
-    def running_simulated_annealing(self):
+    def running_simulated_annealing(self, share_cables):
 
         while not(self.energy < 0):
             self.distributing_houses_amoung_batteries()
             
-            # laying the cables
-            self.astar_cable5 = Cable(self.district)
-            self.astar_cable5.cable_list_batteries(self.district.all_batteries)
-            self.district.cal_costs()
-            self.district.all_cables = []
-            
-            self.energy -= 5
+            self.energy -= 20
         
         if self.district.houses_with_ovorcapacity():
             self.energy = 100
-            self.running_simulated_annealing()
+            self.running_simulated_annealing(share_cables)
             
     # distributes all houses in district randomly
     def distributing_houses_amoung_batteries(self):
@@ -88,18 +82,13 @@ class simulated_annealing():
 
         # calculate average energy production of houses in battery
         self.avrg_production_bats = 0
-        
         for self.single_battery in self.district.all_batteries:
             self.avrg_production_bats += self.single_battery.energy_production
-        
         self.avrg_production_bats = self.avrg_production_bats/len(self.district.all_batteries)
-
         self.distance_from_average = 0
         self.distance_from_average -= self.avrg_production_bats
-
         if self.distance_from_average < 0:
             return 0
-        
         else:
             # max_costs_cap * (1 - 0,1^((distance * mutiplier)/100))
             return self.max_costs_cap *  (1 - (0.1 ** ((self.distance_from_average * 6)/10000)))

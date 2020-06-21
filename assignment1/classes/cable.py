@@ -8,6 +8,9 @@ class Cable_instance():
         # stores information about where the cable came from and is going
         self.next_cable_inst = None
         self.former_cable_inst = None
+
+        # for the astar, potential options to consider
+        self.potential_nodes = None
     
     # returns 'inbetween coordinates' (location of cable to be layed) of cable from imput cable object
     def determine_direction_cable(self):
@@ -42,6 +45,8 @@ class Cable_line():
 
         # saves cable costs
         self.costs = 0
+
+        self.connected_house = None
 
         # saves the coordinates of the full cable
         self.cable_coordinates = []

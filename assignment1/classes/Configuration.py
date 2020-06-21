@@ -58,8 +58,6 @@ class Configuration():
         # loading in all houses & batteries
         self.create_district()
 
-        self.lay_cables_in_configuration()
-
         self.houses_with_ovorcapacity()
     
     # returns True if there are one or more batteries over capacity
@@ -67,7 +65,6 @@ class Configuration():
         #  make batteries not over capacity
         for self.bat in self.all_batteries:
             if self.bat.battery_over_capacity():
-                print("Battery full")
                 return True
             return False
     
@@ -225,9 +222,9 @@ class Configuration():
 
     # adding a cable line to configuration
     def lay_cables_in_configuration(self):
-         for self.cable_line in self.all_cables:
-             for self.cable_point in self.cable_line.cable_coordinates:
-                 self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
+        for self.cable_line in self.all_cables:
+            for self.cable_point in self.cable_line.cable_coordinates:
+                self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
     
     def add_cable(self, point1, point2, battery):
         if point1.neighbours[battery] is None:
