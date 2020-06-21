@@ -39,7 +39,7 @@ class Cable():
     
     # lay cable between house and battery using best option
     def connect_points_Astar(self, start, end):
-        
+
         self.current_point = Cable_instance(start.position_x, start.position_y)
 
         self.end_point = Cable_instance(end.position_x, end.position_y)
@@ -47,15 +47,15 @@ class Cable():
         self.former_point = Cable_instance(start.position_x, start.position_y)
 
         self.current_cable = Cable_line(self.current_point)
-                
+
         # run while end point not found
         while (self.current_point.position_x != self.end_point.position_x) or (self.current_point.position_y != self.end_point.position_y):
 
             self.cable_options = []
-            
+
             # save current point into former point
             self.former_point = self.current_point
-            
+
             # making sure we head the right way
             if self.current_point.position_x - self.end_point.position_x < 0:
                 # lay cable one to the right
@@ -71,28 +71,28 @@ class Cable():
             else:
                 # lay cable one down
                 self.cable_options.append(Cable_instance(self.current_point.position_x, self.current_point.position_y - 1))
-            
+
             # updating points
             if self.calculate_distance(self.cable_options[0], self.end_point) < self.calculate_distance(self.cable_options[1], self.end_point):
-                
+
                 # make next point current point
                 self.current_point = self.cable_options[0]
-                
+
                 # lay cable
                 self.current_cable.add_cable_instance(self.cable_options[0])
             else:
                 # make next point current point
                 self.current_point = self.cable_options[1]
-                
+
                 # lay cable
                 self.current_cable.add_cable_instance(self.cable_options[1])
-            
+
             # save current point to former point
             self.former_point.next_cable_inst = self.current_point
-            
+
             # save former point to current point
             self.current_point.former_cable_inst = self.former_point
-        
+            
         return self.current_cable
 
     # calculates difference between two items
@@ -103,7 +103,7 @@ class Cable():
     # !!!!! Delete!!!!!?????!!!!!
     # calculating location of point inside self.configuration list
     def list_position(self, x_loc, y_loc):
-        
+
         return (y_loc - 1) * (x_loc) + x_loc
 
     def connecting_cables(self, houses, end, range):
@@ -235,6 +235,7 @@ class Cable():
 
 class explore_node():
 
+
     def __init__(self, x_coordinate, y_coordinate, end):
         self.position_x = x_coordinate
         self.position_y = y_coordinate
@@ -249,3 +250,4 @@ class explore_node():
     #def calculate_costs(self):
         # self.cable = self.cal_for_cable.connect_points_Astar(self, self.end_point) <-- can't imput self
         #return self.cable.cal_cable_costs()
+

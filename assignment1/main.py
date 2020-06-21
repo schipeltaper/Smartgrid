@@ -17,7 +17,7 @@ def totalCosts(batteries):
 def main():
 
     # Houses and battery locations are static and no cable sharing
-    
+
     # ------------ Greedy_house allocation & Astar cable drawing ------------
     
     # results1 = Combining_algorithms(1)
@@ -52,8 +52,6 @@ def main():
     results4 = Combining_algorithms(1)
     print(results4.sa_cable_share_astar())
     
-    
-    
     #print(cable_line.cable_network[0])
     #print()
 
@@ -70,7 +68,7 @@ def main():
 
     # removes second house from first battery
     greedy_solution.batteries[0].remove_house(greedy_solution.batteries[0].houses_in_battery[1])
-    
+
     # print amout of items in battery 1 after item removed
     print(len(greedy_solution.batteries[0].houses_in_battery))
 
