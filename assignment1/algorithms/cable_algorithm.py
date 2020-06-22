@@ -1,16 +1,13 @@
 '''
-* Cable class and Explore_node class
+* Cable class
 * 
 *
 * Programmeertheorie
 * Optimum Prime
 *
-* Cable class contains an algorthm that lays cables between points inside the configuration.
-* This class is initialised with an configuration class instance. After which the cable_list_batteries
-* funtion is called. This itterates through the batteries inputted, which already have to be filled with 
-* houses, and adds connections between the batteries its houses. These cables are loaded into the all_cables
-* variable in configuration class.
-* Explore_nodes are nodes that are used to save locations to explore inside the configuration.
+*
+* This file contains the Cable class, which is used to lay cables to connect houses with batteries
+* inside the grid.
 * 
 *
 '''
@@ -22,8 +19,11 @@ import random
 
 class Cable():
     '''
-    The cable class contains the functions used lay cables onto the confugration and function
-    to make calculations concering cables.
+    Cable class contains an algorthm that lays cables between points inside the configuration.
+    This class is initialised with an configuration class instance. After which the cable_list_batteries
+    funtion is called. This itterates through the batteries inputted, which already has to be filled with 
+    houses. The houses in the batteries are connected using a cable. These cables are loaded into the all_cables
+    variable in configuration class.
 
     Initialisation requires a configuration instance.
     '''
@@ -36,11 +36,11 @@ class Cable():
 
     def cable_list_batteries(self, batteries, cable_sharing):
         '''
-        Input: list of batteries and a boolian that indicates if cable sharing is allowed 
-        (True means cable sharing is allowed).
-
         Ittirates through the batteries inputted and inputs the individual batteries and cable
         sharing boolian into the connect_battery_houses function
+
+        Input: list of batteries and a boolian that indicates if cable sharing is allowed 
+        (True means cable sharing is allowed).
         '''   
 
         for battery in batteries:
@@ -50,14 +50,14 @@ class Cable():
 
     def connect_battery_houses(self, battery, cable_sharing):
         '''
-        Input: a battery and a boolian that indicates if cable sharing is allowed 
-        (True means cable sharing is allowed).
-
         Calls connecting_cables if cable_sharing is True, inputting a list of houses pulled from
         the inputted batteries, the list of batteries and the radius. Than adds cable to cable_network
-        and too the all_cables variable in the configuration. If calbe_sharing is not True than
+        and too the all_cables variable in the configuration. If cable_sharing is not True than
         connect_points_Astar is called, which is given a battery and a house. The cables are put inside
         the all_cables variable in the configuration.
+
+        Input: a battery and a boolian that indicates if cable sharing is allowed 
+        (True means cable sharing is allowed).
         '''   
 
         # adds cables into district using shared cables
@@ -80,16 +80,15 @@ class Cable():
 
     def connect_points_Astar(self, start, end):
         '''
-        The manhatten cable distances is the distance between two points measured using
-        a grid to connect the two points.
+        Draws the shortest route for every point shortest distance!!! cable between two points using the manhattan distance. The manhatten cable 
+        distances is the distance between two points measured using a grid to connect the 
+        two points.
 
         Input: starting and ending objects with position_x and position_y variables.
         
         Output: Cable_line object with a list of Cable_instance's inside its 
-        cable_coordinates variable. This object will also save the
-        start and end of the cable inside the start and end variable respectively.
-
-        Draws a cable between two points using the manhattan distance.
+        cable_coordinates variable. This object will also save the start and end of 
+        the cable inside the start and end variable respectively.
         '''
 
         # saves the variables used in function
@@ -133,14 +132,12 @@ class Cable():
 
     def calculate_distance(self, obj_one, obj_two):
         '''
-        The direct distance between two objects is the distance between two objects
-        using a straight line.
+        Calculates the driect distance between two object. The direct distance between two objects 
+        is calculated using a straight line.
 
         Input: Two objects with a position_x and position_y variable.
         
         Output: An intigure type that dindicates the length of a direct line between the objects
-
-        Calculates the distance between two object.
         '''
 
         return abs(obj_one.position_x - obj_two.position_x) + abs(obj_one.position_y - obj_two.position_y)
@@ -148,19 +145,17 @@ class Cable():
 
     def connecting_cables(self, houses, end, range):
         '''
-        Cable sharing means that multiple houses can connect to a common cable to connect to
-        a battery.
+        Chooses a random house in the battery, than finds the middle point between all houses inside 
+        the choosen radius around that randomly choosen house. Draws a cable between that middle point
+        and the battery. Than draws a cable between every house inside radius with the middelpoint and
+        adds the first cable instance of the main cable too the last cable instance of those individual
+        house cables. Cable sharing means that multiple houses can connect to a common cable to connect 
+        to a battery.
 
         Input: A list of houses, a battery, and a radius that allows houses within that radius 
         around a randomly choosen house to be connected.
 
         Output: a list of cables of Cable_line class
-
-        Chooses a random house in the battery, than finds the middle point between all houses inside 
-        the choosen radius around that randomly choosen house. Draws a cable between that middle point
-        and the battery. Than draws a cable between every house inside radius with the middelpoint and
-        adds the first cable instance of the main cable too the last cable instance of those individual
-        house cables.
         '''
         
         # store the different lists that houses pass through to be connected
@@ -213,3 +208,4 @@ class Cable():
         
         # returns a lists of all cables used to connect all houses within radius to battery
         return self.all_new_cables
+

@@ -56,14 +56,6 @@ class Configuration():
 
         self.visualise_grid = []
 
-
-        self.visualise_grid = []
-
-
-
-
-
-
         # loading in all houses & batteries
         self.create_district()
 
@@ -118,37 +110,18 @@ class Configuration():
 
         self.lay_cables_in_configuration()
 
-
-
-
-
-
     # calculating total costs of configuration
     def cal_costs(self):
 
         # put houses and batteries in grid
-        self.create_district(district)
-
-
-
-
-
+        self.refresh_config()
+        self.total_costs = 0
         for self.battery in self.all_batteries:
             self.total_costs += self.battery.costs_battery
-
         for self.cable in self.all_cables:
             self.total_costs += self.cable.cal_cable_costs()
-
+        
         return self.total_costs
-
-
-
-
-
-        # beta visualisation
-        self.visualise_grid_beta = []
-
-
 
     def print_the_dam_thing(self):
 
@@ -156,14 +129,18 @@ class Configuration():
         self.load_hb_in_beta_visiualisation()
         self.load_cables_in_beta_visiualisation()
 
-        # itterate through visualise_grid_beta y_axis
-        for self.y_axis in self.visualise_grid_beta:
-            # itterate through visualise_grid_beta x_axis
+        # itterate through visualise_grid y_axis
+        for self.y_axis in self.visualise_grid:
+            # itterate through visualise_grid x_axis
             for self.x_axis in self.y_axis:
                 print(self.x_axis, end = '')
 
             # print next line
             print()
+<<<<<<< HEAD
+        print("interesting")
+        
+=======
 
 
 
@@ -173,108 +150,67 @@ class Configuration():
 
 
 
+>>>>>>> 1a90bc1c45b088f6d2a0eb29450cdd46f95a1e9e
     # load houses and batteries into visiualisation without cables
     def load_hb_in_beta_visiualisation(self):
-
+                
         # itterate through the lenght
         for self.y_axis_lines in self.configuration:
-
             self.y_axis_row1 = []
             self.y_axis_row2 = []
-
+            
             # itterate through the width
             for self.x_axis_lines in self.y_axis_lines:
-
+                
                 # display B if battery present
                 if self.x_axis_lines.battery_item is not None:
                     self.y_axis_row1.append("B")
-
+                    
                 # display H if house present
                 elif self.x_axis_lines.house_item is not None:
                     self.y_axis_row1.append("H")
-
+                    
                 # display . if neither battery nor house present
                 else:
                     self.y_axis_row1.append(".")
-
+                
                 self.y_axis_row1.append(".")
                 self.y_axis_row2.append(".")
                 self.y_axis_row2.append(".")
-
-
+            
             # adding items to grid in visualise_grid
             self.visualise_grid.append(self.y_axis_row1)
             self.visualise_grid.append(self.y_axis_row2)
 
-
-
-
-            # adding items to grid in visualise_grid_beta
-            self.visualise_grid_beta.append(self.y_axis_row1)
-            self.visualise_grid_beta.append(self.y_axis_row2)
-
-
-
     # loads cables into array of visualisation
     def load_cables_in_beta_visiualisation(self):
-
+        
         # itterating through configuration
         for self.y_axis in self.configuration:
             for self.x_axis in self.y_axis:
-
                 # find coordinates of the cable
                 if self.x_axis.cable_item != []:
                     for self.cable_point in self.x_axis.cable_item:
-
                         # get direction of cable
                         self.cable_direction = self.cable_point.determine_direction_cable()
-
-
+                        
                         # add cable to visualise_grid
-
-
-
-
-                        # add cable to visualise_grid_beta
-
-
                         if self.cable_direction == "EMPTY":
                             continue
-
+                        
                         # ok so the up, down, left and right are all wrong but now it prints it good
                         elif self.cable_direction == "UP":
-
-                            # UP
+                            # UP 
                             self.visualise_grid[self.cable_point.position_x*2][self.cable_point.position_y*2-1] = "-"
-
-
-
-                            # UP
-                            self.visualise_grid_beta[self.cable_point.position_x*2][self.cable_point.position_y*2-1] = "-"
-
-
-
                         elif self.cable_direction == "DOWN":
                             # DOWN
-                            self.visualise_grid_beta[self.cable_point.position_x*2][self.cable_point.position_y*2+1] = "-"
-
+                            self.visualise_grid[self.cable_point.position_x*2][self.cable_point.position_y*2+1] = "-"
                         elif self.cable_direction == "LEFT":
                             # LEFT
-                            self.visualise_grid_beta[self.cable_point.position_x*2-1][self.cable_point.position_y*2] = "|"
-
+                            self.visualise_grid[self.cable_point.position_x*2-1][self.cable_point.position_y*2] = "|"
                         elif self.cable_direction == "RIGHT":
                             # RIGHT
-
-
-
-
                             self.visualise_grid[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
-
-
-
-                            self.visualise_grid_beta[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
-
-
 
     # to put the info of district1 into a configuration object
     def create_district(self):

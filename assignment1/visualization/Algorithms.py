@@ -12,6 +12,7 @@ import numpy as np
 import copy
 
 class Combining_algorithms():
+
     def __init__(self, district_numb):
         self.the_district = Configuration(district_numb)
         self.the_district.create_district()
@@ -32,9 +33,6 @@ class Combining_algorithms():
         self.astar_cable.cable_list_batteries(self.the_district.all_batteries, False)
 
         print(f"The total costs of greedy astar: {self.the_district.cal_costs()}")
-
-
-
 
         self.the_district.cal_costs()
         print(f"The total costs of greedy astar: {self.the_district.total_costs}")
@@ -64,17 +62,12 @@ class Combining_algorithms():
     def simulated_annealing_house_astar_cable(self):
         self.sa_distribution = simulated_annealing(self.the_district)
         self.sa_distribution.creating_starting_possition()
-        self.sa_distribution.running_simulated_annealing(False)
+        self.sa_distribution.running_simulated_annealing(True)
         self.astar_cable2 = Cable(self.the_district)
 
-        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, True)
 
         self.the_district.print_the_dam_thing()
-
-        self.the_district.cal_costs()
-
-        while self.the_district.total_costs > 60000:
-            self.simulated_annealing_house_astar_cable()
 
         print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
 

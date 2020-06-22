@@ -4,7 +4,7 @@
 * Programmeertheorie
 * Optimum Prime
 *
-* battery class for smartgrid problem
+* The battery class saves all the information concering the batteries inside the configuration. 
 *
 '''
 
