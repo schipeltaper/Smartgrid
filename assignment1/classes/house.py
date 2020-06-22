@@ -1,10 +1,11 @@
 '''
 * house class
 *
+*
 * Programmeertheorie
 * Optimum Prime
 *
-* house class for smartgrid problem
+* house class is for representing a house inside the smartgrid
 *
 '''
 class House():

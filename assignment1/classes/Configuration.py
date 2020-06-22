@@ -13,7 +13,7 @@
 *
 '''
 import os
-from classes.House import House
+from classes.house import House
 from classes.Battery import Battery
 import numpy as np
 from scipy.sparse.csr import csr_matrix
@@ -137,8 +137,20 @@ class Configuration():
 
             # print next line
             print()
+<<<<<<< HEAD
         print("interesting")
         
+=======
+
+
+
+
+
+
+
+
+
+>>>>>>> 1a90bc1c45b088f6d2a0eb29450cdd46f95a1e9e
     # load houses and batteries into visiualisation without cables
     def load_hb_in_beta_visiualisation(self):
                 
@@ -225,8 +237,11 @@ class Configuration():
             self.add_battery(self.battery_put)
 
     def add_battery(self, battery):
+        '''
+        Adds a battery to the configuration
+        '''
 
-        # adds battery to configuration
+        # adds the battery object to the points in the grid
         self.configuration[battery.position_x][battery.position_y].content = battery
         self.configuration[battery.position_x][battery.position_y].battery_item = battery
 
@@ -235,7 +250,10 @@ class Configuration():
             self.all_batteries.append(battery)
 
     def add_house(self, house):
-        # adds house to configuration
+        '''
+        Adds a house to the configuration
+        '''
+        # adds the house object to the points in the grid
         self.configuration[house.position_x][house.position_y].content = house
         self.configuration[house.position_x][house.position_y].house_item = house
 
@@ -243,45 +261,57 @@ class Configuration():
         if house not in self.all_houses:
             self.all_houses.append(house)
 
-    # adding a cable line to configuration
-
-
-
-
     def lay_cables_in_configuration(self):
+
         for self.cable_line in self.all_cables:
             for self.cable_point in self.cable_line.cable_coordinates:
                 self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
 
     def add_cable(self, point1, point2, battery):
+        '''
+        Adds a cable line to configuration
+        '''
+        # makes point2 the neighbour of point1
         if battery not in point1.neighbours:
             point1.neighbours[battery] = [point2]
         else:
             point1.neighbours[battery].append(point2)
 
+        # makes point1 the neighbour of point2
         if battery not in point2.neighbours:
             point2.neighbours[battery] = [point1]
         else:
             point2.neighbours[battery].append(point1)
 
     def delete_battery(self, x, y):
+        '''
+        Delete a battery on a given point in the grid
+        '''
         if type(self.configuration[x][y].content) is Battery:
             self.configuration[x][y].content = None
 
     def delete_house(self, x, y, house):
+        '''
+        Delete a house on a given point in the grid
+        '''
         if type(self.configuration[x][y].content) is House:
             self.configuration[x][y].content = None
 
     def delete_cable(self, point1, point2, battery):
+        '''
+        Delete a cable on a given line segment in the grid
+        '''
         point1.neighbours[battery].remove(point2)
         point2.neighbours[battery].remove(point1)
 
     def get_lists(self):
-        # get_lists iterates over the grid and puts all houses and batteries in lists
-        # format: houses = [[i,j,House],...]
-        # format: batteries = [[i,j,Battery,[cable,...]],...]
-        # format: cable = [[x_1,y_1],[x_2,y_2]]
-
+        '''
+        get_lists iterates over the grid and puts all houses and batteries in lists
+        format: houses = [[i,j,House],...]
+        format: batteries = [[i,j,Battery,[cable,...]],...]
+        format: cable = [[x_1,y_1],[x_2,y_2]]
+        '''
+        
         # put all batteries and houses in grid in lists and calculate costs
         costs = 0
         batteries = []
@@ -305,16 +335,16 @@ class Configuration():
                     for neighbour in neighbours:
                         batteries[k][3].append([[i,j],[neighbour.x,neighbour.y]])
                         costs += 9/2
-                        
+
         for battery in batteries:
             costs += battery[2].costs_battery
-                    
+
         # updating the information of the grid
         self.all_batteries = batteries
         self.all_houses = houses
 
         return [batteries, houses, int(costs)]
-    
+
     def text_grid(self):
         grid = ''
         for i in range(102):
@@ -338,13 +368,13 @@ class Configuration():
             i = (2 * house[0]) * 103 + (2 * house[1])
             grid = grid[:i] + 'H' + grid[i + 1:]
         return grid
-            
+
     # checks if configuration is valid and returns some parameters
     def check(self, algorithm_name):
         # check if configuration is valid
 
         # check district_id
-        
+
         if self.district_id not in [1,2,3,4]:
             return('Set district_id!')
 
@@ -358,7 +388,7 @@ class Configuration():
         batteries = state[0]
         houses = state[1]
         costs = state[2]
-        
+
         #   constraint 1: all houses belong to a battery
         all_houses_in_battery = False
         house_objs = set({})
@@ -387,12 +417,12 @@ class Configuration():
 
             battery_index = battery[0] * width + battery[1]
             graph = csr_matrix((data, (row, col)), shape=(N, N))
-            
-            
+
+
             dist_matrix, predecessors = dijkstra(graph, directed=False, indices=[battery_index], return_predecessors=True)
-            
-            
-            
+
+
+
             dijkstra_0 = predecessors[0]
             houses = battery[2].houses_in_battery
             for house in houses:
@@ -424,8 +454,8 @@ class Configuration():
 
 
         return [valid, all_houses_in_battery, bat_cap_not_exceeded, all_houses_connected, bat_cap_violation, houses_disconnected]
-    
-    
+
+
     def check50_neighbour_variant(self):
         lists = self.get_lists()
         batteries0 = lists[0]
@@ -436,12 +466,12 @@ class Configuration():
             "costs-shared": costs
           }
         ]
-        
+
         batteries = []
         for battery1 in batteries0:
             battery = battery1[2]
             batteries.append(battery)
-        
+
         for battery in batteries:
             location = str(battery.position_x) + ',' + str(battery.position_y)
             bat_dict = {
@@ -459,15 +489,15 @@ class Configuration():
                     "cables": []
                   }
                 house_locs.append([house.position_x, house.position_y, house_dict])
-                
-            
+
+
             paths = []
             neighbours = []
             if battery in self.configuration[battery.position_x][battery.position_y].neighbours:
                 neighbours = self.configuration[battery.position_x][battery.position_y].neighbours[battery]
             for neighbour in neighbours:
                 paths.append([[battery.position_x, battery.position_y], [neighbour.x,neighbour.y]])
-                
+
             while len(paths) > 0:
                 for path in paths:
                     end_point = path[-1]
@@ -503,9 +533,9 @@ class Configuration():
                     paths.remove(orig_path)
             check50_format.append(bat_dict)
         return check50_format
-             
-        
-        
+
+
+
     # registers configuration in results.txt if it is one of the best 10 solutions ever.
     def result_reg(self, costs, class_name):
         district_id = self.district_id
@@ -539,18 +569,21 @@ class Configuration():
             f2.close()
 
 class Point():
+    '''
+    This class defines a point on the grid. It has all the information for that
+    specific coordinate. It is initialized with an x- and y-coordinate.
+    '''
     def __init__(self, x, y):
-        # Shows the position of this point
         self.x = x
         self.y = y
 
-        # If a cable goes through this point, shows all neighbours of this point for each relevant battery
+        # if a cable goes through this point, shows all neighbours of this point for each relevant battery
         self.neighbours = dict()
 
-        # The content on this point. Could be a house or battery
+        # the content on this point. Could be a house or a battery
         self.content = None
 
-        # place to store all things
+        # place to store all other information
         self.cable_item = []
         self.battery_item = None
         self.house_item = None
