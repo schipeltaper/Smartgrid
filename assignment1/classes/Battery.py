@@ -8,7 +8,7 @@
 *
 '''
 
-from classes.House import House
+from classes.house import House
 
 class Battery():
 

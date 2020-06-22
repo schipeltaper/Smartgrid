@@ -1,4 +1,4 @@
-from classes.House import House
+from classes.house import House
 from classes.Battery import Battery
 
 district_test = {"houses": [
