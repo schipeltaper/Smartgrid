@@ -6,10 +6,8 @@
 * Programmeertheorie
 * Optimum Prime
 *
-* Greedy class contains a collection of greedy algorthm distribute the houses amoung the batteries inside a
-* configuration. This class is initialised with an configuration class instance. The class is used by calling
-* a greedy function inside the class: proximity_sort or random_greedy. The algorithms will divide the houses
-* amoungst the batteries in the configuration and update the filled batteries inside the configuration.
+* Greedy class contains a collection of greedy algorthms to distribute the houses amoung the batteries inside 
+* a configuration.
 * 
 *
 '''
@@ -25,6 +23,9 @@ import random
 class Greedy():
     '''
     The greedy class is a collection of house distributing algorithms and functions that support these.
+    The class is used by calling a greedy function inside the class: proximity_sort or random_greedy. The 
+    algorithms will divide the houses amoungst the batteries in the configuration and update the filled 
+    batteries inside the configuration. The battery a house is in is also saved inside the house instance.
 
     Initialisation requires a district configuration.
     '''
@@ -42,22 +43,20 @@ class Greedy():
         from algorithms.simulated_annealing import simulated_annealing
 
         '''
-        Random greedy algorithms includes an aspect of randomness into a greedy
-        model. A greedy algorithm will always choose the best option for a problem
-        without considering the effects further down the line.
+        Distributes the houses using a random greedy algorithm. This randomly distributes
+        the houses under the batteries and than reshuffles the houses by randomly choosing 
+        one of the batteries and deciding to change battery if that battery is at closer 
+        proximity than the current battery. Random greedy algorithms includes an aspect of 
+        randomness into a greedy model. A greedy algorithm will always choose the best option 
+        for a problem without considering the effects further down the line.
 
         Input: the amount of times the houses will be moved between batteries.
-
-        Distributes the houses randomly under the batteries and than reshuffles the
-        houses by randomly choosing one of the batteries and deciding to change battery
-        if that battery is at closer proximity than the current battery.
         '''
         
         # distributing houses randomly amoung batteries
         self.functions_in_sa_class = simulated_annealing(self.district)
-        self.functions_in_sa_class.distributing_houses_amoung_batteries()
+        self.functions_in_sa_class.random_house_distribution()
 
-        
         # attempts to move a house rounds amount of times into a random battery, choice proximity based
         self.to_cal_distance = Cable(self.district)
         self.rounds_done = 0
@@ -75,14 +74,12 @@ class Greedy():
     def proximity_sort(self):
 
         '''
-        A greedy algorithm will always choose the best option for a problem
-        without considering the effects further down the line. This greedy algorithm
-        uses the distance between a houses and the potential batteries as the heuristic
-        choose the battery to be put in.
-
-        The houses are saved inside the battery instances, inside the houses_in_battery
-        and these filled batteries update the batteries stored inside the all_batteries
-        list in the configuration class.
+        This greedy algorithm uses the distance between a houses and the potential batteries as 
+        the heuristic to choose the battery to be put the house in. The houses are saved inside 
+        the battery instances, inside the houses_in_battery and these nieuwly filled batteries are 
+        used to update the batteries stored inside the all_batteries list in the configuration class. 
+        A greedy algorithm will always choose the best option for a problem without considering the 
+        effects further down the line. 
         '''
 
         # sorts houses from high too low production
@@ -134,7 +131,7 @@ class Greedy():
         # sorted list of houses
         return houses
 
-    
+
     def house_low_sort(self, houses):
         '''
         Sorts a list of houses from low to high based on energy production.
