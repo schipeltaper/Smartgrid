@@ -12,10 +12,13 @@
 *
 '''
 
-from algorithms.greedy_algorithm import Greedy
-from classes.Configuration import Configuration
-from algorithms.cable_algorithm import Cable
+
 import random
+
+from algorithms.greedy_algorithm import Greedy
+from classes.configuration import Configuration
+from algorithms.cable_algorithm import Cable
+
 
 class simulated_annealing():
     '''
@@ -29,6 +32,7 @@ class simulated_annealing():
 
     Initialisation requires a district configuration.
     '''
+
     def __init__(self, district_configuration):
 
         self.district = district_configuration
@@ -46,6 +50,7 @@ class simulated_annealing():
 
         self.cable_algorithm = Cable(self.district)
     
+
     # starts with randomly distributing houses amoung batteries
     def creating_starting_possition(self):
         '''
@@ -56,6 +61,7 @@ class simulated_annealing():
 
         self.random_house_distribution()
 
+
     def running_simulated_annealing(self, share_cables):
         '''
         Runs the simulated_annealing algorithm. This algorithm is called after a starting possition
@@ -65,6 +71,7 @@ class simulated_annealing():
 
         Input: boolean that indicates if cable sharing is allowed (True: cable sharing allowed).
         '''
+
         while not(self.energy < 0):
             self.distributing_houses_amoung_batteries()
             self.energy -= 20
@@ -72,7 +79,8 @@ class simulated_annealing():
         if self.district.houses_with_ovorcapacity():
             self.energy = 100
             self.running_simulated_annealing(share_cables)
-            
+
+
     def distributing_houses_amoung_batteries(self):
         '''
         Runs the simulated_annealing algorithm. This algorithm is called after a starting position
@@ -90,7 +98,6 @@ class simulated_annealing():
                 self.choosen_battery.add_house(self.house)
                 self.house.battery = self.choosen_battery
         
-        # maybe add loop until batteries not over capacity
 
     def make_next_move(self, house, battery):
         '''
@@ -107,6 +114,7 @@ class simulated_annealing():
         if self.energy_of_move < self.max_energy_costs:
             return True
         return False
+
 
     def energy_move_distance(self, house, battery):
         '''
@@ -125,6 +133,7 @@ class simulated_annealing():
         self.max_costs_distance = self.max_energy_costs * self.weight_distance
         return int(self.max_costs_distance *  (1 - (0.1 ** ((self.cable_algorithm.calculate_distance(house, battery) \
         * 2)/100))))
+
 
     def energy_move_b_cap(self, battery):
         '''
@@ -156,6 +165,7 @@ class simulated_annealing():
         else:
             return self.max_costs_cap *  (1 - (0.1 ** ((self.distance_from_average * 6)/10000)))
 
+
     def random_house_distribution(self):
         '''
         Randomly distributes all houses amoung the batteries and saves this distribution into the batteries 
@@ -165,3 +175,5 @@ class simulated_annealing():
         for self.a_house in self.district.all_houses:
             self.a_house.battery = random.choice(self.district.all_batteries)
             self.a_house.battery.houses_in_battery.append(self.a_house)
+
+            

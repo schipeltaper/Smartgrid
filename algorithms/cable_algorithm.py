@@ -12,9 +12,11 @@
 *
 '''
 
+
+import random
+
 from classes.cable import Cable_instance
 from classes.cable import Cable_line
-import random
 
 
 class Cable():
@@ -36,15 +38,14 @@ class Cable():
 
     def cable_list_batteries(self, batteries, cable_sharing):
         '''
-        Ittirates through the batteries inputted and inputs the individual batteries and cable
-        sharing boolian into the connect_battery_houses function
+        Iterates through the batteries inputted and inputs the individual batteries and cable
+        sharing boolian into the connect_battery_houses function.
 
         Input: list of batteries and a boolian that indicates if cable sharing is allowed 
         (True means cable sharing is allowed).
         '''   
 
         for battery in batteries:
-            
             self.connect_battery_houses(battery, cable_sharing)
     
 
@@ -53,7 +54,7 @@ class Cable():
         Calls connecting_cables if cable_sharing is True, inputting a list of houses pulled from
         the inputted batteries, the list of batteries and the radius. Than adds cable to cable_network
         and too the all_cables variable in the configuration. If cable_sharing is not True than
-        connect_points_Astar is called, which is given a battery and a house. The cables are put inside
+        manhattan_dist_cable is called, which is given a battery and a house. The cables are put inside
         the all_cables variable in the configuration.
 
         Input: a battery and a boolian that indicates if cable sharing is allowed 
@@ -72,13 +73,13 @@ class Cable():
         # adds cables into district using individual cables
         else:
             for house in battery.houses_in_battery:
-                battery.list_cables.append(self.connect_points_Astar(battery, house))
-                self.add_cable = self.connect_points_Astar(battery, house)
+                battery.list_cables.append(self.manhattan_dist_cable(battery, house))
+                self.add_cable = self.manhattan_dist_cable(battery, house)
                 self.cable_network.append(self.add_cable)
                 self.district_instance.all_cables.append(self.add_cable)
 
 
-    def connect_points_Astar(self, start, end):
+    def manhattan_dist_cable(self, start, end):
         '''
         Draws the shortest route for every point shortest distance!!! cable between two points using the manhattan distance. The manhatten cable 
         distances is the distance between two points measured using a grid to connect the 
@@ -130,20 +131,7 @@ class Cable():
         return self.current_cable
 
 
-    def calculate_distance(self, obj_one, obj_two):
-        '''
-        Calculates the driect distance between two object. The direct distance between two objects 
-        is calculated using a straight line.
-
-        Input: Two objects with a position_x and position_y variable.
-        
-        Output: An intigure type that dindicates the length of a direct line between the objects
-        '''
-
-        return abs(obj_one.position_x - obj_two.position_x) + abs(obj_one.position_y - obj_two.position_y)
-
-
-    def connecting_cables(self, houses, end, range):
+    def connecting_cables(self, houses, battery, range):
         '''
         Chooses a random house in the battery, than finds the middle point between all houses inside 
         the choosen radius around that randomly choosen house. Draws a cable between that middle point
@@ -193,12 +181,12 @@ class Cable():
             self.mid_point = Cable_instance(int(self.average_x), int(self.average_y))
             
             # layes cable between middle point and battery using the manhatten distance
-            self.main_cable = self.connect_points_Astar(self.mid_point, end)
+            self.main_cable = self.manhattan_dist_cable(self.mid_point, battery)
             self.all_new_cables.append(self.main_cable)            
             
             # layes cable between houses and main cable
             for self.connect_house_now in self.too_connect:
-                self.new_cable = self.connect_points_Astar(self.connect_house_now, self.mid_point)
+                self.new_cable = self.manhattan_dist_cable(self.connect_house_now, self.mid_point)
                 self.new_cable.add_cable_instance(self.main_cable.cable_coordinates[0])
                 self.all_new_cables.append(self.new_cable)
             
@@ -208,4 +196,17 @@ class Cable():
         
         # returns a lists of all cables used to connect all houses within radius to battery
         return self.all_new_cables
+
+
+    def calculate_distance(self, obj_one, obj_two):
+        '''
+        Calculates the driect distance between two object. The direct distance between two objects 
+        is calculated using a straight line.
+
+        Input: Two objects with a position_x and position_y variable.
+        
+        Output: An intigure type that dindicates the length of a direct line between the objects
+        '''
+
+        return abs(obj_one.position_x - obj_two.position_x) + abs(obj_one.position_y - obj_two.position_y)
 

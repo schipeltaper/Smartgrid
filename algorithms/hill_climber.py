@@ -32,7 +32,8 @@ class Hill_climber():
         * If the solution has improved or stayed the same in costs, we print the new cost.
         * The function finally returns the new configuration.
         '''
-        for i in range(step_amount):
+
+        for index in range(step_amount):
             if self.possible_change():
                 print(self.config.cal_costs())
         return self.config

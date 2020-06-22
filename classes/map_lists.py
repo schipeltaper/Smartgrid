@@ -1,5 +1,5 @@
 from classes.house import House
-from classes.Battery import Battery
+from classes.battery import Battery
 
 district_test = {"houses": [
     House(2,3,53.97543253),

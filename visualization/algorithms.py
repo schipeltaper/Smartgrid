@@ -1,41 +1,58 @@
+'''
+* Combining_algorithms class
+* 
+*
+* Programmeertheorie
+* Optimum Prime
+*
+* The Combining_algorithms class collects and runs all the different algorithms
+* combinations.
+* 
+*
+'''
 
-from classes.Battery import Battery
+import copy
+
+import numpy as np
+
+from classes.battery import Battery
 from classes.house import House
 from classes.map_lists import district_1, district_2, district_3, district_test
 from algorithms.greedy_algorithm import Greedy
 from algorithms.cable_algorithm import Cable
 from classes.cable import Cable_instance
-from classes.Configuration import Configuration
+from classes.configuration import Configuration
 from algorithms.hill_climber import Hill_climber
 from algorithms.simulated_annealing import simulated_annealing
-import numpy as np
-import copy
 
 class Combining_algorithms():
-
+    '''
+    The Combining_algorithms class brings the two types of algorithms that the 
+    Optimum Prime program uses to solve this problem together: the algorithms
+    that devide the houses amoungst the batteries in the configuration and the
+    algorithms that lay the cables that connect these houses with the cables.
+    The initialisation is done using the number of district instance the user
+    wants to use.
+    '''
     def __init__(self, district_numb):
+        # loads the batteries and houses into district variable of type configuration
         self.the_district = Configuration(district_numb)
         self.the_district.create_district()
 
     # Greedy_house allocation & Astar cable drawing - assumption 1 cable 1 house
-    def greedy_house_astar_cable(self):
-
-        # creating an instant to save greedy object
+    def greedy_house_manhatten_cable(self):
+        '''
+        Uses a greedy algorithm with a huristic based on proximity of a house to
+        a battery to devide the houses amoungst the batteries. Than uses the manhatten
+        distance to lay cables between thouse houses and their batteries. Finally, prints
+        the total costs of the solution.
+        '''
+        
         self.greedy_house_devide = Greedy(self.the_district)
-
-        # deviding houses amoung batteries using proximity
         self.greedy_house_devide.proximity_sort()
-
-        # save the cable algorithm object
         self.astar_cable = Cable(self.the_district)
-
-        # laying cables for every battery between its own houses
         self.astar_cable.cable_list_batteries(self.the_district.all_batteries, False)
-
         print(f"The total costs of greedy astar: {self.the_district.cal_costs()}")
-
-        self.the_district.cal_costs()
-        print(f"The total costs of greedy astar: {self.the_district.total_costs}")
 
     def annealing_hill_climber(self, step_num):
         '''
@@ -43,60 +60,44 @@ class Combining_algorithms():
         in the batteries. Then it applies the hill climber algorithm to modify this solution
         to an even better one. It takes step_num steps in the hill climber algorithm.
         '''
-        # creating an instant to save simulated_annealing object
-        self.annealing_house_devide1 = simulated_annealing(self.the_district)
 
-        # deviding houses among batteries
+        self.annealing_house_devide1 = simulated_annealing(self.the_district)
         self.annealing_house_devide1.creating_starting_possition()
         self.annealing_house_devide1.running_simulated_annealing()
-
-        # creating Hill_climber object using the solution
         self.hill = Hill_climber(self.the_district)
-
-        # applies the hill climber algorithm to the solution
         self.hill.climb_the_hill(step_num)
-
         print(f"Final total costs of simulated annealing hill climber: {self.the_district.cal_costs()}")
 
     # simulated anealing house distribution & Astar cable drawing - assumption 1 cable 1 house
     def simulated_annealing_house_astar_cable(self):
+        '''
+        Combines a simulated annealing algorithm with a huristic based on proximity of a house to a
+        battery and the fullness of a battery compared to other batteries to devide the houses amoung
+        the batteries. Than uses the manhatten distance to lay cables between thouse houses and their 
+        batteries. Finally, prints the total costs of the solution.
+        '''
+
         self.sa_distribution = simulated_annealing(self.the_district)
         self.sa_distribution.creating_starting_possition()
-        self.sa_distribution.running_simulated_annealing(True)
+        self.sa_distribution.running_simulated_annealing(False)
         self.astar_cable2 = Cable(self.the_district)
-
-        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, True)
-
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
+        print(self.the_district.get_lists())
         self.the_district.print_the_dam_thing()
-
         print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
 
     def random_greedy_astar_cable(self, rounds):
+        '''
+        Introduces some randomness too a greedy algorithm with a huristic based on proximity of a house 
+        to a battery. Than uses the manhatten distance to lay cables between thouse houses and their 
+        batteries. Finally, prints the total costs of the solution.
+        '''
+        
         self.random_greedy = Greedy(self.the_district)
         self.random_greedy.random_greedy(rounds)
-
         self.astar_cable2 = Cable(self.the_district)
         self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
-
-        return self.the_district.cal_costs()
-
-    # simulated anealing house distribution & Astar cable sharing drawing - assumption cable sharing
-    def sa_cable_share_astar(self):
-        self.sa_distribution = simulated_annealing(self.the_district)
-        self.sa_distribution.creating_starting_possition()
-        self.sa_distribution.running_simulated_annealing(True)
-        self.astar_cable2 = Cable(self.the_district)
-        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, True)
-        self.the_district.print_the_dam_thing()
-
         print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
-
-# calculate costs for list of batteries Get rid of this!!!!!!!!!!!!!!!!!!!
-def totalCosts(batteries):
-    total_costs = 0
-    for battery in batteries:
-        total_costs += battery.costs
-    return total_costs
 
 class optimum_deluxe():
     '''

@@ -14,7 +14,7 @@
 '''
 import os
 from classes.house import House
-from classes.Battery import Battery
+from classes.battery import Battery
 import numpy as np
 from scipy.sparse.csr import csr_matrix
 from scipy.sparse.csgraph import dijkstra
@@ -61,9 +61,17 @@ class Configuration():
 
         self.houses_with_ovorcapacity()
 
+    # to put the info of district1 into a configuration object
+    def create_district(self):
 
-        # self.houses_with_ovorcapacity()
+        self.all_houses = []
+        self.all_batteries = []
 
+        for self.house in self.district["houses"]:
+            self.add_house(self.house)
+
+        for self.battery in self.district["batteries"]:
+            self.add_battery(self.battery)
 
     # returns True if there are one or more batteries over capacity
     def houses_with_ovorcapacity(self):
@@ -93,23 +101,6 @@ class Configuration():
         self.lay_cables_in_configuration()
 
 
-    def refresh_config(self):
-
-        self.configuration.clear()
-
-        # reloading all points
-        for j in range(self.grid_height):
-            row = []
-            for i in range(self.grid_width):
-                point = Point(j, i)
-                row.append(point)
-            self.configuration.append(row)
-
-        # loading in all houses & batteries
-        self.create_district()
-
-        self.lay_cables_in_configuration()
-
     # calculating total costs of configuration
     def cal_costs(self):
 
@@ -137,20 +128,7 @@ class Configuration():
 
             # print next line
             print()
-<<<<<<< HEAD
-        print("interesting")
-        
-=======
 
-
-
-
-
-
-
-
-
->>>>>>> 1a90bc1c45b088f6d2a0eb29450cdd46f95a1e9e
     # load houses and batteries into visiualisation without cables
     def load_hb_in_beta_visiualisation(self):
                 
@@ -212,25 +190,6 @@ class Configuration():
                             # RIGHT
                             self.visualise_grid[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
 
-    # to put the info of district1 into a configuration object
-    def create_district(self):
-
-        self.all_houses = []
-        self.all_batteries = []
-
-
-        for self.house in self.district["houses"]:
-            self.add_house(self.house)
-
-
-
-        for self.house in self.district["houses"]:
-            self.add_house(self.house)
-
-
-        for self.battery in self.district["batteries"]:
-            self.add_battery(self.battery)
-
     # adds multiple batteries to the configuration
     def add_multiple_batteries(self, batteries):
         for self.battery_put in batteries:
@@ -261,11 +220,24 @@ class Configuration():
         if house not in self.all_houses:
             self.all_houses.append(house)
 
+
     def lay_cables_in_configuration(self):
 
         for self.cable_line in self.all_cables:
+
+            self.battery_with_cable = self.configuration[self.cable_line.end.position_x][self.cable_line.end.position_y].battery_item
+
             for self.cable_point in self.cable_line.cable_coordinates:
                 self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
+
+                if not(self.cable_point.next_cable_inst == None):
+                    self.neighbour_point = self.configuration[self.cable_point.next_cable_inst.position_x][self.cable_point.next_cable_inst.position_y]
+                
+                if self.cable_point.position_x == self.neighbour_point.x and self.cable_point.position_y == self.neighbour_point.y:
+                    print("Same same")
+                else:
+                    self.add_cable(self.configuration[self.cable_point.position_x][self.cable_point.position_y], self.neighbour_point, self.battery_with_cable)
+
 
     def add_cable(self, point1, point2, battery):
         '''
@@ -282,6 +254,7 @@ class Configuration():
             point2.neighbours[battery] = [point1]
         else:
             point2.neighbours[battery].append(point1)
+
 
     def delete_battery(self, x, y):
         '''
@@ -311,6 +284,7 @@ class Configuration():
         format: batteries = [[i,j,Battery,[cable,...]],...]
         format: cable = [[x_1,y_1],[x_2,y_2]]
         '''
+
         
         # put all batteries and houses in grid in lists and calculate costs
         costs = 0
@@ -328,7 +302,7 @@ class Configuration():
         for i in range(len(self.configuration)):
             row = []
             for j in range(len(self.configuration[0])):
-                for k in range(len(batteries)):
+                for k in range(len(batteries)): # deze loopt ie fucking vaak is t de bedoeling dat ie maar 5 keer rond gaat?
                     neighbours = []
                     if batteries[k][2] in self.configuration[i][j].neighbours:
                         neighbours = self.configuration[i][j].neighbours[batteries[k][2]]

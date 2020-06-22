@@ -6,27 +6,20 @@
 * Programmeertheorie
 * Optimum Prime
 *
-<<<<<<< HEAD
 * Greedy class contains a collection of greedy algorthms to distribute the houses amoung the batteries inside 
 * a configuration.
 * 
-=======
-* Greedy class contains a collection of greedy algorthm distribute the houses amoung the batteries inside a
-* configuration. This class is initialised with an configuration class instance. The class is used by calling
-* a greedy function inside the class: proximity_sort or random_greedy. The algorithms will divide the houses
-* amoungst the batteries in the configuration and update the filled batteries inside the configuration.
-*
->>>>>>> 1a90bc1c45b088f6d2a0eb29450cdd46f95a1e9e
 *
 '''
 
+
+import copy
+import random
 
 from classes.house import House
 from classes.map_lists import district_1, district_2, district_3
 from algorithms.cable_algorithm import Cable
 
-import copy
-import random
 
 class Greedy():
     '''
@@ -80,7 +73,6 @@ class Greedy():
 
 
     def proximity_sort(self):
-
         '''
         This greedy algorithm uses the distance between a houses and the potential batteries as 
         the heuristic to choose the battery to be put the house in. The houses are saved inside 
@@ -91,7 +83,7 @@ class Greedy():
         '''
 
         # sorts houses from high too low production
-        self.all_houses = self.sort_house(self.all_houses)
+        self.all_houses = self.sort_house_high_low(self.all_houses)
 
         # orders the batteries from closses to furthest for every house
         for self.the_house in self.all_houses:
@@ -118,7 +110,7 @@ class Greedy():
         self.district.all_batteries = self.batteries
 
 
-    def sort_house(self, houses):
+    def sort_house_high_low(self, houses):
         '''
         Sorts a list of houses from high to low based on energy production.
 
@@ -126,6 +118,7 @@ class Greedy():
 
         Return: sorted list of houses
         '''
+
         # Selection sort, high too low based on energy production
         for self.house_numb in range(len(houses)):
             biggest_location = self.house_numb
@@ -138,76 +131,3 @@ class Greedy():
 
         # sorted list of houses
         return houses
-
-
-    def house_low_sort(self, houses):
-        '''
-        Sorts a list of houses from low to high based on energy production.
-
-        Input: list of houses
-
-        Return: sorted list of houses
-        '''
-
-        # Selection Sort, low too high based on energy production
-        for self.house_numb in range(len(houses)):
-            for self.house_numb2 in range(self.house_numb, len(houses)):
-                if houses[self.house_numb2].production < houses[self.house_numb].production:
-                    self.temp = houses[self.house_numb]
-                    houses[self.house_numb] = houses[self.house_numb2]
-                    houses[self.house_numb2] = self.temp
-
-        # sorted list of houses
-        return houses
-
-
-    ''' Delete !!!!!!!!! '''
-    # function to add houses to batteries
-    def adding_houses(self):
-
-        # sorting houses
-        self.sort_house(self.all_houses)
-
-        # battery currently storing houses in
-        self.battery_numb = 0
-
-        # looping through houses
-        for self.house in self.all_houses:
-
-            # make sure house is not already in battery
-            if not self.house in self.connected_houses:
-
-                # loop through batteries for every house
-                self.battery_numb += 1
-
-                if self.battery_numb >= len(self.batteries):
-                    self.battery_numb = 0
-
-                # check if battery is full and add house to battery
-                if self.batteries[self.battery_numb].battery_full(self.house):
-
-                    # move to next battery
-                    self.battery_numb += 1
-
-                # add house in next battery
-                self.batteries[self.battery_numb].add_house(self.house)
-
-                # add house to already sorted house
-                self.connected_houses.append(self.house)
-
-    ''' Delete !!!!!!!!! '''
-    # choosing if house should move to different battery
-    def proximity_move(self, house):
-
-        # move if option better than current situation
-        self.choosen_battery = random.choice(self.district.all_batteries)
-
-        if self.choosen_battery.distance(house) < house.battery.distance(house):
-
-            # removing house from former battery
-            house.battery.remove_house(house)
-
-            # adding house to battery & battery to house
-            self.choosen_battery.add_house(house)
-
-            house.battery = self.choosen_battery
