@@ -225,19 +225,12 @@ class Configuration():
 
         for self.cable_line in self.all_cables:
 
-            self.battery_with_cable = self.configuration[self.cable_line.end.position_x][self.cable_line.end.position_y].battery_item
+            battery = self.configuration[self.cable_line.end.position_x][self.cable_line.end.position_y].battery_item
+            if battery == None:
+                battery = self.configuration[self.cable_line.start.position_x][self.cable_line.start.position_y].battery_item
 
             for self.cable_point in self.cable_line.cable_coordinates:
                 self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
-
-                if not(self.cable_point.next_cable_inst == None):
-                    self.neighbour_point = self.configuration[self.cable_point.next_cable_inst.position_x][self.cable_point.next_cable_inst.position_y]
-                
-                if self.cable_point.position_x == self.neighbour_point.x and self.cable_point.position_y == self.neighbour_point.y:
-                    print("Same same")
-                else:
-                    self.add_cable(self.configuration[self.cable_point.position_x][self.cable_point.position_y], self.neighbour_point, self.battery_with_cable)
-
 
     def add_cable(self, point1, point2, battery):
         '''
@@ -422,9 +415,6 @@ class Configuration():
         valid = False
         if all_houses_in_battery and bat_cap_not_exceeded and all_houses_connected:
             valid = True
-            self.result_reg(costs,algorithm_name)
-
-        # if valid and costs are smallest ever, save solution
 
 
         return [valid, all_houses_in_battery, bat_cap_not_exceeded, all_houses_connected, bat_cap_violation, houses_disconnected]
@@ -507,40 +497,6 @@ class Configuration():
                     paths.remove(orig_path)
             check50_format.append(bat_dict)
         return check50_format
-
-
-
-    # registers configuration in results.txt if it is one of the best 10 solutions ever.
-    def result_reg(self, costs, class_name):
-        district_id = self.district_id
-        if district_id == 4:
-            return 'test result not registered'
-        with open("../results.txt","r") as f:
-            new_file = ''
-            f.seek(0)
-            rank = 1
-            new_cost_placed = False
-            for i in range(34):
-                line = f.readline()
-                if(-1 < i + 9 - 11 * district_id < 10):
-                    rank_cost = int(line[11:17])
-                    if rank_cost > costs and new_cost_placed == False and rank < 11:
-                        costs_str = str(costs).zfill(6)
-                        row = str(rank).zfill(2) + ': costs: ' + costs_str + ', algorithm: ' + str(class_name)
-                        new_file += row + '\n'
-                        rank += 1
-                        new_cost_placed = True
-                    if rank < 11:
-                        row = str(rank).zfill(2) + line[2:-1]
-                        new_file += row + '\n'
-                        rank += 1
-                else:
-                    new_file += line
-            f.close()
-        with open("../results.txt", 'w') as f2:
-            f2.seek(0)
-            f2.write(new_file)
-            f2.close()
 
 class Point():
     '''
