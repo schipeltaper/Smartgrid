@@ -1,6 +1,6 @@
 
 from classes.Battery import Battery
-from classes.House import House
+from classes.house import House
 from classes.map_lists import district_1, district_2, district_3, district_test
 from algorithms.greedy_algorithm import Greedy
 from algorithms.cable_algorithm import Cable
@@ -12,9 +12,6 @@ import numpy as np
 import copy
 
 class Combining_algorithms():
-
-
-
     def __init__(self, district_numb):
         self.the_district = Configuration(district_numb)
         self.the_district.create_district()
@@ -104,12 +101,15 @@ def totalCosts(batteries):
 
 
 
-# optimum_deluxe optimizes in 3 steps. 
-# 1: connect the house that is the cheapest to a battery, repeat untill all houses are connected. 
-# 2: relocate the house that results in the lowest cost per decreased battery violation, repeat untill convergence.
-# 3: switch the pair of houses that results in the lowest cost per decreased battery violation, repeat untill convergence.
 
 class optimum_deluxe():
+    '''
+    optimum_deluxe optimizes in 3 steps. 
+    1: connect the house that is the cheapest to a battery, repeat untill all houses are connected. 
+    2: relocate the house that results in the lowest cost per decreased battery violation, repeat untill convergence.
+    3: switch the pair of houses that results in the lowest cost per decreased battery violation, repeat untill convergence.
+    '''
+    
     def __init__(self, district_id):
         self.world = Configuration(district_id)
     
@@ -354,6 +354,7 @@ class optimum_deluxe():
         self.connect_all_houses()
         self.relocate_untill_convergence()
         self.switch_houses_until_convergence()
+        return self.world.check50_neighbour_variant()
         
 
 

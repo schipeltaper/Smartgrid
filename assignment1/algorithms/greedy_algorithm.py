@@ -15,7 +15,7 @@
 '''
 
 
-from classes.House import House
+from classes.house import House
 from classes.map_lists import district_1, district_2, district_3
 from algorithms.cable_algorithm import Cable
 

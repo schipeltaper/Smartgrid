@@ -369,11 +369,13 @@ class Configuration():
         point2.neighbours[battery].remove(point1)
 
     def get_lists(self):
-        # get_lists iterates over the grid and puts all houses and batteries in lists
-        # format: houses = [[i,j,House],...]
-        # format: batteries = [[i,j,Battery,[cable,...]],...]
-        # format: cable = [[x_1,y_1],[x_2,y_2]]
-
+        '''
+        get_lists iterates over the grid and puts all houses and batteries in lists
+        format: houses = [[i,j,House],...]
+        format: batteries = [[i,j,Battery,[cable,...]],...]
+        format: cable = [[x_1,y_1],[x_2,y_2]]
+        '''
+        
         # put all batteries and houses in grid in lists and calculate costs
         costs = 0
         batteries = []
