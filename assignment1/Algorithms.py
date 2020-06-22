@@ -65,14 +65,11 @@ class Combining_algorithms():
     def simulated_annealing_house_astar_cable(self):
         self.sa_distribution = simulated_annealing(self.the_district)
         self.sa_distribution.creating_starting_possition()
-        self.sa_distribution.running_simulated_annealing()
+        self.sa_distribution.running_simulated_annealing(False)
         self.astar_cable2 = Cable(self.the_district)
         self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
 
         self.the_district.print_the_dam_thing()
-
-
-
 
         self.the_district.cal_costs()
 

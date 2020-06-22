@@ -1,253 +1,215 @@
+'''
+* Cable class and Explore_node class
+* 
+*
+* Programmeertheorie
+* Optimum Prime
+*
+* Cable class contains an algorthm that lays cables between points inside the configuration.
+* This class is initialised with an configuration class instance. After which the cable_list_batteries
+* funtion is called. This itterates through the batteries inputted, which already have to be filled with 
+* houses, and adds connections between the batteries its houses. These cables are loaded into the all_cables
+* variable in configuration class.
+* Explore_nodes are nodes that are used to save locations to explore inside the configuration.
+* 
+*
+'''
 
 from classes.cable import Cable_instance
 from classes.cable import Cable_line
+import random
+
 
 class Cable():
-    def __init__(self, district_instance):
+    '''
+    The cable class contains the functions used lay cables onto the confugration and function
+    to make calculations concering cables.
 
-        # all cables layed in object
+    Initialisation requires a configuration instance.
+    '''
+    
+    def __init__(self, district_instance):
         self.cable_network = []
 
         self.district_instance = district_instance
     
+
     def cable_list_batteries(self, batteries, cable_sharing):
-        
-        # adds list of cables to list of cables in every battery
+        '''
+        Input: list of batteries and a boolian that indicates if cable sharing is allowed 
+        (True means cable sharing is allowed).
+
+        Ittirates through the batteries inputted and inputs the individual batteries and cable
+        sharing boolian into the connect_battery_houses function
+        '''   
+
         for battery in batteries:
+            
             self.connect_battery_houses(battery, cable_sharing)
     
-    def connect_battery_houses(self, battery, cable_sharing):
 
+    def connect_battery_houses(self, battery, cable_sharing):
+        '''
+        Input: a battery and a boolian that indicates if cable sharing is allowed 
+        (True means cable sharing is allowed).
+
+        Calls connecting_cables if cable_sharing is True, inputting a list of houses pulled from
+        the inputted batteries, the list of batteries and the radius. Than adds cable to cable_network
+        and too the all_cables variable in the configuration. If calbe_sharing is not True than
+        connect_points_Astar is called, which is given a battery and a house. The cables are put inside
+        the all_cables variable in the configuration.
+        '''   
+
+        # adds cables into district using shared cables
         if cable_sharing is True:
             self.list_houses = battery.houses_in_battery
             battery.list_cables.append(self.connecting_cables(self.list_houses, battery, 10))
             self.add_cable = self.connecting_cables(self.list_houses, battery, 10)
-
             for self.cable in self.add_cable:
                 self.cable_network.append(self.cable)
                 self.district_instance.all_cables.append(self.cable)
-        
+
+        # adds cables into district using individual cables
         else:
-            # itterates through batteries and places a calbe
             for house in battery.houses_in_battery:
                 battery.list_cables.append(self.connect_points_Astar(battery, house))
                 self.add_cable = self.connect_points_Astar(battery, house)
-
-                # adding cable list to nextwork
                 self.cable_network.append(self.add_cable)
                 self.district_instance.all_cables.append(self.add_cable)
-    
-    # lay cable between house and battery using best option
+
+
     def connect_points_Astar(self, start, end):
+        '''
+        The manhatten cable distances is the distance between two points measured using
+        a grid to connect the two points.
 
+        Input: starting and ending objects with position_x and position_y variables.
+        
+        Output: Cable_line object with a list of Cable_instance's inside its 
+        cable_coordinates variable. This object will also save the
+        start and end of the cable inside the start and end variable respectively.
+
+        Draws a cable between two points using the manhattan distance.
+        '''
+
+        # saves the variables used in function
         self.current_point = Cable_instance(start.position_x, start.position_y)
-
         self.end_point = Cable_instance(end.position_x, end.position_y)
-
         self.former_point = Cable_instance(start.position_x, start.position_y)
-
         self.current_cable = Cable_line(self.current_point)
 
         # run while end point not found
-        while (self.current_point.position_x != self.end_point.position_x) or (self.current_point.position_y != self.end_point.position_y):
+        while (self.current_point.position_x != self.end_point.position_x) or \
+            (self.current_point.position_y != self.end_point.position_y):
 
-            self.cable_options = []
-
-            # save current point into former point
+            # remembers former point and adds all option too cable_options
             self.former_point = self.current_point
-
-            # making sure we head the right way
+            self.cable_options = []
             if self.current_point.position_x - self.end_point.position_x < 0:
-                # lay cable one to the right
                 self.cable_options.append(Cable_instance(self.current_point.position_x + 1, self.current_point.position_y))
             else:
-                # lay cable one to the right
                 self.cable_options.append(Cable_instance(self.current_point.position_x - 1, self.current_point.position_y))
-
             if self.current_point.position_y - self.end_point.position_y < 0:
-                # lay cable one up
                 self.cable_options.append(Cable_instance(self.current_point.position_x, self.current_point.position_y + 1))
-
             else:
-                # lay cable one down
                 self.cable_options.append(Cable_instance(self.current_point.position_x, self.current_point.position_y - 1))
 
-            # updating points
-            if self.calculate_distance(self.cable_options[0], self.end_point) < self.calculate_distance(self.cable_options[1], self.end_point):
-
-                # make next point current point
+            # chooses next cable point based on shortest direct distance to the end point and adds that point to the cable
+            if self.calculate_distance(self.cable_options[0], self.end_point) \
+            < self.calculate_distance(self.cable_options[1], self.end_point):
                 self.current_point = self.cable_options[0]
-
-                # lay cable
                 self.current_cable.add_cable_instance(self.cable_options[0])
             else:
-                # make next point current point
                 self.current_point = self.cable_options[1]
-
-                # lay cable
                 self.current_cable.add_cable_instance(self.cable_options[1])
-
-            # save current point to former point
+            
+            # update cable_instance's within cable
             self.former_point.next_cable_inst = self.current_point
-
-            # save former point to current point
             self.current_point.former_cable_inst = self.former_point
             
+        # returns Cable_line object with a list of Cable_instance inside cable_coordinates
         return self.current_cable
 
-    # calculates difference between two items
+
     def calculate_distance(self, obj_one, obj_two):
+        '''
+        The direct distance between two objects is the distance between two objects
+        using a straight line.
+
+        Input: Two objects with a position_x and position_y variable.
+        
+        Output: An intigure type that dindicates the length of a direct line between the objects
+
+        Calculates the distance between two object.
+        '''
 
         return abs(obj_one.position_x - obj_two.position_x) + abs(obj_one.position_y - obj_two.position_y)
 
-    # !!!!! Delete!!!!!?????!!!!!
-    # calculating location of point inside self.configuration list
-    def list_position(self, x_loc, y_loc):
-
-        return (y_loc - 1) * (x_loc) + x_loc
 
     def connecting_cables(self, houses, end, range):
+        '''
+        Cable sharing means that multiple houses can connect to a common cable to connect to
+        a battery.
+
+        Input: A list of houses, a battery, and a radius that allows houses within that radius 
+        around a randomly choosen house to be connected.
+
+        Output: a list of cables of Cable_line class
+
+        Chooses a random house in the battery, than finds the middle point between all houses inside 
+        the choosen radius around that randomly choosen house. Draws a cable between that middle point
+        and the battery. Than draws a cable between every house inside radius with the middelpoint and
+        adds the first cable instance of the main cable too the last cable instance of those individual
+        house cables.
+        '''
         
-        # stores list with houses not yet connected
+        # store the different lists that houses pass through to be connected
         self.houses_not_connected = houses.copy()
-
-        # stores list that is in range of choosen house 
         self.too_connect = []
-
-        # stores houses already connected with a battery
         self.houses_connected = []
-
-        # stores a list of the cables layed to connect houses
         self.all_new_cables = []
-
-        for self.a_house in houses:
-                        
+        
+        # chooses random not connected house, calculates the range and adds cooridinates values into avarage variables
+        while not(self.houses_not_connected == []):
+            self.a_house = random.choice(self.houses_not_connected)         
             if self.a_house not in self.houses_not_connected:
                 continue
-
-            # calculate the midpoint between cluster of houses
             self.x_min = self.a_house.position_x - range
             self.x_max = self.a_house.position_x + range
             self.y_min = self.a_house.position_y - range
             self.y_max = self.a_house.position_y + range
-
-            self.too_connect.append(self.a_house)
-            self.houses_not_connected.remove(self.a_house)
             self.average_x = self.a_house.position_x
             self.average_y = self.a_house.position_y
-
+            
+            # moves houses within range from houses_not connected too too_connect list
+            self.too_connect.append(self.a_house)
+            self.houses_not_connected.remove(self.a_house)
             for self.connect_house in self.houses_not_connected:
-                if (self.x_min < self.connect_house.position_x < self.x_max) and (self.y_min < self.connect_house.position_y < self.y_max):
+                if (self.x_min < self.connect_house.position_x < self.x_max) and \
+                (self.y_min < self.connect_house.position_y < self.y_max):
                     self.too_connect.append(self.connect_house)
                     self.houses_not_connected.remove(self.connect_house)
                     self.average_x += self.connect_house.position_x
                     self.average_y += self.connect_house.position_y
+            
+            # calculates middelpoint between all houses in range and loads into cable_instance
             self.average_x /= (len(self.too_connect))
             self.average_y /= (len(self.too_connect))
-            self.mid_point = explore_node(int(self.average_x), int(self.average_y), end)
+            self.mid_point = Cable_instance(int(self.average_x), int(self.average_y))
             
+            # layes cable between middle point and battery using the manhatten distance
             self.main_cable = self.connect_points_Astar(self.mid_point, end)
-            self.all_new_cables.append(self.main_cable)
-
-            print(f"X: {int(self.average_x)} Y: {int(self.average_y)}")
+            self.all_new_cables.append(self.main_cable)            
             
-            # connecting cables to main cable
+            # layes cable between houses and main cable
             for self.connect_house_now in self.too_connect:
                 self.new_cable = self.connect_points_Astar(self.connect_house_now, self.mid_point)
                 self.new_cable.add_cable_instance(self.main_cable.cable_coordinates[0])
                 self.all_new_cables.append(self.new_cable)
             
+            # moves connected houses from too_connect too houses_connected
             self.houses_connected.append(self.too_connect)
             self.too_connect.clear()
+        
+        # returns a lists of all cables used to connect all houses within radius to battery
         return self.all_new_cables
-
-    
-    
-    
-    
-    
-    
-    
-    def A_star(self, house, end, depth):
-        
-        # how far do we want to explore unefficient routes
-        self.depth = depth
-
-        self.current_cable_point = Cable_instance()
-        self.current_cable_point.position_x = house.position_x
-        self.current_cable_point.position_y = house.position_y
-        
-        # place to store cable
-        self.the_cable = Cable_line(self.current_cable_point)
-
-        # place to store nodes to explore
-        self.nodes_to_explore = {}
-
-        self.grid_to_explore = []
-
-        # create grid
-        for j in range(51):
-            row = []
-            for i in range(51):
-                point = explore_node(j, i, end)
-                row.append(point)
-            self.grid_to_explore.append(row)
-
-        # laying ze cable
-        while self.current_cable_point.position_x is not end.position_x and self.current_cable_point.position_y is not end.position_y:
-
-            # adding all options to nodes to explore dictionary
-            self.list_of_options = []
-
-            self.point_up = Cable_instance()
-            self.point_up.position_x = self.current_cable_point.position_x
-            self.point_up.position_y = self.current_cable_point.position_y - 1
-
-            self.list_of_options.append(self.point_up)
-
-            self.point_down = Cable_instance()
-            self.point_down.position_x = self.current_cable_point.position_x
-            self.point_down.position_y = self.current_cable_point.position_y + 1
-
-            self.list_of_options.append(self.point_down)
-
-            self.point_left = Cable_instance()
-            self.point_left.position_x = self.current_cable_point.position_x - 1
-            self.point_left.position_y = self.current_cable_point.position_y
-
-            self.list_of_options.append(self.point_left)
-
-            self.point_right = Cable_instance()
-            self.point_right.position_x = self.current_cable_point.position_x + 1
-            self.point_right.position_y = self.current_cable_point.position_y
-
-            self.list_of_options.append(self.point_right)
-
-            self.nodes_to_explore[self.current_cable_point] = self.list_of_options
-
-        # adding options
-        self.nodes_to_explore[self.cable_point]
-
-        self.cable_point.x_coordinate
-        
-        # heurestiek is afstand
-        self.calculate_distance()
-
-class explore_node():
-
-
-    def __init__(self, x_coordinate, y_coordinate, end):
-        self.position_x = x_coordinate
-        self.position_y = y_coordinate
-
-        self.end_point = end
-
-        #self.cal_for_cable = Cable(district_instance)
-        
-        #self.distance = self.cal_for_cable.calculate_distance(self, end)
-        #self.costs = self.calculate_costs()
-
-    #def calculate_costs(self):
-        # self.cable = self.cal_for_cable.connect_points_Astar(self, self.end_point) <-- can't imput self
-        #return self.cable.cal_cable_costs()
-

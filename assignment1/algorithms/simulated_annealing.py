@@ -1,10 +1,31 @@
 
+'''
+* simulated_annealing class
+* 
+*
+* Programmeertheorie
+* Optimum Prime
+*
+* The simulated annealing algorithm calculates the energy it costs a house
+* to move from battery. This energy cost is calculated based the fullness of
+* the battery the house would move too and the distance of that battery too
+* the house.
+* 
+*
+'''
+
 from algorithms.greedy_algorithm import Greedy
 from classes.Configuration import Configuration
 from algorithms.cable_algorithm import Cable
 import random
 
 class simulated_annealing():
+    '''
+    The simulated_annealing class contains all the function realing to the simulated
+    annealing algorithm.
+
+    Initialisation requires a district configuration.
+    '''
     def __init__(self, district_configuration):
 
         self.district = district_configuration
