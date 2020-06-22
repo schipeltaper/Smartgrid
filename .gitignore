@@ -352,4 +352,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# other files 
 .DS_Store
+__pycache__/
