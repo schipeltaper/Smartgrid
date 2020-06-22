@@ -1,7 +1,7 @@
 
-from House import House
-from Battery import Battery
-from map_lists import district_1, district_2, district_3
+from classes.House import House
+from classes.Battery import Battery
+from classes.map_lists import district_1, district_2, district_3
 import numpy as np
 
 
@@ -33,22 +33,12 @@ class Randomworld_1():
         for battery in self.batteries:
             battery.empty_battery()
         self.costs = 0
+    def run(self):
+        valid = False
+        while valid == False:
+            self.reset_world()
+            valid = self.distribute_houses()
 
-costs = []
-k = 0
-world = Randomworld_1(district_1)
-while k < 10000:
-   valid = False
-   tries = 0
-   while valid == False:
-       world.reset_world()
-       valid = world.distribute_houses()
-       tries += 1
-   costs.append(world.costs)
-   k += 1
-
-print(costs)
-            
 # random solution that doesn't violate max. battery capacities
 class Nearest_battery_world_1():
     def __init__(self, district):
@@ -125,22 +115,6 @@ class Nearest_battery_world_1():
         
             
         
-        
-        
-        
-# world = Nearest_battery_world_1(district_1)
-# world.Find_valid_sol_2()
-# print(world.violation, world.costs)
-#
-# costs = []
-# k = 0
-# world = Nearest_battery_world_1(district_1)
-# while k < 1000:
-#     world.Find_valid_sol_2()
-#     costs.append(world.costs)
-#     world.reset_world()
-#     k += 1
-#
-# print(costs)
+
 
 

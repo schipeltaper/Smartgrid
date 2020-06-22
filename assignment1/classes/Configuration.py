@@ -289,7 +289,7 @@ class Configuration():
             grid = grid[:i] + 'H' + grid[i + 1:]
         return grid
             
-        
+    # checks if configuration is valid and returns some parameters
     def check(self, algorithm_name):
         # check if configuration is valid
         
@@ -378,6 +378,88 @@ class Configuration():
         
         return [valid, all_houses_in_battery, bat_cap_not_exceeded, all_houses_connected, bat_cap_violation, houses_disconnected]
     
+    
+    def check50_neighbour_variant(self):
+        lists = self.get_lists()
+        batteries0 = lists[0]
+        costs = lists[2]
+        check50_format = [
+          {
+            "district": self.district_id,
+            "costs-shared": costs
+          }
+        ]
+        
+        batteries = []
+        for battery1 in batteries0:
+            battery = battery1[2]
+            batteries.append(battery)
+        
+        for battery in batteries:
+            location = str(battery.position_x) + ',' + str(battery.position_y)
+            bat_dict = {
+                "location": location,
+                "capacity": battery.capacity,
+                "houses": []
+            }
+            house_locs = []
+            houses = battery.houses_in_battery
+            for house in houses:
+                house_location = str(house.position_x) + ',' + str(house.position_y)
+                house_dict = {
+                    "location": house_location,
+                    "output": house.production,
+                    "cables": []
+                  }
+                house_locs.append([house.position_x, house.position_y, house_dict])
+                
+            
+            paths = []
+            neighbours = []
+            if battery in self.configuration[battery.position_x][battery.position_y].neighbours:
+                neighbours = self.configuration[battery.position_x][battery.position_y].neighbours[battery]
+            for neighbour in neighbours:
+                paths.append([[battery.position_x, battery.position_y], [neighbour.x,neighbour.y]])
+                
+            while len(paths) > 0:
+                for path in paths:
+                    end_point = path[-1]
+                    prev_point = path[-2]
+                    orig_path = path
+                    house_at_end = False
+                    neighbours = []
+                    if battery in self.configuration[end_point[0]][end_point[1]].neighbours:
+                        neighbours = self.configuration[end_point[0]][end_point[1]].neighbours[battery]
+                    neighbours1 = []
+                    for neighbour in neighbours:
+                        if neighbour.x == prev_point[0] and neighbour.y == prev_point[1]:
+                            pass
+                        else:
+                            neighbours1.append([neighbour.x,neighbour.y])
+                    for i in range(len(house_locs)):
+                        if end_point[0] == house_locs[i][0] and end_point[1] == house_locs[i][1]:
+                            path.reverse()
+                            cable_list = []
+                            for point in path:
+                                cable_list.append(str(point[0]) + ',' + str(point[1]))
+                            house_locs[i][2]["cables"] = cable_list
+                            bat_dict["houses"].append(house_locs[i][2])
+                            for neighbour in neighbours1:
+                                paths.append([end_point, neighbour])
+                            house_at_end = True
+                    if house_at_end == False:
+                        path.append(neighbours1[0])
+                        paths.append(path)
+                        if len(neighbours1) > 1:
+                            for excess_neighbour in neighbours1[1:]:
+                                paths.append([end_point, excess_neighbour])
+                    paths.remove(orig_path)
+            check50_format.append(bat_dict)
+        return check50_format
+             
+        
+        
+    # registers configuration in results.txt if it is one of the best 10 solutions ever.
     def result_reg(self, costs, class_name):
         district_id = self.district_id
         if district_id == 4:

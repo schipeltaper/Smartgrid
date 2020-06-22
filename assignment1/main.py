@@ -20,22 +20,29 @@ def main():
     
     # ------------ Greedy_house allocation & Astar cable drawing ------------
     
-    results1 = Combining_algorithms(55, 55, district_1)
+    results1 = Combining_algorithms(1)
+
+    print("make variable")
 
     results1.greedy_house_astar_cable()
 
-    results1.the_district.refresh_config()
+    print("Greedy done")
+
+    print("Refresh done")
 
     print("The Greedy_house allocation & Astar cable drawing: ")
 
-    # ------------ Greedy_house allocation & Astar cable drawing ------------
+    # ------------ simulated annealing house allocation & Astar cable drawing ------------
     
-    results2 = Combining_algorithms(55, 55, district_1)
+    results2 = Combining_algorithms(1)
 
     results2.simulated_annealing_house_astar_cable()
 
-    results2.the_district.refresh_config()
-    
+    # ------------ Random_Greedy_house allocation & Astar cable drawing ------------
+
+    results3 = Combining_algorithms(1)
+
+    results3.random_greedy_astar_cable(5)
     
     #print(cable_line.cable_network[0])
     #print()

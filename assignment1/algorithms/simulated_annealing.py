@@ -44,7 +44,6 @@ class simulated_annealing():
             self.energy = 100
             self.running_simulated_annealing()
             
-
     # distributes all houses in district randomly
     def distributing_houses_amoung_batteries(self):
         
@@ -54,11 +53,14 @@ class simulated_annealing():
 
             if self.make_next_move(self.house, self.choosen_battery):
             
-                # removing house from former battery
-                for self.a_battery in self.district.all_batteries:
-                    self.a_battery.remove_house(self.house)
+                if not(self.house.battery == None):
+                    # removing house from former battery
+                    self.house.battery.remove_house(self.house)
                 
+                # adding house to battery & battery to house
                 self.choosen_battery.add_house(self.house)
+
+                self.house.battery = self.choosen_battery
 
     def make_next_move(self, house, battery):
         
