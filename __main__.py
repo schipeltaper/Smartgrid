@@ -14,6 +14,46 @@ def main():
     if cable_rule == 1:
         algorithm_id = input("Choose algorithm: \n 1. Random\n 2. Greedy\n 3. Random hill descent\n \
         4. Random Greedy\n 5. Simulated Annealing\n 6. Hill Climber\n")
+    if cable_rule == 2:
+        algorithm_id = input("Choose algorithm: \n 1. A-star cable sharing\n 2. Optimum Deluxe\n") + 6
+    
+    # run algorithm
+    if algorithm_id == 1:
+        #run Random
+        check50_result = None
+        pass
+    if algorithm_id == 2:
+        #run Greedy
+        check50_result = None
+        pass
+    if algorithm_id == 3:
+        #run Random hill descent
+        check50_result = None
+        pass
+    if algorithm_id == 4:
+        #run Random Greedy
+        check50_result = None
+        pass
+    if algorithm_id == 5:
+        #run Simulated Annealing
+        check50_result = None
+        pass
+    if algorithm_id == 6:
+        #run Hill Climber
+        check50_result = None
+        pass
+    if algorithm_id == 7:
+        #run A-star cable sharing
+        check50_result = None
+        pass
+    if algorithm_id == 8:
+        #run Optimum Deluxe
+        print('test', district_id)
+        check50_result = None
+        pass
+        
+    # show result in check50 format
+    print(check50_result)
 
 # ------------ simulated annealing house allocation & Astar cable drawing ------------
 
