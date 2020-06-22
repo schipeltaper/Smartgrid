@@ -39,12 +39,11 @@ class Combining_algorithms():
         self.the_district.cal_costs()
         print(f"The total costs of greedy astar: {self.the_district.total_costs}")
 
-    # simulated annealing hill climber
-    def annealing_hill_climber(self):
+    def annealing_hill_climber(self, step_num):
         '''
         This method first applies the simulating annealing algorithm to sort all the houses
         in the batteries. Then it applies the hill climber algorithm to modify this solution
-        to an even better one.
+        to an even better one. It takes step_num steps in the hill climber algorithm.
         '''
         # creating an instant to save simulated_annealing object
         self.annealing_house_devide1 = simulated_annealing(self.the_district)
@@ -57,7 +56,7 @@ class Combining_algorithms():
         self.hill = Hill_climber(self.the_district)
 
         # applies the hill climber algorithm to the solution
-        self.hill.climb_the_hill()
+        self.hill.climb_the_hill(step_num)
 
         print(f"Final total costs of simulated annealing hill climber: {self.the_district.cal_costs()}")
 
