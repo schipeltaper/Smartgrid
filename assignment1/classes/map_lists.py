@@ -2,7 +2,9 @@ from classes.House import House
 from classes.Battery import Battery
 
 district_test = {"houses": [
-    House(2,3,53.97543253)],
+    House(2,3,53.97543253),
+    House(24,22,66.13020717),
+    House(34,47,53.97543253)],
     "batteries": [
     Battery(1,5,1507)]
     }

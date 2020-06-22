@@ -308,11 +308,8 @@ class Configuration():
         batteries = state[0]
         houses = state[1]
         costs = state[2]
-
-        #for house in houses:
-        #    batteries[0][2].add_house(house[2])
         
-        #   constraint 1: all houses are belong to a battery
+        #   constraint 1: all houses belong to a battery
         all_houses_in_battery = False
         house_objs = set({})
         for house in houses:
