@@ -12,7 +12,7 @@ class Hill_climber():
         self.config = solved_configuration
 
     def climb_the_hill(self):
-        for i in range(1000):
+        for i in range(3000):
             if self.possible_change():
                 print(self.config.cal_costs())
         # return new_configuration #TODO
