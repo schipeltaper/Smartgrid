@@ -48,6 +48,9 @@ Vervolgens gebeuren de volgende stappen in volgorde:
 Alle code wordt geedraait vanuit __main__.py. Hierin staat de user-interface (zie Gebruik hierboven). De folders die wij
 hebben zijn classes, algorithms, results, visualization en img. We zullen nu kort elk bestand en elke folder toelichten:
 
+## Notatie
+Conform wiskundige consensus, worden de letters 'i','j' en 'k' als indices gebruikt. 
+
 ### classes
 Deze folder organiseert de data-types die wij gebruiken in ons project. De bestanden in deze folder zijn:
 
