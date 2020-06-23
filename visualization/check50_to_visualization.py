@@ -13,8 +13,7 @@ import matplotlib.pyplot as plt
 import json
 import numpy as np
 
-def main():
-    Check50_to_visualization('../results/output.json')
+
 
 class Check50_to_visualization():
     '''
@@ -22,10 +21,12 @@ class Check50_to_visualization():
     check50 input. We have imported pyplot to be able to make a more official looking
     visualization.
     '''
-    def __init__(self, check50_format_json):
+    def __init__(self, check50_format):
         # we save the list which represents the result in self.check50_format
-        with open(check50_format_json) as json_file:
-            self.check50_format = json.load(json_file)
+        # with open(check50_format_json) as json_file:
+        #     self.check50_format = json.load(json_file)
+
+        self.check50_format = check50_format
 
         # creates figure object
         fig = plt.figure()
@@ -89,5 +90,4 @@ class Check50_to_visualization():
         # shows the plot that has been made
         plt.show()
 
-if __name__ == "__main__":
-    main()
+
