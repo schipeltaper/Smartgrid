@@ -35,7 +35,7 @@ pip install -r requirements.txt
 ## Gebruik
 Het programma wordt gestart door het volgende commando in te voeren:
 ```
-python3 main.py
+python3 __main__.py
 ```
 Vervolgens gebeuren de volgende stappen in volgorde:
 - Je kiest met welke district je wilt werken (1, 2 of 3)
@@ -45,9 +45,7 @@ Vervolgens gebeuren de volgende stappen in volgorde:
 - Je krijgt ook de optie om het resultaat in het results-mapje op te slaan
 
 ## Structuur
-Onze structuur staat schematisch weergegeven in de volgende afbeelding:
-
-Alle code wordt geedraait vanuit main.py. Hierin staat de user-interface (zie Gebruik hierboven). We zullen nu kort elk bestand
+Alle code wordt geedraait vanuit __main__.py. Hierin staat de user-interface (zie Gebruik hierboven). We zullen nu kort elk bestand
 en elke folder toelichten:
 
 ### classes
@@ -127,26 +125,31 @@ batterij, waarna iteratief de capacteit overschrijding van de batterijen naar nu
 De simulated_annealing klasse bevat alle functies om de simulating annealing algoritme uit te kunnen voeren. Het algoritme
 rekent de energie uit die het kost om een huis te verplaatsen weg van zijn huidige batterij, naar een willekeurig ander
 batterij. Deze energie kosten wordt uitgerekend op basis van de volheid van de batterij waarnaar het huis verplaatst zou
-worden.
+worden samen met de afstand van die batterij tot het huis. De energie van het systeem zal over tijd kleiner worden,
+waarbij stappen die de energie verhogen over tijd steeds minder vaak voorkomen. Dit algoritme exploreert meerdere minima,
+en zal daardoor dichterbij het absolute minimum kunnen komen.
 
- The simulated_annealing class contains all the function realing to the simulatee
-    annealing algorithm. The simulated annealing algorithm calculates the energy it
-    costs to move a house from its current battery to a radomly choosen different one.
-
-    This energy cost is calculated based the fullness of the battery the house would move
-    too and the distance of that battery too the house. The energy of in the system diminishes
-    over time, making disadvantagose moves less and less common. Simulated annealing will
-    increase the change of exploring multiple minima.
-
-    Initialisation requires a district configuration.
+De initialisatie vereist een configuratie object van een district.
 
 ### results
 Hier worden resultaten in json bestanden opgeslagen. Zie voor verdere beschrijving de readme in results.
 
 ### visualization
+In deze map worden algoritmes gebruikt en gecombineerd om ze te kunnen visualiseren.
+
 #### algorithms.py
-In Algorithms.py kun je verschillende heuristieken vinden oplossingen voor de case te vinden. Individuele heuristieken gebruiken verschillende combinaties van algorithms om de huizen te verdelen in de batterijen en om kabels aan te leggen om deze aan te sluiten. De verschillende oplossingen voor onze case worden aangeslagen in main.py
-#### check50_to_visualization
+Dit bestand bevat de Combining_algorithms klasse. Deze klasse bevat verschillende functies die twee algoritmes
+combineren. In de meeste gevallen is de combinatie van de vorm: Een algoritme om de huizen te verdelen onder de
+batterijen, en een algoritme om de kabels aan te leggen. In een enkel geval is de combinatie van de vorm: Een algoritme
+om de huizen te verdelen in de batterijen, en een algoritme om vervolgens iteratief die oplossing proberen te verbeteren.
+
+De initialisatie vereist het nummer van de district waarmee gewerkt wil worden.
+
+#### check50_to_visualization,.py
+De Check50_to_visualization klasse initialisatie vereist een json bestand die een oplossing bevat in de vorm van de check50 input. We gebruiken pyplot
+om een officieel uitziende visualizatie te creeren.
+
+Deze klasse maakt een visualisatie van alle huizen, batterijen en kabels.
 
 ## Auteurs
 Ruben van Oostenbrugge, Olaf Vrijmoet en Sam Ritchie
