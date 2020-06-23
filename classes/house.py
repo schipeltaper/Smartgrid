@@ -10,7 +10,7 @@
 '''
 class House():
     '''
-    The House class save all the information of a house in the configuration. The
+    The House class saves all the information of a house in the configuration. The
     initialisation requires an x and y coordinate on the configuration and the
     energy production of the house.
     '''
