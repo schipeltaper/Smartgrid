@@ -16,12 +16,48 @@ huizen die verbonden zijn aan een batterij samen niet de groter zijn dan de capa
 ### Meer uitgebreid geval
 Uitbreiding van het simpelere geval
 
+### Het gebied
+
 ## Vereisten
-Alle
+In requirements.txt staan alle packages die nodig zijn om onze code succesvol te kunnen draaien. De packages kunnen
+geinstalleerd worden met het volgende command:
+```
+pip install -r requirements.txt
+```
 
 ## Gebruik
+Het programma wordt gestart met het volgende command:
+```
+```
+Vervolgens
 
 ## Structuur
+Onze structuur staat schematisch weergegeven in de volgende afbeelding:
+
+Alle code wordt geedraait vanuit main.py. Hierin staat de user-interface (zie Gebruik). We zullen nu kort elk bestand
+en elke folder toelichten:
+
+### classes
+
+### algorithms
+In deze folder staan alle algoritmes die wij gebruiken om huizen onder te verdelen in batterijen. De bestanden in deze
+map zijn:
+
+#### cable_algorithm.py
+This file contains the Cable class, which is used to lay cables to connect houses with batteries inside the grid.
+#### greedy_algorithm.py
+Greedy class contains a collection of greedy algorthms to distribute the houses amoung the batteries inside
+a configuration.
+#### hill_climber.py
+...
+#### optimum_deluxe.py
+#### random_algorithm.py
+#### simulated_annealing.py
+
+### results
+
+### visualization
+
 
 ## Auteurs
 Ruben van Oostenbrugge, Olaf Vrijmoet en Sam Ritchie
