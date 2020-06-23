@@ -10,13 +10,20 @@ we onderverdeeld in twee gevallen. Een simpelere en een complexere uitbreiding d
 ### Simpeler geval
 Elk huis heeft een maximale productie, en elke batterij heeft een maximale capaciteit. Een van de constraints van dit
 probleem is dat de capaciteit van de batterij niet overschreden wordt. Dat betekent dat de maximale productie van alle
-huizen die verbonden zijn aan een batterij samen niet de groter zijn dan de capaciteit van die batterij.
+huizen die verbonden zijn aan een batterij samen niet de groter mogen zijn dan de capaciteit van die batterij.
 
+Kabels mogen in dit simpelere geval niet gedeeld worden, maar ze mogen wel op dezelfde rooster-segmenten lopen.
 
 ### Meer uitgebreid geval
-Uitbreiding van het simpelere geval
+Dit geval is een uitbreiding van het simpelere geval. De uitbreiding is dat het toegestaan is om kabels te delen. De
+batterijen kunnen nog steeds niet met elkaar verbonden worden, ookal kunnen kabels van de ene batterij wel door een
+andere batterij heen gaan.
 
-### Het gebied
+### Het project
+Wij hebben algoritmes geschreven voor beiden gevallen (kabels delen, en kabels niet delen). Verder hebben we ook drie
+gebieden meegekregen waarop we de algoritmes moesten toepassen. De drie gebieden zien er als volgt uit:
+
+![](img/Wijk1.png)
 
 ## Vereisten
 In requirements.txt staan alle packages die nodig zijn om onze code succesvol te kunnen draaien. De packages kunnen
@@ -38,6 +45,15 @@ Alle code wordt geedraait vanuit main.py. Hierin staat de user-interface (zie Ge
 en elke folder toelichten:
 
 ### classes
+In deze folder staan alle klassen die wij gebruiken (die geen algoritmen zijn). De bestanden in deze folder zijn:
+
+#### __init__.py
+Dit bestand is leeg, maar is nodig om het importeren succesvol te laten verlopen.
+#### battery.py
+#### cable.py
+#### configuration.py
+#### house.py
+#### map_lists.py
 
 ### algorithms
 In deze folder staan alle algoritmes die wij gebruiken om huizen onder te verdelen in batterijen. De bestanden in deze
@@ -55,8 +71,12 @@ a configuration.
 #### simulated_annealing.py
 
 ### results
+Hier worden resultaten in json bestanden opgeslagen. Zie voor verdere beschrijving de readme in results.
 
 ### visualization
+#### algorithms.py
+#### check50_to_visualization
+
 
 
 ## Auteurs
