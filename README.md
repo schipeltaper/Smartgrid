@@ -23,7 +23,7 @@ andere batterij heen gaan.
 Wij hebben algoritmes geschreven voor beiden gevallen (kabels delen, en kabels niet delen). Verder hebben we ook drie
 gebieden meegekregen waarop we de algoritmes moesten toepassen. De drie gebieden zien er als volgt uit:
 
-![](img/Wijk1.png) ![](img/Wijk2.png)  ![](img/Wijk3.png)
+![](img/Wijk1.png = 100x) ![](img/Wijk2.png = 50x)  ![](img/Wijk3.png = 200x)
 
 ## Vereisten
 In requirements.txt staan alle packages die nodig zijn om onze code succesvol te kunnen draaien. De packages kunnen
