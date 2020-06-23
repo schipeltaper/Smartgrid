@@ -1,13 +1,29 @@
-import json
+'''
+* Visualization class
+*
+*
+* Programmeertheorie
+* Optimum Prime
+*
+* The Check_to_visualization class creates a visualization of all the houses, batteries and cables of a result.
+'''
 
+
+import json
 import numpy as np
 import matplotlib.pyplot as plt
 
 def main():
-    Check50_to_visualization('../results/test_result.json')
+    Check50_to_visualization('../results/output.json')
 
 class Check50_to_visualization():
+    '''
+    The initialization requires a json file which contains a solution in the format of a
+    check50 input. We have imported pyplot to be able to make a more official looking
+    visualization.
+    '''
     def __init__(self, check50_format_json):
+        # we save the list which represents the result in self.check50_format
         with open(check50_format_json) as json_file:
             self.check50_format = json.load(json_file)
 
