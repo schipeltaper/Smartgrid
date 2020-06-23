@@ -278,7 +278,6 @@ class Configuration():
         format: cable = [[x_1,y_1],[x_2,y_2]]
         '''
 
-        
         # put all batteries and houses in grid in lists and calculate costs
         costs = 0
         batteries = []
@@ -295,24 +294,22 @@ class Configuration():
         for i in range(len(self.configuration)):
             row = []
             for j in range(len(self.configuration[0])):
-                for k in range(len(batteries)): # deze loopt ie fucking vaak is t de bedoeling dat ie maar 5 keer rond gaat?
+                for k in range(len(batteries)):
                     neighbours = []
                     if batteries[k][2] in self.configuration[i][j].neighbours:
                         neighbours = self.configuration[i][j].neighbours[batteries[k][2]]
                     for neighbour in neighbours:
                         batteries[k][3].append([[i,j],[neighbour.x,neighbour.y]])
                         costs += 9/2
-
         for battery in batteries:
             costs += battery[2].costs_battery
-
-        # updating the information of the grid
-        self.all_batteries = batteries
-        self.all_houses = houses
-
         return [batteries, houses, int(costs)]
 
     def text_grid(self):
+        '''
+        Prints text grid of configuration with batteries, houses and cables (for testing purposes).
+        '''
+        
         grid = ''
         for i in range(102):
             grid += '·' * 102
@@ -336,14 +333,11 @@ class Configuration():
             grid = grid[:i] + 'H' + grid[i + 1:]
         return grid
 
-    # checks if configuration is valid and returns some parameters
+    
     def check(self, algorithm_name):
-        # check if configuration is valid
-
-        # check district_id
-
-        if self.district_id not in [1,2,3,4]:
-            return('Set district_id!')
+        '''
+        Checks if configuration is valid and returns some parameters that have to do with the validity.
+        '''
 
         # set height and width of grid
         height = len(self.configuration)
@@ -356,40 +350,30 @@ class Configuration():
         houses = state[1]
         costs = state[2]
 
-        #   constraint 1: all houses belong to a battery
+        #   check constraint 1: all houses belong to a battery
         all_houses_in_battery = False
         house_objs = set({})
         for house in houses:
             house_objs = house_objs.union([house[2]])
-
         houses_in_battery = set({})
         for battery in batteries:
             houses_in_battery = houses_in_battery.union(battery[2].houses_in_battery)
-
         if house_objs == houses_in_battery:
             all_houses_in_battery = True
 
-        #   constraint 2: are houses are connected to a battery by cables
-
+        #  check constraint 2: all houses are connected to a battery by cables
         houses_disconnected = len(houses)
         for battery in batteries:
             row = []
             col = []
             data = []
-
             for cable in battery[3]:
                 row.append(cable[0][0] * width + cable[0][1])
                 col.append(cable[1][0] * width + cable[1][1])
                 data.append(1)
-
             battery_index = battery[0] * width + battery[1]
             graph = csr_matrix((data, (row, col)), shape=(N, N))
-
-
             dist_matrix, predecessors = dijkstra(graph, directed=False, indices=[battery_index], return_predecessors=True)
-
-
-
             dijkstra_0 = predecessors[0]
             houses = battery[2].houses_in_battery
             for house in houses:
@@ -397,7 +381,6 @@ class Configuration():
                 j = house.position_y
                 if dijkstra_0[i * width + j] != -9999:
                     houses_disconnected -= 1
-
         all_houses_connected = False
         if houses_disconnected == 0:
             all_houses_connected = True
@@ -407,35 +390,38 @@ class Configuration():
         for battery in batteries:
             battery = battery[2]
             bat_cap_violation += max(0,(battery.energy_production - battery.capacity)) ** 2
-
         bat_cap_not_exceeded = False
         if bat_cap_violation == 0:
             bat_cap_not_exceeded = True
-
         valid = False
         if all_houses_in_battery and bat_cap_not_exceeded and all_houses_connected:
             valid = True
-
-
         return [valid, all_houses_in_battery, bat_cap_not_exceeded, all_houses_connected, bat_cap_violation, houses_disconnected]
 
 
     def check50_neighbour_variant(self):
+        '''
+        Returns configuration in check50 format.
+        '''
+        
+        # get all configuration info
         lists = self.get_lists()
         batteries0 = lists[0]
         costs = lists[2]
+        
+        # initialize check50_format
         check50_format = [
           {
             "district": self.district_id,
             "costs-shared": costs
           }
         ]
-
+        
+        # put battery and house information in dictionaries conform check50.
         batteries = []
         for battery1 in batteries0:
             battery = battery1[2]
             batteries.append(battery)
-
         for battery in batteries:
             location = str(battery.position_x) + ',' + str(battery.position_y)
             bat_dict = {
@@ -454,14 +440,14 @@ class Configuration():
                   }
                 house_locs.append([house.position_x, house.position_y, house_dict])
 
-
+            # define paths in the check50 manner, put the paths in their houses, put the houses in their batteries, then check50 format is
+            # complete.
             paths = []
             neighbours = []
             if battery in self.configuration[battery.position_x][battery.position_y].neighbours:
                 neighbours = self.configuration[battery.position_x][battery.position_y].neighbours[battery]
             for neighbour in neighbours:
                 paths.append([[battery.position_x, battery.position_y], [neighbour.x,neighbour.y]])
-
             while len(paths) > 0:
                 for path in paths:
                     end_point = path[-1]
@@ -503,6 +489,7 @@ class Point():
     This class defines a point on the grid. It has all the information for that
     specific coordinate. It is initialized with an x- and y-coordinate.
     '''
+    
     def __init__(self, x, y):
         self.x = x
         self.y = y
