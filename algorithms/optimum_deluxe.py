@@ -1,30 +1,29 @@
 '''
-* optimum deluxe class
+* Optimum deluxe class
 *
 *
 * Programmeertheorie
 * Optimum Prime
 *
 * Optimum deluxe optimizes with shared cables by connecting houses to the cheapest battery (Greedy).
-* Then it does a hill descent of the battery capacity violation.
-* 
+* Then it does a hill descent of the battery capacity violation, by relocating a house to another battery iteratively
+* (the relocation that results in the greatest descent of battery violation per extra unit of costs is done) and if
+* this gets stuck, the same is done, but by swapping houses untill battery violation is zero.
 *
 '''
 
 import copy
-
 import numpy as np
 
-from classes.battery import Battery
-from classes.house import House
-from classes.map_lists import district_1, district_2, district_3, district_test
-from algorithms.greedy_algorithm import Greedy
 from algorithms.cable_algorithm import Cable
-from classes.cable import Cable_instance
-from classes.configuration import Configuration
+from algorithms.greedy_algorithm import Greedy
 from algorithms.hill_climber import Hill_climber
 from algorithms.simulated_annealing import simulated_annealing
-
+from classes.battery import Battery
+from classes.cable import Cable_instance
+from classes.configuration import Configuration
+from classes.house import House
+from classes.map_lists import district_1, district_2, district_3, district_test
 
 class optimum_deluxe():
     '''
@@ -34,28 +33,32 @@ class optimum_deluxe():
     3: switch the pair of houses that results in the lowest cost per decreased battery violation, repeat untill convergence.
     '''
     
+    
     def __init__(self, district_id):
         self.world = Configuration(district_id)
 
-    # connect house to battery the cheapest way
     def connect_house(self, world, house, battery):
+        '''
+        connect house to battery the cheapest way
+        '''
+        
+        # associate house with battery and initialize list of points connected to the battery.
         battery.add_house(house)
         battery_points = []
         lists = world.get_lists()
 
-        # create list of points connected to battery
+        # fill list of points connected to battery
         for battery0 in lists[0]:
             if battery0[2] == battery:
                 battery_points.append([battery0[0], battery0[1]])
                 for cable in battery0[3]:
                     battery_points.append(cable[0])
                     battery_points.append(cable[1])
-
+        
+        # get connected point nearest to house
         nearest_point = [-1, -1]
         dist = float('inf')
         house_point = [house.position_x, house.position_y]
-
-        # get connected point nearest to house
         for point in battery_points:
             dist1 = abs(house_point[0] - point[0]) + abs(house_point[1] - point[1])
             if dist1 < dist:
@@ -65,17 +68,13 @@ class optimum_deluxe():
         # make random path to nearest point
         x_orientation = 1
         y_orientation = 1
-
         if nearest_point[0] - house_point[0] < 0:
             x_orientation = -1
         if nearest_point[1] - house_point[1] < 0:
             y_orientation = -1
-
         x_dist = abs(nearest_point[0] - house_point[0])
         y_dist = abs(nearest_point[1] - house_point[1])
-
         current_point = house_point
-
         while x_dist + y_dist > 0:
             if np.random.randint(0, x_dist + y_dist) < x_dist:
                 self.world.add_cable(self.world.configuration[current_point[0]][current_point[1]], self.world.configuration[current_point[0] + x_orientation][current_point[1]], battery)
@@ -86,8 +85,12 @@ class optimum_deluxe():
                 current_point = [current_point[0], current_point[1] + y_orientation]
                 y_dist -= 1
 
-    # disconnect house (also removes excess cable)
+
     def disconnect_house(self, world, house, battery):
+        '''
+        disassociates house from battery and remove excess cable.
+        '''
+        
         battery.remove_house(house)
         current_point = world.configuration[house.position_x][house.position_y]
         neighbours0 = self.neighbours_list(current_point, battery)
@@ -103,23 +106,35 @@ class optimum_deluxe():
             neighbours0 = self.neighbours_list(current_point, battery)
             neighbour_count = len(neighbours0)
 
-    # returns neigbours in list
+    
     def neighbours_list(self, point, battery):
+        '''
+        Returns neigbours in list format.
+        '''
+        
         neighbours = []
         if battery in point.neighbours:
             neighbours = point.neighbours[battery]
         return neighbours
 
-    # checks what it would cost to connect a house to a battery
+
     def check_costs_to_connect_house_to_battery(self, house, battery):
+        '''
+        Checks what it would cost to connect a house to a battery.
+        '''
+        
         costs = self.world.get_lists()[2]
         self.connect_house(self.world, house, battery)
         new_costs = self.world.get_lists()[2]
         self.disconnect_house(self.world, house, battery)
         return new_costs - costs
 
-    # returns lists of house that are not connected to a battery and all batteries
+    
     def get_disconnected_houses_and_all_batteries(self, world):
+        '''
+        Returns lists of house that are not connected to a battery and all batteries.
+        '''
+        
         lists = world.get_lists()
         houses0 = lists[1]
         batteries0 = lists[0]
@@ -127,7 +142,6 @@ class optimum_deluxe():
         batteries = []
         for house in houses0:
             houses.append(house[2])
-
         houses2 = []
         for battery1 in batteries0:
             battery = battery1[2]
@@ -135,15 +149,18 @@ class optimum_deluxe():
             houses_in_battery = battery.houses_in_battery
             for house2 in houses_in_battery:
                 houses2.append(house2)
-
         houses3 = []
         for house4 in houses:
             if house4 not in houses2:
                 houses3.append(house4)
         return houses3, batteries
 
-    # connect the house that is the cheapest to connect
+    
     def connect_cheapest_house(self):
+        '''
+        Connect the house that is the cheapest to connect.
+        '''
+        
         houses, batteries = self.get_disconnected_houses_and_all_batteries(self.world)
         if len(houses) == 0:
             return False
@@ -164,13 +181,21 @@ class optimum_deluxe():
             print (self.world.text_grid())
             return True
 
-    # connect the cheapest house untill all houses are connected
+
     def connect_all_houses(self):
+        '''
+        Connect the cheapest house untill all houses are connected.
+        '''
+        
         while self.connect_cheapest_house():
             pass
 
-    # check what it would cost to relocate a battery to another battery and what the decrease of the battery capacity violation would be
+    
     def check_costs_to_relocate_house(self, house, battery_1, battery_2):
+        '''
+        Check what it would cost to relocate a battery to another battery and what the decrease of the battery capacity violation would be.
+        '''
+        
         old_costs = self.world.get_lists()[2]
         old_bat_violation = self.world.check('Optimum Deluxe')[4]
         self.disconnect_house(self.world, house, battery_1)
@@ -183,14 +208,20 @@ class optimum_deluxe():
         self.connect_house(self.world, house, battery_1)
         return bat_gained, extra_costs
 
-    # relocate the house that results in the lowest cost per decreased battery violation
+    
     def do_best_relocation_of_house(self):
+        '''
+        Relocate the house that results in the lowest cost per decreased battery violation.
+        '''
+        
+        # initialize lists and variables.
         houses, batteries = self.get_disconnected_houses_and_all_batteries(self.world)
         battery0_1 = None
         battery0_2 = None
         house0 = None
         min_cost_per_bat_gained = float('inf')
-
+        
+        # find smallest cost per battery violation descent.
         for i in range(len(batteries)):
             for house in batteries[i].houses_in_battery:
                 for j in range(len(batteries)):
@@ -203,6 +234,8 @@ class optimum_deluxe():
                                 battery0_2 = batteries[j]
                                 house0 = house
                                 min_cost_per_bat_gained = cost_per_bat_gained
+                                
+        # perform the relocation if the battery violation descent is greater than zero, otherwise return False.
         if battery0_1 == None:
             return False
         else:
@@ -213,20 +246,32 @@ class optimum_deluxe():
             print (self.world.text_grid())
             return True
 
-    # relocate houses untill convergence
+    
     def relocate_untill_convergence(self):
+        '''
+        Relocate houses untill convergence.
+        '''
+        
         while self.do_best_relocation_of_house():
             pass
 
-    # switch houses (between two batteries)
+    
     def switch_houses(self, world, battery_1, house_1, battery_2, house_2):
+        '''
+        Switches houses (between two batteries).
+        '''
+        
         self.disconnect_house(world, house_1, battery_1)
         self.disconnect_house(world, house_2, battery_2)
         self.connect_house(world, house_1, battery_2)
         self.connect_house(world, house_2, battery_1)
 
-    # check what it would cost to switch two houses between batteries
+    
     def check_costs_to_switch_houses(self, battery_1, house_1, battery_2, house_2):
+        '''
+        Checks what it would cost to switch two houses between batteries.
+        '''
+        
         old_costs = self.world.get_lists()[2]
         old_bat_violation = self.world.check('Optimum Deluxe')[4]
         self.switch_houses(self.world, battery_1, house_1, battery_2, house_2)
@@ -237,14 +282,21 @@ class optimum_deluxe():
         self.switch_houses(self.world, battery_2, house_1, battery_1, house_2)
         return bat_gained, extra_costs
 
-    # perform the switch of houses that results in the lowest cost per decreased battery violation
+    
     def do_best_switch_of_houses(self):
+        '''
+        Perform the switch of houses that results in the lowest cost per decreased battery violation.
+        '''
+        
+        # initialize lists and variables.
         houses, batteries = self.get_disconnected_houses_and_all_batteries(self.world)
         battery0_1 = None
         battery0_2 = None
         house0_1 = None
         house0_2 = None
         min_cost_per_bat_gained = float('inf')
+        
+        # find smallest cost per battery violation descent.
         for i in range(len(batteries)):
             houses_3 = copy.copy(batteries[i].houses_in_battery)
             for house_1 in houses_3:
@@ -261,6 +313,8 @@ class optimum_deluxe():
                                     house0_1 = house_1
                                     house0_2 = house_2
                                     min_cost_per_bat_gained = cost_per_bat_gained
+        
+        # perform the relocation if the battery violation descent is greater than zero, otherwise return False.
         if battery0_1 == None:
             return False
         else:
@@ -269,12 +323,22 @@ class optimum_deluxe():
             print(self.world.check('Optimum Deluxe'))
             print (self.world.text_grid())
             return True
-    # switch houses untill battery violation is zero
+    
+    
     def switch_houses_until_convergence(self):
+        '''
+        Switch houses untill battery violation is zero.
+        '''
+        
         while self.do_best_switch_of_houses():
             pass
-    # run algorithm
+    
+    
     def run(self):
+        '''
+        Runs algorithm and returns result in check50 format.
+        '''
+        
         self.connect_all_houses()
         self.relocate_untill_convergence()
         self.switch_houses_until_convergence()

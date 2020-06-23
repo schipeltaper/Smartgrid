@@ -1,15 +1,32 @@
+'''
+* Main
+* 
+*
+* Programmeertheorie
+* Optimum Prime
+*
+*
+* This file contains the __main__ file of the Smartgrid optimization project.
+* 
+* 
+*
+'''
 
+from algorithms.cable_algorithm import Cable
+from algorithms.greedy_algorithm import Greedy
+from algorithms.optimum_deluxe import optimum_deluxe
 from classes.battery import Battery
+from classes.cable import Cable_instance
 from classes.house import House
 from classes.map_lists import district_1, district_2, district_3, district_test
-from algorithms.greedy_algorithm import Greedy
-from algorithms.cable_algorithm import Cable
-from algorithms.optimum_deluxe import optimum_deluxe
-from classes.cable import Cable_instance
 from visualization.algorithms import Combining_algorithms
 
 def main():
-
+    '''
+    Ask user which optimization algorithm to run with which district. 
+    '''
+    
+    # Get user input.
     district_id = input("Choose district (1,2 or 3):")
     district_id = int(district_id)
     cable_rule = input("Choose cable rule: \n 1. own-costs\n 2. shared-costs\n")
@@ -23,7 +40,8 @@ def main():
         input_text = "Choose algorithm: \n 1. A-star cable sharing\n 2. Optimum Deluxe\n"
     algorithm_id = input(input_text)
     algorithm_id = int(algorithm_id) + 6 * (cable_rule - 1)
-    # run algorithm
+    
+    # Run algorithm.
     if algorithm_id == 1:
         #run Random
         check50_result = None

@@ -1,27 +1,33 @@
 
 '''
-* Random_house_sort and Nearest_battery_world_1
+* Random_house_sort and Battery_capacity_hill_decent
 * 
 *
 * Programmeertheorie
 * Optimum Prime
 *
 *
-* Describe what's in here...
-* 
+* In this file are the algorithms Random_house_sort and Battery_capacity_hill_decent. The first algorithm gives a completely
+* random result (that meets the constraints) and the latter associates each house with the nearest battery, which results in a
+* violation of the maximum capacity of batteries, which is then iteratively eliminated with a hill descent.
 *
+* 
 '''
 
 
 import numpy as np
 
-from classes.house import House
 from classes.battery import Battery
+from classes.house import House
 from classes.map_lists import district_1, district_2, district_3
 
 
-# random solution that doesn't violate max. battery capacities
 class Random_house_sort():
+    '''
+    Random solution that doesn't violate battery capacities.
+    '''
+    
+    
     def __init__(self, district):
         self.batteries = district["batteries"]
         self.houses = district["houses"]
@@ -29,6 +35,10 @@ class Random_house_sort():
     
 
     def distribute_houses(self):
+        '''
+        Associate each house with a random battery.
+        '''
+        
         for house in self.houses:
             done = False
             negmaxcapacityleft = 0
@@ -40,20 +50,28 @@ class Random_house_sort():
             if maxcapleft < house.production:
                 return False
             while done == False:
-                i = np.random.randint(0, len(self.batteries))
-                done = self.batteries[i].add_house(house)
+                index = np.random.randint(0, len(self.batteries))
+                done = self.batteries[index].add_house(house)
         for battery in self.batteries:
             self.costs += battery.costs
         return True
     
 
     def reset_world(self):
+        '''
+        Empties batteries (disassociates all houses from batteries).
+        '''
+        
         for battery in self.batteries:
             battery.empty_battery()
         self.costs = 0
 
 
     def run(self):
+        '''
+        Runs algorithm
+        '''
+        
         valid = False
         while valid == False:
             self.reset_world()
@@ -62,8 +80,9 @@ class Random_house_sort():
 
 class Battery_capacity_hill_decent():
     '''
-
+    Associate each house with the nearest battery, then hill descent the violation of battery capacity.
     '''
+
 
     def __init__(self, district):
         self.batteries = district["batteries"]
@@ -73,6 +92,10 @@ class Battery_capacity_hill_decent():
 
 
     def Update_violation(self):
+        '''
+        Update the violation of battery capacities.
+        '''
+        
         violation = 0
         self.costs = 0
         for battery in self.batteries:
@@ -82,12 +105,19 @@ class Battery_capacity_hill_decent():
 
 
     def reset_world(self):
+        '''
+        Empty all batteries.
+        '''
         for battery in self.batteries:
             battery.empty_battery()
         self.costs = 0
     
 
     def distribute_houses(self):
+        '''
+        Associate each house with the nearest battery.
+        '''
+        
         for house in self.houses:
             mindist = float('inf')
             i=0
@@ -102,24 +132,30 @@ class Battery_capacity_hill_decent():
     
 
     def Relocate_random_house(self):
+        '''
+        Relocates a random house from one battery to another, then updates the battery violation.
+        '''
+        
         initial_violation = self.violation
-        #choose two different random batteries
+        
+        # Choose two different random batteries.
         b_1 = np.random.randint(0, len(self.batteries))
         while len(self.batteries[b_1].houses_in_battery) == 0:
             b_1 = np.random.randint(0, len(self.batteries))
         b_2 = np.random.randint(0, len(self.batteries))
         while b_2 == b_1:
             b_2 = np.random.randint(0, len(self.batteries))
-        #choose a random house in the first battery
+            
+        # Choose a random house in the first battery and relocate it to the second battery if this results in a lower violation of 
+        # battery capacity.
         h_1 = np.random.randint(0, len(self.batteries[b_1].houses_in_battery))
-        
         violation_dif_1 = max(0,(self.batteries[b_1].energy_production - self.batteries[b_1].capacity \
         - self.batteries[b_1].houses_in_battery[h_1].production)) ** 2 - max(0,(self.batteries[b_1].energy_production \
         - self.batteries[b_1].capacity)) ** 2
-        violation_dif_2 = max(0,(self.batteries[b_2].energy_production - self.batteries[b_2].capacity + self.batteries[b_1].houses_in_battery[h_1].production)) ** 2 - max(0,(self.batteries[b_2].energy_production - self.batteries[b_2].capacity)) ** 2
-        
+        violation_dif_2 = max(0,(self.batteries[b_2].energy_production - self.batteries[b_2].capacity + \
+        self.batteries[b_1].houses_in_battery[h_1].production)) ** 2 - max(0,(self.batteries[b_2].energy_production - \
+        self.batteries[b_2].capacity)) ** 2
         violation_dif = violation_dif_1 + violation_dif_2
-        
         if violation_dif < 0:
             self.batteries[b_2].add_house(self.batteries[b_1].houses_in_battery[h_1])
             self.batteries[b_1].remove_house(self.batteries[b_1].houses_in_battery[h_1])
@@ -127,6 +163,10 @@ class Battery_capacity_hill_decent():
     
 
     def Find_valid_sol_1(self):
+        '''
+        Runs algorithm and return False if it gets stuck (if hill decent fails).
+        '''
+        
         same = 0
         while self.violation > 0 and same < 100:
             violation = self.violation
@@ -141,6 +181,9 @@ class Battery_capacity_hill_decent():
     
 
     def Find_valid_sol_2(self):
+        '''
+        Repeats the algorithm untill it is not stuck.
+        '''
         self.distribute_houses()
         while self.Find_valid_sol_1() == False:
             self.distribute_houses()
