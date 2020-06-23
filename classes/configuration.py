@@ -12,6 +12,8 @@
 * This point saves all its neighbours which are connected through cables
 *
 '''
+
+
 import os
 from classes.house import House
 from classes.battery import Battery
@@ -407,13 +409,15 @@ class Configuration():
         # get all configuration info
         lists = self.get_lists()
         batteries0 = lists[0]
-        costs = lists[2]
+        costs = 0
+        for battery in batteries0:
+            costs += battery[2].costs_battery
         
         # initialize check50_format
         check50_format = [
           {
             "district": self.district_id,
-            "costs-shared": costs
+            "shared-costs": costs
           }
         ]
         
@@ -469,6 +473,7 @@ class Configuration():
                             cable_list = []
                             for point in path:
                                 cable_list.append(str(point[0]) + ',' + str(point[1]))
+                            check50_format[0]["shared-costs"] += (len(cable_list) - 1) * 9
                             house_locs[i][2]["cables"] = cable_list
                             bat_dict["houses"].append(house_locs[i][2])
                             for neighbour in neighbours1:
@@ -482,6 +487,72 @@ class Configuration():
                                 paths.append([end_point, excess_neighbour])
                     paths.remove(orig_path)
             check50_format.append(bat_dict)
+        return check50_format
+        
+    def check50_neighbour_variant_own_costs(self):
+        '''
+        Returns configuration in check50 format.
+        '''
+        
+        # get all configuration info
+        lists = self.get_lists()
+        batteries0 = lists[0]
+        costs = 0
+        for battery in batteries0:
+            costs += battery[2].costs_battery
+        
+        # initialize check50_format
+        check50_format = [
+          {
+            "district": self.district_id,
+            "own-costs": costs
+          }
+        ]
+        
+        # put battery, house and cable information in dictionaries conform check50.
+        batteries = []
+        for battery1 in batteries0:
+            battery = battery1[2]
+            batteries.append(battery)
+        for battery in batteries:
+            bat_location = [battery.position_x, battery.position_y]
+            location = str(bat_location[0]) + ',' + str(bat_location[1])
+            bat_dict = {
+                "location": location,
+                "capacity": battery.capacity,
+                "houses": []
+            }
+            houses = battery.houses_in_battery
+            for house in houses:
+                house_location_str = str(house.position_x) + ',' + str(house.position_y)
+                
+                house_location = [house.position_x, house.position_y]
+                orientation_x = 1
+                orientation_y = 1
+                if bat_location[0] < house_location[0]:
+                    orientation_x = -1
+                if bat_location[1] < house_location[1]:
+                    orientation_y = -1
+                dist_x = abs(bat_location[0] - house_location[0])
+                dist_y = abs(bat_location[1] - house_location[1])
+                check50_format[0]["own-costs"] += 9 * (dist_x + dist_y)
+                cables = []
+                for i in range(dist_x + 1):
+                    cable = str(house_location[0] + i * orientation_x) + ',' + str(house_location[1])
+                    cables.append(cable)
+                for i in range(dist_y):
+                    cable = str(bat_location[0]) + ',' + str(house_location[1] + (i + 1) * orientation_y)
+                    cables.append(cable)
+                
+                
+                house_dict = {
+                    "location": house_location_str,
+                    "output": house.production,
+                    "cables": cables
+                  }
+                bat_dict["houses"].append(house_dict)
+            check50_format.append(bat_dict)
+                
         return check50_format
 
 class Point():

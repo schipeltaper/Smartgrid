@@ -11,10 +11,13 @@
 * 
 *
 '''
+import json
+import os.path
 
 from algorithms.cable_algorithm import Cable
 from algorithms.greedy_algorithm import Greedy
 from algorithms.optimum_deluxe import optimum_deluxe
+from algorithms.random_algorithms import Random_house_sort, Battery_capacity_hill_decent
 from classes.battery import Battery
 from classes.cable import Cable_instance
 from classes.house import House
@@ -43,9 +46,8 @@ def main():
     
     # Run algorithm.
     if algorithm_id == 1:
-        #run Random
-        check50_result = None
-        pass
+        optimization = Random_house_sort(district_id)
+        check50_result = optimization.run()
     if algorithm_id == 2:
         #run Greedy
         check50_result = None
@@ -77,7 +79,18 @@ def main():
 
     # show result in check50 format
     print(check50_result)
-
+    
+    # print result in json file (snippet by Spectras on Stackoverflow)
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "results/output.json")
+    with open(path, 'w') as f:
+        f.seek(0)
+        json.dump(check50_result, f)
+        f.truncate()
+        
+    
+    
+    
 # ------------ simulated annealing house allocation & Astar cable drawing ------------
 
     # results2 = Combining_algorithms(1)

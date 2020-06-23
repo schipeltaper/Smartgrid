@@ -18,6 +18,7 @@
 import numpy as np
 
 from classes.battery import Battery
+from classes.configuration import Configuration
 from classes.house import House
 from classes.map_lists import district_1, district_2, district_3
 
@@ -28,9 +29,21 @@ class Random_house_sort():
     '''
     
     
-    def __init__(self, district):
-        self.batteries = district["batteries"]
-        self.houses = district["houses"]
+    def __init__(self, district_id):
+        if district_id == 1:
+            self.district = district_1
+        elif district_id == 2:
+            self.district = district_2
+        elif district_id == 3:
+            self.district = district_3
+        elif district_id == 4:
+            self.district = district_4
+        else:
+            return False
+        self.world = Configuration(district_id)
+        
+        self.batteries = self.district["batteries"]
+        self.houses = self.district["houses"]
         self.costs = 0
     
 
@@ -53,7 +66,7 @@ class Random_house_sort():
                 index = np.random.randint(0, len(self.batteries))
                 done = self.batteries[index].add_house(house)
         for battery in self.batteries:
-            self.costs += battery.costs
+            self.costs += battery.costs_battery
         return True
     
 
@@ -76,6 +89,9 @@ class Random_house_sort():
         while valid == False:
             self.reset_world()
             valid = self.distribute_houses()
+        for battery in self.batteries:
+            self.world.add_battery(battery)
+        return self.world.check50_neighbour_variant_own_costs()
 
 
 class Battery_capacity_hill_decent():

@@ -12,7 +12,6 @@
 '''
 
 import copy
-
 import numpy as np
 
 from classes.battery import Battery
@@ -24,6 +23,7 @@ from classes.cable import Cable_instance
 from classes.configuration import Configuration
 from algorithms.hill_climber import Hill_climber
 from algorithms.simulated_annealing import simulated_annealing
+
 
 class Combining_algorithms():
     '''
