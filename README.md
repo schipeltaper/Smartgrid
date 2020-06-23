@@ -1,3 +1,30 @@
+# Smartgrid project
+
+## Introductie case
+Het probleem in deze case gaat over een gebied met huizen die zonnenpanelen hebben geinstalleerd. Elk van deze huizen
+kan meer produceren dan het verbruikt, en deze energie willen we opslaan in batterijen. Er zijn een aantal batterijen
+geplaatst in het gebied en we willen elk huis verbinden aan een batterij. De taak is om alle huizen te verbinden, met
+het gebruik van zo min mogelijk kabels, want elk stukje kabel kost geld (9 euro per rooster-segment). De case hebben
+we onderverdeeld in twee gevallen. Een simpelere en een complexere uitbreiding daarvan.
+
+### Simpeler geval
+Elk huis heeft een maximale productie, en elke batterij heeft een maximale capaciteit. Een van de constraints van dit
+probleem is dat de capaciteit van de batterij niet overschreden wordt. Dat betekent dat de maximale productie van alle
+huizen die verbonden zijn aan een batterij samen niet de groter zijn dan de capaciteit van die batterij.
+
+
+### Meer uitgebreid geval
+Uitbreiding van het simpelere geval
+
+## Vereisten
+Alle
+
+## Gebruik
+
+## Structuur
+
+## Auteurs
+Ruben van Oostenbrugge, Olaf Vrijmoet en Sam Ritchie
 
 Gebruik:
 In Algorithms.py kun je verschillende heuristieken vinden oplossingen voor de case te vinden. Individuele heuristieken gebruiken verschillende combinaties van algorithms om de huizen te verdelen in de batterijen en om kabels aan te leggen om deze aan te sluiten. De verschillende oplossingen voor onze case worden aangeslagen in main.py
@@ -17,7 +44,7 @@ Cable:
 
 greedy_algorithm.py
 Greedy()::
-- Neemt een 
+- Neemt een
 
 
 
