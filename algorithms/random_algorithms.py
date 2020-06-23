@@ -40,9 +40,11 @@ class Random_house_sort():
             self.district = district_4
         else:
             return False
+        self.batteries = []
         self.world = Configuration(district_id)
-        
-        self.batteries = self.district["batteries"]
+        lists = self.world.get_lists()
+        for battery0 in lists[0]:
+            self.batteries.append(battery0[2])
         self.houses = self.district["houses"]
         self.costs = 0
     
@@ -64,7 +66,9 @@ class Random_house_sort():
                 return False
             while done == False:
                 index = np.random.randint(0, len(self.batteries))
-                done = self.batteries[index].add_house(house)
+                if self.batteries[index].capacity - self.batteries[index].energy_production > house.production:
+                    self.batteries[index].add_house(house)
+                    done = True
         for battery in self.batteries:
             self.costs += battery.costs_battery
         return True
@@ -89,8 +93,7 @@ class Random_house_sort():
         while valid == False:
             self.reset_world()
             valid = self.distribute_houses()
-        for battery in self.batteries:
-            self.world.add_battery(battery)
+    
         return self.world.check50_neighbour_variant_own_costs()
 
 
@@ -100,9 +103,20 @@ class Battery_capacity_hill_decent():
     '''
 
 
-    def __init__(self, district):
-        self.batteries = district["batteries"]
-        self.houses = district["houses"]
+    def __init__(self, district_id):
+        if district_id == 1:
+            self.district = district_1
+        elif district_id == 2:
+            self.district = district_2
+        elif district_id == 3:
+            self.district = district_3
+        elif district_id == 4:
+            self.district = district_4
+        else:
+            return False
+        self.world = Configuration(district_id)
+        self.batteries = self.district["batteries"]
+        self.houses = self.district["houses"]
         self.costs = 0
         self.violation = 0
 
@@ -116,7 +130,7 @@ class Battery_capacity_hill_decent():
         self.costs = 0
         for battery in self.batteries:
             violation += max(0,(battery.energy_production - battery.capacity)) ** 2
-            self.costs += battery.costs
+            self.costs += battery.costs_battery
         self.violation = violation
 
 
@@ -138,7 +152,7 @@ class Battery_capacity_hill_decent():
             mindist = float('inf')
             i=0
             while(i < len(self.batteries)):
-                dist = self.batteries[i].cable_length(house)
+                dist = abs(self.batteries[i].position_x - house.position_x) + abs(self.batteries[i].position_y - house.position_y)
                 if dist < mindist:
                     mindist = dist
                     minindex = i
@@ -196,13 +210,14 @@ class Battery_capacity_hill_decent():
             return False
     
 
-    def Find_valid_sol_2(self):
+    def run(self):
         '''
         Repeats the algorithm untill it is not stuck.
         '''
         self.distribute_houses()
         while self.Find_valid_sol_1() == False:
             self.distribute_houses()
+        return self.world.check50_neighbour_variant_own_costs()
         
             
         

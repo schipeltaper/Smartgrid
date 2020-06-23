@@ -24,7 +24,6 @@ from scipy.sparse.csgraph import dijkstra
 from classes.map_lists import district_1, district_2, district_3, district_4
 
 
-# Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
     '''
     Configuration class defines a configuration of a smartgrid with a chosen width and height.
@@ -496,7 +495,7 @@ class Configuration():
                             cable_list = []
                             for point in path:
                                 cable_list.append(str(point[0]) + ',' + str(point[1]))
-                            check50_format[0]["shared-costs"] += (len(cable_list) - 1) * 9
+                            check50_format[0]["shared-costs"] += (len(cable_list)) * 9
                             house_locs[i][2]["cables"] = cable_list
                             bat_dict["houses"].append(house_locs[i][2])
                             for neighbour in neighbours1:
@@ -529,7 +528,7 @@ class Configuration():
         check50_format = [
           {
             "district": self.district_id,
-            "own-costs": costs
+            "costs-own": costs
           }
         ]
         
@@ -559,7 +558,7 @@ class Configuration():
                     orientation_y = -1
                 dist_x = abs(bat_location[0] - house_location[0])
                 dist_y = abs(bat_location[1] - house_location[1])
-                check50_format[0]["own-costs"] += 9 * (dist_x + dist_y)
+                check50_format[0]["costs-own"] += 9 * (dist_x + dist_y + 1)
                 cables = []
                 for i in range(dist_x + 1):
                     cable = str(house_location[0] + i * orientation_x) + ',' + str(house_location[1])
