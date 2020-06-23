@@ -53,8 +53,8 @@ def main():
         check50_result = None
         pass
     if algorithm_id == 3:
-        #run Random hill descent
-        check50_result = None
+        optimization = Battery_capacity_hill_decent(district_id)
+        check50_result = optimization.run()
         pass
     if algorithm_id == 4:
         #run Random Greedy
@@ -80,7 +80,7 @@ def main():
     # show result in check50 format
     print(check50_result)
     
-    # print result in json file (snippet by Spectras on Stackoverflow)
+    # print result in json file (inspired by Spectras on Stackoverflow)
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, "results/output.json")
     with open(path, 'w') as f:
