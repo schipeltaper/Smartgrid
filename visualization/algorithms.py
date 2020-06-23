@@ -69,7 +69,7 @@ class Combining_algorithms():
         print(f"Final total costs of simulated annealing hill climber: {self.the_district.cal_costs()}")
 
     # simulated anealing house distribution & Astar cable drawing - assumption 1 cable 1 house
-    def simulated_annealing_house_astar_cable(self):
+    def simulated_annealing_house_manhatten_cable(self, cable_sharing):
         '''
         Combines a simulated annealing algorithm with a huristic based on proximity of a house to a
         battery and the fullness of a battery compared to other batteries to devide the houses amoung
@@ -79,11 +79,13 @@ class Combining_algorithms():
 
         self.sa_distribution = simulated_annealing(self.the_district)
         self.sa_distribution.creating_starting_possition()
-        self.sa_distribution.running_simulated_annealing(False)
+        self.sa_distribution.running_simulated_annealing(cable_sharing)
         self.astar_cable2 = Cable(self.the_district)
-        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
-        print(self.the_district.check50_neighbour_variant())
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, cable_sharing)
+        
         self.the_district.print_the_dam_thing()
+        self.the_district.cs50_check(cable_sharing)
+        
         print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
 
     def random_greedy_astar_cable(self, rounds):
@@ -97,8 +99,8 @@ class Combining_algorithms():
         self.random_greedy.random_greedy(rounds)
         self.astar_cable2 = Cable(self.the_district)
         self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
-        print(f"The total costs simulated annealing astar: {self.the_district.cal_costs()}")
-
+        self.the_district.print_the_dam_thing()
+        self.the_district.cs50_check(False)
 
 
 

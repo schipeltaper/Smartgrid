@@ -62,10 +62,9 @@ def main():
 
 # ------------ simulated annealing house allocation & Astar cable drawing ------------
 
-    # results2 = Combining_algorithms(1)
-#    results2 = Combining_algorithms(1)
+    results2 = Combining_algorithms(4)
 
-    # results2.simulated_annealing_house_astar_cable()
+    results2.simulated_annealing_house_manhatten_cable(True)
 #    results2.simulated_annealing_house_astar_cable()
 
     # ------------ Random_Greedy_house allocation & Astar cable drawing ------------
