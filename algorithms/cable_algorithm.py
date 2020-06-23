@@ -24,8 +24,8 @@ class Cable():
     Cable class contains an algorthm that lays cables between points inside the configuration.
     This class is initialised with an configuration class instance. After which the cable_list_batteries
     funtion is called. This itterates through the batteries inputted, which already has to be filled with 
-    houses. The houses in the batteries are connected using a cable. These cables are loaded into the all_cables
-    variable in configuration class.
+    houses. The houses in the batteries are connected using a cable. These cables are loaded into the 
+    all_cables variable in configuration class.
 
     Initialisation requires a configuration instance.
     '''
@@ -81,9 +81,9 @@ class Cable():
 
     def manhattan_dist_cable(self, start, end):
         '''
-        Draws the shortest route for every point shortest distance!!! cable between two points using the manhattan distance. The manhatten cable 
-        distances is the distance between two points measured using a grid to connect the 
-        two points.
+        Draws the shortest route for every point shortest distance!!! cable between two 
+        points using the manhattan distance. The manhatten cable distances is the distance 
+        between two points measured using a grid to connect the two points.
 
         Input: starting and ending objects with position_x and position_y variables.
         

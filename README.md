@@ -45,8 +45,8 @@ Vervolgens gebeuren de volgende stappen in volgorde:
 - Je krijgt ook de optie om het resultaat in het results-mapje op te slaan
 
 ## Structuur
-Alle code wordt geedraait vanuit __main__.py. Hierin staat de user-interface (zie Gebruik hierboven). We zullen nu kort elk bestand
-en elke folder toelichten:
+Alle code wordt geedraait vanuit __main__.py. Hierin staat de user-interface (zie Gebruik hierboven). De folders die wij
+hebben zijn classes, algorithms, results, visualization en img. We zullen nu kort elk bestand en elke folder toelichten:
 
 ## Notatie
 Conform wiskundige consensus, worden de letters 'i','j' en 'k' als indices gebruikt. 
@@ -75,8 +75,12 @@ een kabel. Verder bevat het ook meer informatie over de kabel en een collectie v
 in de configuratie.
 
 #### configuration.py
----?
+De configuratie klasse definieert een configuratie van smartgrid. De initialisatie vereist een district_id, waarbij de
+configuratie van die district direct wordt gecreeerd. In de configuratie klasse kun je batterijen, huizen en kabels
+toevoegen of verwijderen.
 
+In dit bestand zit ook een Punt klasse die gebruikt wordt om alle informatie op een roosterpunt op te slaan. Deze klasse
+heeft ook al zijn buren opgeslagen.
 
 #### house.py
 De House klasse slaat alle informatie over een huis in een configuratie op. Intialisatie vereist een x-,y-coordinaat en
@@ -153,6 +157,9 @@ De Check50_to_visualization klasse initialisatie vereist een json bestand die ee
 om een officieel uitziende visualizatie te creeren.
 
 Deze klasse maakt een visualisatie van alle huizen, batterijen en kabels.
+
+### img
+Bevat afbeeldingen die gebruikt kunnen worden voor deze readme.
 
 ## Auteurs
 Ruben van Oostenbrugge, Olaf Vrijmoet en Sam Ritchie

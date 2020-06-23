@@ -8,10 +8,10 @@
 * The Check_to_visualization class creates a visualization of all the houses, batteries and cables of a result.
 '''
 
+import matplotlib.pyplot as plt
 
 import json
 import numpy as np
-import matplotlib.pyplot as plt
 
 def main():
     Check50_to_visualization('../results/output.json')

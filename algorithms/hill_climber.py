@@ -63,7 +63,7 @@ class Hill_climber():
 
             # lays down the cables with the new configuration
             self.astar_cable2 = Cable(self.config)
-            self.astar_cable2.cable_list_batteries(self.config.all_batteries)
+            self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
             # checks if new configuration is better and valid. Otherwize undo changes
             if costs < self.config.cal_costs() or self.config.houses_with_ovorcapacity():
@@ -72,7 +72,7 @@ class Hill_climber():
 
                 # lays down the cables with the current/original configuration
                 self.astar_cable2 = Cable(self.config)
-                self.astar_cable2.cable_list_batteries(self.config.all_batteries)
+                self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
                 return False
 
@@ -92,19 +92,19 @@ class Hill_climber():
 
             # lays down the cables with the new configuration
             self.astar_cable2 = Cable(self.config)
-            self.astar_cable2.cable_list_batteries(self.config.all_batteries)
+            self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
-        # checks if new configuration is better and valid. Otherwize undo changes
-        if costs < self.config.cal_costs() or self.config.houses_with_ovorcapacity():
-            chosen_battery1.houses_in_battery.append(chosen_house1)
-            chosen_battery1.houses_in_battery.remove(chosen_house2)
-            chosen_battery2.houses_in_battery.append(chosen_house2)
-            chosen_battery2.houses_in_battery.remove(chosen_house1)
+            # checks if new configuration is better and valid. Otherwize undo changes
+            if costs < self.config.cal_costs() or self.config.houses_with_ovorcapacity():
+                chosen_battery1.houses_in_battery.append(chosen_house1)
+                chosen_battery1.houses_in_battery.remove(chosen_house2)
+                chosen_battery2.houses_in_battery.append(chosen_house2)
+                chosen_battery2.houses_in_battery.remove(chosen_house1)
 
-            # lays down the cables with the current/original configuration
-            self.astar_cable2 = Cable(self.config)
-            self.astar_cable2.cable_list_batteries(self.config.all_batteries)
+                # lays down the cables with the current/original configuration
+                self.astar_cable2 = Cable(self.config)
+                self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
-            return False
+                return False
 
         return True
