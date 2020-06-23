@@ -1,0 +1,7 @@
+matplotlib
+numpy
+copy
+json
+os
+scipy
+random
