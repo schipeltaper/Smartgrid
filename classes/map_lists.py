@@ -1,14 +1,22 @@
-from classes.house import House
+'''
+* Map lists
+* 
+*
+* Programmeertheorie
+* Optimum Prime
+*
+*
+* This file contains the districts 1,2 and 3 as mentioned on https://theorie.mprog.nl/cases/smartgrid. 
+* There are also test districts district_4 and district_test.
+* 
+*
+'''
+
+
 from classes.battery import Battery
+from classes.house import House
 
-district_test = {"houses": [
-    House(2,3,53.97543253),
-    House(24,22,66.13020717),
-    House(34,47,53.97543253)],
-    "batteries": [
-    Battery(1,5,1507)]
-    }
-
+# district 1
 district_1 = {
     "houses": [
     House(34,47,53.97543253),
@@ -496,7 +504,7 @@ district_3 = {
     ]
 }
 
-
+# test districts
 district_4 = {
     "houses": [
     House(34,47,53.97543253),
@@ -516,4 +524,11 @@ district_4 = {
     Battery(49,23,300),
     Battery(3,45,300)
     ]
+}
+
+district_test = {"houses": [
+    House(2,3,53.97543253),
+    House(24,22,66.13020717),
+    House(34,47,53.97543253)],
+    "batteries": [Battery(1,5,1507)]
 }

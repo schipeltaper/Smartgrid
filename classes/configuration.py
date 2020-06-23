@@ -4,24 +4,35 @@
 * Programmeertheorie
 * Optimum Prime
 *
-* Configuration class defines a configuration of a smartgrid with a chosen width and height.
-* In a configuration object you can add and delete batteries, houses and cables.
-* In the configuration class we use a point-class to define the information on each point.
+* The configuration class saves all information used to fill in the smartgrid and has
+* a collection of functions to mutate the configuration and export results.
 *
 * The point class defines a point on the grid.
 * This point saves all its neighbours which are connected through cables
 *
 '''
+
+
 import os
+import numpy as np
+import json
+
 from classes.house import House
 from classes.battery import Battery
-import numpy as np
 from scipy.sparse.csr import csr_matrix
 from scipy.sparse.csgraph import dijkstra
 from classes.map_lists import district_1, district_2, district_3, district_4
 
+
 # Class defines a configuration of a world on a determined sized grid, with houses, batteries and cables.
 class Configuration():
+    '''
+    Configuration class defines a configuration of a smartgrid with a chosen width and height.
+    In a configuration object you can add and delete batteries, houses and cables.
+    In the configuration class we use a point-class to define the information on each point. 
+    Initialisation requires a district id.
+    '''
+
     def __init__(self, district_id):
         # set district var
         if district_id == 1:
@@ -61,170 +72,71 @@ class Configuration():
 
         self.houses_with_ovorcapacity()
 
-    def cs50_check(self, cable_shared):
-        self.battery
-        self.check50_output = [
-          {
-            "district": self.district_id,
-            "costs-shared": self.cal_costs()
-          }
-        ]
-
-        self.list_of_lines = []
-        # list all cable coordinates
-        for self.cable_line in self.all_cables:
-            
-            self.cable_line_loc = []
-            
-            for self.cable_point in self.cable_line.cable_coordinates:
-                self.cable_point = [self.cable_point.position_x, self.cable_point.position_y]
-                self.string_cable_loc = [str(coordinate) for coordinate in self.cable_point]
-                self.cable_line_loc.append(",".join(self.string_cable_loc))
-                print
-
-            self.list_of_lines.append(self.cable_line_loc)
-
-        for self.bat in self.all_batteries:
-            self.main_cables = []
-            self.house_cables = []
-            self.add_bat = {}
-            self.location_bat = [self.bat.position_x, self.bat.position_y]
-            self.string_loc_bat = [str(coordinate) for coordinate in self.location_bat]
-            self.add_bat["location"] = ",".join(self.string_loc_bat)
-            self.add_bat["capacity"] = self.bat.capacity
-            self.add_bat["houses"] = []
-            
-            for self.house_in_bat in self.bat.houses_in_battery:
-                self.add_house_dict = {}
-                
-                self.house_loc = [self.house_in_bat.position_x, self.house_in_bat.position_y]
-                self.string_loc_house = [str(coordinate) for coordinate in self.house_loc]
-                self.add_house_dict["location"] = (",".join(self.string_loc_house))
-                self.add_house_dict["output"] = self.house_in_bat.production
-                self.add_house_dict["cables"] = []
-                
-                
-                self.cable_adding_house = []
-                for self.cable in self.list_of_lines:
-                    self.cable_match_house = False
-                    
-                    # find cables connected to house
-                    if self.cable[0] == self.add_house_dict["location"]:
-                        self.add_house_dict["cables"] = self.cable
-                        self.house_cables.append(self.add_house_dict["cables"])
-                        self.cable_match_house = True
-                    elif self.cable[len(self.cable)-1] == self.add_house_dict["location"]:
-                        self.add_house_dict["cables"] = list(reversed(self.cable))
-                        self.house_cables.append(self.add_house_dict["cables"])
-                        self.cable_match_house = True
-                    else:
-                        # this cable is not connected to house
-                        continue
-
-                    # check if house connected to battery
-                    if self.add_house_dict["cables"][len(self.add_house_dict["cables"])-1] == self.add_bat["location"]:
-                        continue
-
-                    # find main cable
-                    for self.potential_main_cable in self.list_of_lines:
-                        
-                        self.cable_with_bat_commen_point = []
-
-                        if self.potential_main_cable[0] == self.add_house_dict["cables"][len(self.add_house_dict["cables"])-1]:
-                            # all cables that start at this point
-                            if self.potential_main_cable[len(self.potential_main_cable)-1] == self.add_bat["location"]:
-                                # this cable is connected too a battry
-                                self.cable_with_bat_commen_point = self.potential_main_cable
-
-                        elif self.potential_main_cable[len(self.potential_main_cable)-1] == self.add_house_dict["cables"][len(self.add_house_dict["cables"])-1]:
-                            # all cables here end at this point
-                            if self.potential_main_cable[0] == self.add_bat["location"]:
-                                # this cable is connected too a battry at the start
-                                self.cable_with_bat_commen_point = list(reversed(self.potential_main_cable))
-                        
-                        if not(self.cable_with_bat_commen_point in self.main_cables):
-                            # cable is not already put into the system
-                            self.main_cables.append(self.cable_with_bat_commen_point)
-                            self.add_house_dict["cables"] += self.cable_with_bat_commen_point
-                
-                # get rid of dublikates
-                self.cable_temp_list = []
-                for self.temp_cable_loc in self.add_house_dict["cables"]:
-                    if not(self.temp_cable_loc in self.cable_temp_list):
-                        self.cable_temp_list.append(self.temp_cable_loc)
-                
-                self.add_house_dict["cables"] = self.cable_temp_list
-
-                # add houses 
-                self.add_bat["houses"].append(self.add_house_dict)
-            self.check50_output.append(self.add_bat)
-        
-        
-        for self.item in self.check50_output:
-            for self.info in self.item:
-                if (self.info == "houses"):
-                    print(f"{self.info} : ")
-                    for self.house_item in self.item[self.info]:
-                        for self.house_item_info in self.house_item:
-                            
-                            if self.house_item_info == "cables":
-                                print(f"\t{self.house_item_info} :")
-                                for self.cable_item in self.house_item[self.house_item_info]:
-                                    print(f"\t\t{self.cable_item}")
-                            else:
-                                print(f"\t{self.house_item_info} : {self.house_item[self.house_item_info]}")
-
-                else:
-                    print(f"{self.info} : {self.item[self.info]}")
-                
-            print()
-        return self.check50_output
-
 
     # to put the info of district1 into a configuration object
     def create_district(self):
+        '''
+        Loads all houses and all batteries inside the district into
+        the configuration.
+        '''
 
         self.all_houses = []
         self.all_batteries = []
-
         for self.house in self.district["houses"]:
             self.add_house(self.house)
-
         for self.battery in self.district["batteries"]:
             self.add_battery(self.battery)
 
-    # returns True if there are one or more batteries over capacity
+
+    def lay_cables_in_configuration(self):
+        '''
+        Puts the cables in self.all_cables inside the configuration.
+        '''
+
+        for self.cable_line in self.all_cables:
+            battery = self.configuration[self.cable_line.end.position_x][self.cable_line.end.position_y].battery_item
+            if battery == None:
+                battery = self.configuration[self.cable_line.start.position_x][self.cable_line.start.position_y].battery_item
+            for self.cable_point in self.cable_line.cable_coordinates:
+                self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
+
+
     def houses_with_ovorcapacity(self):
-        #  make batteries not over capacity
+        '''
+        Checks if there are any batteries with overcapacity crullently in all_batteries
+        
+        Returns: boolean, True if there are one or more batteries with over capacity
+        '''
+
         for self.bat in self.all_batteries:
             if self.bat.battery_over_capacity():
-                print("Battery full")
                 return True
             return False
 
 
     def refresh_config(self):
+        '''
+        Clears configuration and than updates it based on the batteries and houses 
+        inside the district and cables inside the all_cables variable.
+        '''
 
         self.configuration.clear()
-
-        # reloading all points
         for j in range(self.grid_height):
             row = []
             for i in range(self.grid_width):
                 point = Point(j, i)
                 row.append(point)
             self.configuration.append(row)
-
-        # loading in all houses & batteries
         self.create_district()
-
         self.lay_cables_in_configuration()
 
 
-    # calculating total costs of configuration
     def cal_costs(self):
+        '''
+        Uses the self.all_batteries list and self.all_cables to calculate the
+        total costs of the configuration.
+        '''
 
-        # put houses and batteries in grid
         self.refresh_config()
         self.total_costs = 0
         for self.battery in self.all_batteries:
@@ -234,11 +146,12 @@ class Configuration():
         
         return self.total_costs
 
-    def print_the_dam_thing(self):
+
+    def print_the_dam_thing(self): # --- Delete when other visualisation work
 
         self.refresh_config()
-        self.load_hb_in_beta_visiualisation()
-        self.load_cables_in_beta_visiualisation()
+        self.load_hb_in_visiualisation()
+        self.load_cables_in_visiualisation()
 
         # itterate through visualise_grid y_axis
         for self.y_axis in self.visualise_grid:
@@ -249,8 +162,9 @@ class Configuration():
             # print next line
             print()
 
-    # load houses and batteries into visiualisation without cables
-    def load_hb_in_beta_visiualisation(self):
+
+    # load houses and batteries into visiualisation without cables --- Delete when other visualisation works
+    def load_hb_in_visiualisation(self):
                 
         # itterate through the lenght
         for self.y_axis_lines in self.configuration:
@@ -280,8 +194,9 @@ class Configuration():
             self.visualise_grid.append(self.y_axis_row1)
             self.visualise_grid.append(self.y_axis_row2)
 
-    # loads cables into array of visualisation
-    def load_cables_in_beta_visiualisation(self):
+
+    # loads cables into array of visualisation --- Delete when other visualisation works
+    def load_cables_in_visiualisation(self):
         
         # itterating through configuration
         for self.y_axis in self.configuration:
@@ -310,10 +225,6 @@ class Configuration():
                             # RIGHT
                             self.visualise_grid[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
 
-    # adds multiple batteries to the configuration
-    def add_multiple_batteries(self, batteries):
-        for self.battery_put in batteries:
-            self.add_battery(self.battery_put)
 
     def add_battery(self, battery):
         '''
@@ -328,6 +239,7 @@ class Configuration():
         if battery not in self.all_batteries:
             self.all_batteries.append(battery)
 
+
     def add_house(self, house):
         '''
         Adds a house to the configuration
@@ -340,17 +252,6 @@ class Configuration():
         if house not in self.all_houses:
             self.all_houses.append(house)
 
-
-    def lay_cables_in_configuration(self):
-
-        for self.cable_line in self.all_cables:
-
-            battery = self.configuration[self.cable_line.end.position_x][self.cable_line.end.position_y].battery_item
-            if battery == None:
-                battery = self.configuration[self.cable_line.start.position_x][self.cable_line.start.position_y].battery_item
-
-            for self.cable_point in self.cable_line.cable_coordinates:
-                self.configuration[self.cable_point.position_x][self.cable_point.position_y].cable_item.append(self.cable_point)
 
     def add_cable(self, point1, point2, battery):
         '''
@@ -376,6 +277,7 @@ class Configuration():
         if type(self.configuration[x][y].content) is Battery:
             self.configuration[x][y].content = None
 
+
     def delete_house(self, x, y, house):
         '''
         Delete a house on a given point in the grid
@@ -383,12 +285,14 @@ class Configuration():
         if type(self.configuration[x][y].content) is House:
             self.configuration[x][y].content = None
 
+
     def delete_cable(self, point1, point2, battery):
         '''
         Delete a cable on a given line segment in the grid
         '''
         point1.neighbours[battery].remove(point2)
         point2.neighbours[battery].remove(point1)
+
 
     def get_lists(self):
         '''
@@ -398,7 +302,6 @@ class Configuration():
         format: cable = [[x_1,y_1],[x_2,y_2]]
         '''
 
-        
         # put all batteries and houses in grid in lists and calculate costs
         costs = 0
         batteries = []
@@ -422,17 +325,16 @@ class Configuration():
                     for neighbour in neighbours:
                         batteries[k][3].append([[i,j],[neighbour.x,neighbour.y]])
                         costs += 9/2
-
         for battery in batteries:
             costs += battery[2].costs_battery
-
-        # updating the information of the grid
-        self.all_batteries = batteries
-        self.all_houses = houses
-
         return [batteries, houses, int(costs)]
 
+
     def text_grid(self):
+        '''
+        Prints text grid of configuration with batteries, houses and cables (for testing purposes).
+        '''
+        
         grid = ''
         for i in range(102):
             grid += '·' * 102
@@ -456,14 +358,11 @@ class Configuration():
             grid = grid[:i] + 'H' + grid[i + 1:]
         return grid
 
-    # checks if configuration is valid and returns some parameters
+    
     def check(self, algorithm_name):
-        # check if configuration is valid
-
-        # check district_id
-
-        if self.district_id not in [1,2,3,4]:
-            return('Set district_id!')
+        '''
+        Checks if configuration is valid and returns some parameters that have to do with the validity.
+        '''
 
         # set height and width of grid
         height = len(self.configuration)
@@ -476,40 +375,30 @@ class Configuration():
         houses = state[1]
         costs = state[2]
 
-        #   constraint 1: all houses belong to a battery
+        #   check constraint 1: all houses belong to a battery
         all_houses_in_battery = False
         house_objs = set({})
         for house in houses:
             house_objs = house_objs.union([house[2]])
-
         houses_in_battery = set({})
         for battery in batteries:
             houses_in_battery = houses_in_battery.union(battery[2].houses_in_battery)
-
         if house_objs == houses_in_battery:
             all_houses_in_battery = True
 
-        #   constraint 2: are houses are connected to a battery by cables
-
+        #  check constraint 2: all houses are connected to a battery by cables
         houses_disconnected = len(houses)
         for battery in batteries:
             row = []
             col = []
             data = []
-
             for cable in battery[3]:
                 row.append(cable[0][0] * width + cable[0][1])
                 col.append(cable[1][0] * width + cable[1][1])
                 data.append(1)
-
             battery_index = battery[0] * width + battery[1]
             graph = csr_matrix((data, (row, col)), shape=(N, N))
-
-
             dist_matrix, predecessors = dijkstra(graph, directed=False, indices=[battery_index], return_predecessors=True)
-
-
-
             dijkstra_0 = predecessors[0]
             houses = battery[2].houses_in_battery
             for house in houses:
@@ -517,7 +406,6 @@ class Configuration():
                 j = house.position_y
                 if dijkstra_0[i * width + j] != -9999:
                     houses_disconnected -= 1
-
         all_houses_connected = False
         if houses_disconnected == 0:
             all_houses_connected = True
@@ -527,35 +415,38 @@ class Configuration():
         for battery in batteries:
             battery = battery[2]
             bat_cap_violation += max(0,(battery.energy_production - battery.capacity)) ** 2
-
         bat_cap_not_exceeded = False
         if bat_cap_violation == 0:
             bat_cap_not_exceeded = True
-
         valid = False
         if all_houses_in_battery and bat_cap_not_exceeded and all_houses_connected:
             valid = True
-
-
         return [valid, all_houses_in_battery, bat_cap_not_exceeded, all_houses_connected, bat_cap_violation, houses_disconnected]
 
 
     def check50_neighbour_variant(self):
+        '''
+        Returns configuration in check50 format.
+        '''
+        
+        # get all configuration info
         lists = self.get_lists()
         batteries0 = lists[0]
         costs = lists[2]
+        
+        # initialize check50_format
         check50_format = [
           {
             "district": self.district_id,
             "costs-shared": costs
           }
         ]
-
+        
+        # put battery and house information in dictionaries conform check50.
         batteries = []
         for battery1 in batteries0:
             battery = battery1[2]
             batteries.append(battery)
-
         for battery in batteries:
             location = str(battery.position_x) + ',' + str(battery.position_y)
             bat_dict = {
@@ -574,14 +465,14 @@ class Configuration():
                   }
                 house_locs.append([house.position_x, house.position_y, house_dict])
 
-
+            # define paths in the check50 manner, put the paths in their houses, put the houses in their batteries, then check50 format is
+            # complete.
             paths = []
             neighbours = []
             if battery in self.configuration[battery.position_x][battery.position_y].neighbours:
                 neighbours = self.configuration[battery.position_x][battery.position_y].neighbours[battery]
             for neighbour in neighbours:
                 paths.append([[battery.position_x, battery.position_y], [neighbour.x,neighbour.y]])
-
             while len(paths) > 0:
                 for path in paths:
                     end_point = path[-1]
@@ -618,11 +509,135 @@ class Configuration():
             check50_format.append(bat_dict)
         return check50_format
 
+
+    def cs50_check(self, cable_shared):
+        '''
+        Uses the information saves inside all_cables, all_battieres and houses_in_battery inside
+        each battery instance to create a list of dictionaries required for the check50.
+
+        Input: boolean, True if cables are allowed to be shared
+
+        Output: lists of dictionaries, [{information about the distric}, {information about batteries}...]
+        '''
+        
+        # adds the information about the district into the check50_output list
+        self.battery
+        self.check50_output = [
+          {
+            "district": self.district_id,
+            "costs-shared": self.cal_costs()
+          }
+        ]
+
+        # stores lists of cable coordinates of all cables inside self.all_cables into a list self.list_of_lines
+        self.list_of_lines = []
+        for self.cable_line in self.all_cables:
+            self.cable_line_loc = []
+            for self.cable_point in self.cable_line.cable_coordinates:
+                self.cable_point = [self.cable_point.position_x, self.cable_point.position_y]
+                self.string_cable_loc = [str(coordinate) for coordinate in self.cable_point]
+                self.cable_line_loc.append(",".join(self.string_cable_loc))
+            self.list_of_lines.append(self.cable_line_loc)
+
+        # stores all location and capcity of batteries inside the add_bat dictionary
+        for self.bat in self.all_batteries:
+            self.add_bat = {}
+            self.location_bat = [self.bat.position_x, self.bat.position_y]
+            self.string_loc_bat = [str(coordinate) for coordinate in self.location_bat]
+            self.add_bat["location"] = ",".join(self.string_loc_bat)
+            self.add_bat["capacity"] = self.bat.capacity
+            self.add_bat["houses"] = []
+
+            # place to store lists of cables already stored inside the houses
+            self.main_cables = []
+            self.house_cables = []
+            
+            # stores cooridnates and energy production of the house into the add_house_dict dictionary
+            for self.house_in_bat in self.bat.houses_in_battery:
+                self.add_house_dict = {}
+                self.house_loc = [self.house_in_bat.position_x, self.house_in_bat.position_y]
+                self.string_loc_house = [str(coordinate) for coordinate in self.house_loc]
+                self.add_house_dict["location"] = (",".join(self.string_loc_house))
+                self.add_house_dict["output"] = self.house_in_bat.production
+                self.add_house_dict["cables"] = []
+                
+                # looking for the cable that starts at house coordinates inside all cables
+                self.cable_adding_house = []
+                for self.cable in self.list_of_lines:
+                    self.cable_match_house = False
+                    if self.cable[0] == self.add_house_dict["location"]:
+                        self.add_house_dict["cables"] = self.cable
+                        self.house_cables.append(self.add_house_dict["cables"])
+                        self.cable_match_house = True
+                    
+                    # also considers that a cable might have been layed reversely
+                    elif self.cable[len(self.cable)-1] == self.add_house_dict["location"]:
+                        self.add_house_dict["cables"] = list(reversed(self.cable))
+                        self.house_cables.append(self.add_house_dict["cables"])
+                        self.cable_match_house = True
+                    else:
+                        continue
+
+                    # moves to next cable if house is connected directly to a battery
+                    if self.add_house_dict["cables"][len(self.add_house_dict["cables"])-1] == self.add_bat["location"]:
+                        continue
+
+                    # looks for main cable that connects house too battery by combining main and house cable
+                    for self.potential_main_cable in self.list_of_lines:
+                        self.cable_with_bat_commen_point = []
+                        if self.potential_main_cable[0] == self.add_house_dict["cables"][len(self.add_house_dict["cables"])-1]:
+                            if self.potential_main_cable[len(self.potential_main_cable)-1] == self.add_bat["location"]:
+                                self.cable_with_bat_commen_point = self.potential_main_cable
+                        elif self.potential_main_cable[len(self.potential_main_cable)-1] == self.add_house_dict["cables"][len(self.add_house_dict["cables"])-1]:
+                            if self.potential_main_cable[0] == self.add_bat["location"]:
+                                self.cable_with_bat_commen_point = list(reversed(self.potential_main_cable))
+                        
+                        # adds main cable too house calbe if the main cable not already inside check50_output
+                        if not(self.cable_with_bat_commen_point in self.main_cables):
+                            self.main_cables.append(self.cable_with_bat_commen_point)
+                            self.add_house_dict["cables"] += self.cable_with_bat_commen_point
+                
+                # get rid of dubble coordinates inside cable lists due to connections
+                self.cable_temp_list = []
+                for self.temp_cable_loc in self.add_house_dict["cables"]:
+                    if not(self.temp_cable_loc in self.cable_temp_list):
+                        self.cable_temp_list.append(self.temp_cable_loc)
+                
+                # updates check50_output with cables into houses and houses into batteries and batteries into check50_output
+                self.add_house_dict["cables"] = self.cable_temp_list
+                self.add_bat["houses"].append(self.add_house_dict)
+            self.check50_output.append(self.add_bat)
+        
+        # prints the output of check50_output
+        for self.item in self.check50_output:
+            for self.info in self.item:
+                if (self.info == "houses"):
+                    print(f"{self.info} : ")
+                    for self.house_item in self.item[self.info]:
+                        for self.house_item_info in self.house_item:
+                            
+                            if self.house_item_info == "cables":
+                                print(f"\t{self.house_item_info} :")
+                                for self.cable_item in self.house_item[self.house_item_info]:
+                                    print(f"\t\t{self.cable_item}")
+                            else:
+                                print(f"\t{self.house_item_info} : {self.house_item[self.house_item_info]}")
+
+                else:
+                    print(f"{self.info} : {self.item[self.info]}")
+                
+            print()
+        
+        # returns the check50_output
+        return self.check50_output
+
+
 class Point():
     '''
     This class defines a point on the grid. It has all the information for that
     specific coordinate. It is initialized with an x- and y-coordinate.
     '''
+    
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -633,7 +648,7 @@ class Point():
         # the content on this point. Could be a house or a battery
         self.content = None
 
-        # place to store all other information
+        # place to store all information
         self.cable_item = []
         self.battery_item = None
         self.house_item = None
