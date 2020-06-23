@@ -511,6 +511,7 @@ class Configuration():
                     paths.remove(orig_path)
             check50_format.append(bat_dict)
         return check50_format
+ 
         
     def check50_neighbour_variant_own_costs(self):
         '''

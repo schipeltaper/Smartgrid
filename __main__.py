@@ -94,27 +94,6 @@ def main():
         f.seek(0)
         json.dump(check50_result, f)
         f.truncate()
-        
-    
-    
-    
-# ------------ simulated annealing house allocation & Astar cable drawing ------------
-
-    results2 = Combining_algorithms(4)
-
-    results2.simulated_annealing_house_manhatten_cable(True)
-#    results2.simulated_annealing_house_astar_cable()
-
-    # ------------ Random_Greedy_house allocation & Astar cable drawing ------------
-
-    #resultaten = []
-    #for x in range(10):
-    #    results3 = Combining_algorithms(1)
-    #    resultaten.append(results3.random_greedy_astar_cable(10))
-
-    #print(resultaten)
-    #results3 = Combining_algorithms(1)
-    #print(results3.random_greedy_astar_cable(10))
 
 
 if __name__ == "__main__":
