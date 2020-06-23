@@ -38,7 +38,7 @@ def main():
     input_text = ''
     if cable_rule == 1:
          input_text = "Choose algorithm: \n 1. Random\n 2. Greedy\n 3. Random hill descent\n \
-        4. Random Greedy\n 5. Simulated Annealing\n 6. Hill Climber\n"
+        4. Random Greedy\n 5. Simulated Annealing\n 6. Hill Climber followed by Simulated Annealing\n"
     if cable_rule == 2:
         input_text = "Choose algorithm: \n 1. A-star cable sharing\n 2. Optimum Deluxe\n"
     algorithm_id = input(input_text)
@@ -65,7 +65,14 @@ def main():
         check50_result = None
         pass
     if algorithm_id == 6:
-        #run Hill Climber
+        #run Hill Climber followed by Simulated Annealing
+        step_num = input("How many steps would you like to take during you climb on the hill?")
+        config = Combining_algorithms(district_id)
+        config.annealing_hill_climber(step_num)
+
+        # Here is the configuration variable, Ruben do what you want with it :)
+        config.configuration
+
         check50_result = None
         pass
     if algorithm_id == 7:
