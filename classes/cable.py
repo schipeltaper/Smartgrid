@@ -11,12 +11,12 @@
 
 class Cable_instance():
     '''
-    A Cable_instance contants the coordinates, the next and former cable instance in 
+    A Cable_instance contains the coordinates, the next and former cable instance in
     a cable and other information of one point inside a cable. Furthermore, the
     Cable_instance contains a function concering the cable point. Initialisation requires
     the x and y coordinates within a district.
     '''
-    
+
     def __init__(self, x, y):
 
         # saves information for a cable instance
@@ -25,7 +25,7 @@ class Cable_instance():
         self.next_cable_inst = None
         self.former_cable_inst = None
         self.potential_nodes = None
-    
+
     def determine_direction_cable(self):
         '''
         Determines the drection of the cable from current point, heading towards the battery,
@@ -36,7 +36,7 @@ class Cable_instance():
 
         if self.next_cable_inst is None:
             return "EMPTY"
-        
+
         elif self.position_y > self.next_cable_inst.position_y:
             return "UP"
 
@@ -45,13 +45,13 @@ class Cable_instance():
 
         elif self.position_x > self.next_cable_inst.position_x:
             return "LEFT"
-        
+
         elif self.position_x < self.next_cable_inst.position_x:
-            return "RIGHT" 
+            return "RIGHT"
 
 class Cable_line():
     '''
-    A Cable_instance contants the starting cable_instance, ending cable_instance and a list
+    A Cable_line contains the starting cable_instance, ending cable_instance and a list
     of all cable_instance's in a cable, and further information about the cable, and a collection
     of function concering cables in the configuration. Requires a starting instance to initialise.
     '''
@@ -62,14 +62,14 @@ class Cable_line():
         self.end = None
         self.cable_coordinates = []
         self.costs = 0
-        self.connected_house = None        
+        self.connected_house = None
         self.add_cable_instance(start)
 
     def cal_cable_costs(self):
         '''
         Calculates the costs of the cable.
 
-        Returns: Int of the costs of the cable. 
+        Returns: Int of the costs of the cable.
         '''
 
         self.costs = len(self.cable_coordinates) * 9
@@ -78,7 +78,7 @@ class Cable_line():
     def add_cable_instance(self, cable_instance):
         '''
         Adds cable instance too the cable line and updates the end of the cable line and costs.
-        '''        
+        '''
 
         self.cable_coordinates.append(cable_instance)
         self.costs += 9
