@@ -146,85 +146,6 @@ class Configuration():
         return self.total_costs
 
 
-    def print_the_dam_thing(self): # --- Delete when other visualisation work
-
-        self.refresh_config()
-        self.load_hb_in_visiualisation()
-        self.load_cables_in_visiualisation()
-
-        # itterate through visualise_grid y_axis
-        for self.y_axis in self.visualise_grid:
-            # itterate through visualise_grid x_axis
-            for self.x_axis in self.y_axis:
-                print(self.x_axis, end = '')
-
-            # print next line
-            print()
-
-
-    # load houses and batteries into visiualisation without cables --- Delete when other visualisation works
-    def load_hb_in_visiualisation(self):
-                
-        # itterate through the lenght
-        for self.y_axis_lines in self.configuration:
-            self.y_axis_row1 = []
-            self.y_axis_row2 = []
-            
-            # itterate through the width
-            for self.x_axis_lines in self.y_axis_lines:
-                
-                # display B if battery present
-                if self.x_axis_lines.battery_item is not None:
-                    self.y_axis_row1.append("B")
-                    
-                # display H if house present
-                elif self.x_axis_lines.house_item is not None:
-                    self.y_axis_row1.append("H")
-                    
-                # display . if neither battery nor house present
-                else:
-                    self.y_axis_row1.append(".")
-                
-                self.y_axis_row1.append(".")
-                self.y_axis_row2.append(".")
-                self.y_axis_row2.append(".")
-            
-            # adding items to grid in visualise_grid
-            self.visualise_grid.append(self.y_axis_row1)
-            self.visualise_grid.append(self.y_axis_row2)
-
-
-    # loads cables into array of visualisation --- Delete when other visualisation works
-    def load_cables_in_visiualisation(self):
-        
-        # itterating through configuration
-        for self.y_axis in self.configuration:
-            for self.x_axis in self.y_axis:
-                # find coordinates of the cable
-                if self.x_axis.cable_item != []:
-                    for self.cable_point in self.x_axis.cable_item:
-                        # get direction of cable
-                        self.cable_direction = self.cable_point.determine_direction_cable()
-                        
-                        # add cable to visualise_grid
-                        if self.cable_direction == "EMPTY":
-                            continue
-                        
-                        # ok so the up, down, left and right are all wrong but now it prints it good
-                        elif self.cable_direction == "UP":
-                            # UP 
-                            self.visualise_grid[self.cable_point.position_x*2][self.cable_point.position_y*2-1] = "-"
-                        elif self.cable_direction == "DOWN":
-                            # DOWN
-                            self.visualise_grid[self.cable_point.position_x*2][self.cable_point.position_y*2+1] = "-"
-                        elif self.cable_direction == "LEFT":
-                            # LEFT
-                            self.visualise_grid[self.cable_point.position_x*2-1][self.cable_point.position_y*2] = "|"
-                        elif self.cable_direction == "RIGHT":
-                            # RIGHT
-                            self.visualise_grid[self.cable_point.position_x*2+1][self.cable_point.position_y*2] = "|"
-
-
     def add_battery(self, battery):
         '''
         Adds a battery to the configuration
@@ -676,26 +597,6 @@ class Configuration():
                 self.add_house_dict["cables"] = self.cable_temp_list
                 self.add_bat["houses"].append(self.add_house_dict)
             self.check50_output.append(self.add_bat)
-        
-        # prints the output of check50_output
-        for self.item in self.check50_output:
-            for self.info in self.item:
-                if (self.info == "houses"):
-                    print(f"{self.info} : ")
-                    for self.house_item in self.item[self.info]:
-                        for self.house_item_info in self.house_item:
-                            
-                            if self.house_item_info == "cables":
-                                print(f"\t{self.house_item_info} :")
-                                for self.cable_item in self.house_item[self.house_item_info]:
-                                    print(f"\t\t{self.cable_item}")
-                            else:
-                                print(f"\t{self.house_item_info} : {self.house_item[self.house_item_info]}")
-
-                else:
-                    print(f"{self.info} : {self.item[self.info]}")
-                
-            print()
         
         # returns the check50_output
         return self.check50_output
