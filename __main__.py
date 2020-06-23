@@ -96,7 +96,7 @@ def main():
 
     # show result in check50 format
     print(check50_result[0])
-    
+
     # print result in json file (inspired by Spectras on Stackoverflow)
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, "results/output.json")
@@ -105,7 +105,7 @@ def main():
         json.dump(check50_result, f)
         f.truncate()
 
-    Check50_to_visualization("../results/output.json")
+    Check50_to_visualization(check50_result)
 
 
 if __name__ == "__main__":
