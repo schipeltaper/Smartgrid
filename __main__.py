@@ -1,14 +1,14 @@
 '''
 * Main
-* 
+*
 *
 * Programmeertheorie
 * Optimum Prime
 *
 *
 * This file contains the __main__ file of the Smartgrid optimization project.
-* 
-* 
+*
+*
 *
 '''
 import json
@@ -26,9 +26,9 @@ from visualization.algorithms import Combining_algorithms
 
 def main():
     '''
-    Ask user which optimization algorithm to run with which district. 
+    Ask user which optimization algorithm to run with which district.
     '''
-    
+
     # Get user input.
     district_id = input("Choose district (1,2 or 3):")
     district_id = int(district_id)
@@ -43,7 +43,7 @@ def main():
         input_text = "Choose algorithm: \n 1. A-star cable sharing\n 2. Optimum Deluxe\n"
     algorithm_id = input(input_text)
     algorithm_id = int(algorithm_id) + 6 * (cable_rule - 1)
-    
+
     # Run algorithm.
     if algorithm_id == 1:
         optimization = Random_house_sort(district_id)

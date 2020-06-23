@@ -6,10 +6,7 @@
 * Optimum Prime
 *
 * This Hill_climber class is made for solutions where we are not aloud to share cables. The class is made for using
-* the principle of hill descending to find a better solution. The way this works is that we initialize the object
-* with a correct solution. Then we can call a function which takes a number of steps to find a local minimum. Each
-* step consists of either swapping two houses or giving a house a different battery. If the step results in an
-* invalid solution or a higher cost, then the step is made undone and we move on to the next step.
+* the principle of hill descending to find a better solution.
 *
 *
 '''
@@ -21,7 +18,10 @@ from classes.cable import Cable_instance
 
 class Hill_climber():
     '''
-    Initialization requires a correct solution
+    We initialize the object with a configuration object which is a correct solution. Then we can call a function
+    which takes a number of steps to find a local minimum. Each step consists of either swapping two houses or giving
+    a house a different battery. If the step results in an invalid solution or a higher cost, then the step is made
+    undone and we move on to the next step.
     '''
     def __init__(self, solved_configuration):
         self.config = solved_configuration

@@ -1,12 +1,14 @@
 # Results
-In this folder, we save results that we think are worth saving.
+In deze map, slaan we resultaten op waarvan wij denken dat die het waard zijn om opgeslagen te worden.
 
-## Format
-The result-files will be saved in json files with exactly the format that is needed for check50
+## Formaat
+De resultaat-bestanden zullen opgeslagen worden in json bestanden met precies het formaat dat nodig is
+om een resultaat te checken met behulp van check50.
 
-## Name
-We name each result as follows:
-    [name algorithm]\_[district number]\_[version number].json
-where the [name algorithm] is the name of that specific algorithm,
-the [district number] is the number of the district (1, 2 or 3)
-and the [version number] is the number of results we now have with this combination of district and algorithm
+## Naam
+De namen van de resultaat-bestanden zullen er als volgt uitzien:
+    [naam algoritme]\_[district nummer]\_[versie nummer].json
+waar de [naam algoritme] staat voor de naam van het gebruikte algoritme,
+de [district nummer] is het nummer van de district die gebruikt wordt (1, 2 of 3)
+en de [versie nummer] is de hoeveelheid resultaat-bestanden die we nu zullen hebben met deze combinatie
+van district en algoritme.
