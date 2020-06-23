@@ -48,7 +48,9 @@ def main():
             4. Simulated Annealing \n"
     algorithm_id = input(input_text)
     algorithm_id = int(algorithm_id) + 6 * (cable_rule - 1)
-
+    
+    print('Algorithm will run now. Afterwards, a visualization and the meta information will be shown.')
+    
     # Run algorithm.
     if algorithm_id == 1:
         optimization = Random_house_sort(district_id)
@@ -77,6 +79,7 @@ def main():
         check50_result = config.annealing_hill_climber(int(step_num), False)
     if algorithm_id == 7:
         #run Optimum Deluxe
+        print('Please note that this algorithm takes approx. 5 hours to run.')
         optimization = optimum_deluxe(district_id)
         check50_result = optimization.run()
     if algorithm_id == 8:
