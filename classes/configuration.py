@@ -344,7 +344,7 @@ class Configuration():
         # set height and width of grid
         height = len(self.configuration)
         width = len(self.configuration[0])
-        N = width * height
+        grid_size = width * height
 
         # get lists of batteries and houses
         state = self.get_lists()
@@ -374,7 +374,7 @@ class Configuration():
                 col.append(cable[1][0] * width + cable[1][1])
                 data.append(1)
             battery_index = battery[0] * width + battery[1]
-            graph = csr_matrix((data, (row, col)), shape=(N, N))
+            graph = csr_matrix((data, (row, col)), shape=(grid_size, grid_size))
             dist_matrix, predecessors = dijkstra(graph, directed=False, indices=[battery_index], return_predecessors=True)
             dijkstra_0 = predecessors[0]
             houses = battery[2].houses_in_battery
