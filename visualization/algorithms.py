@@ -1,13 +1,13 @@
 '''
 * Combining_algorithms class
-* 
+*
 *
 * Programmeertheorie
 * Optimum Prime
 *
 * The Combining_algorithms class collects and runs all the different algorithms
 * combinations.
-* 
+*
 *
 '''
 
@@ -27,7 +27,7 @@ from algorithms.simulated_annealing import simulated_annealing
 
 class Combining_algorithms():
     '''
-    The Combining_algorithms class brings the two types of algorithms that the 
+    The Combining_algorithms class brings the two types of algorithms that the
     Optimum Prime program uses to solve this problem together: the algorithms
     that devide the houses amoungst the batteries in the configuration and the
     algorithms that lay the cables that connect these houses with the cables.
@@ -47,7 +47,7 @@ class Combining_algorithms():
         distance to lay cables between thouse houses and their batteries. Finally, prints
         the total costs of the solution.
         '''
-        
+
         self.greedy_house_devide = Greedy(self.the_district)
         self.greedy_house_devide.proximity_sort()
         self.astar_cable = Cable(self.the_district)
@@ -65,17 +65,30 @@ class Combining_algorithms():
         self.annealing_house_devide1 = simulated_annealing(self.the_district)
         self.annealing_house_devide1.creating_starting_possition()
         self.annealing_house_devide1.running_simulated_annealing(cable_sharing)
+
+        self.astar_cable2 = Cable(self.the_district)
+        self.astar_cable2.cable_list_batteries(self.the_district.all_batteries, False)
+
         self.hill = Hill_climber(self.the_district)
         self.hill.climb_the_hill(step_num)
         self.the_district.refresh_config()
         return self.annealing_house_devide1.district.cs50_check(cable_sharing)
+
+    def greedy_then_hill_climber(self, step_num, cable_sharing):
+        self.greedy_house_manhatten_cable(cable_sharing)
+
+        hill_climber = Hill_climber(self.the_district)
+
+        hill_climber.climb_the_hill(step_num)
+
+        return self.the_district.cs50_check(cable_sharing)
 
     # simulated anealing house distribution & Astar cable drawing - assumption 1 cable 1 house
     def simulated_annealing_house_manhatten_cable(self, cable_sharing):
         '''
         Combines a simulated annealing algorithm with a huristic based on proximity of a house to a
         battery and the fullness of a battery compared to other batteries to devide the houses amoung
-        the batteries. Than uses the manhatten distance to lay cables between thouse houses and their 
+        the batteries. Than uses the manhatten distance to lay cables between thouse houses and their
         batteries. Finally, prints the total costs of the solution.
         '''
 
@@ -89,11 +102,11 @@ class Combining_algorithms():
 
     def random_greedy_astar_manhatten_cable(self, rounds, cable_sharing):
         '''
-        Introduces some randomness too a greedy algorithm with a huristic based on proximity of a house 
-        to a battery. Than uses the manhatten distance to lay cables between thouse houses and their 
+        Introduces some randomness too a greedy algorithm with a huristic based on proximity of a house
+        to a battery. Than uses the manhatten distance to lay cables between thouse houses and their
         batteries. Finally, prints the total costs of the solution.
         '''
-        
+
         self.random_greedy = Greedy(self.the_district)
         self.random_greedy.random_greedy(rounds)
         self.astar_cable2 = Cable(self.the_district)

@@ -62,6 +62,7 @@ class Hill_climber():
             chosen_battery.houses_in_battery.remove(chosen_house)
 
             # lays down the cables with the new configuration
+            self.config.all_cables = []
             self.astar_cable2 = Cable(self.config)
             self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
@@ -71,6 +72,7 @@ class Hill_climber():
                 new_battery.houses_in_battery.remove(chosen_house)
 
                 # lays down the cables with the current/original configuration
+                self.config.all_cables = []
                 self.astar_cable2 = Cable(self.config)
                 self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
@@ -91,6 +93,7 @@ class Hill_climber():
             chosen_battery2.houses_in_battery.remove(chosen_house2)
 
             # lays down the cables with the new configuration
+            self.config.all_cables = []
             self.astar_cable2 = Cable(self.config)
             self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
@@ -102,6 +105,7 @@ class Hill_climber():
                 chosen_battery2.houses_in_battery.remove(chosen_house1)
 
                 # lays down the cables with the current/original configuration
+                self.config.all_cables = []
                 self.astar_cable2 = Cable(self.config)
                 self.astar_cable2.cable_list_batteries(self.config.all_batteries, False)
 
