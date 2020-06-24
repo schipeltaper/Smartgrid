@@ -23,8 +23,6 @@ class Check50_to_visualization():
     '''
     def __init__(self, check50_format):
         # we save the list which represents the result in self.check50_format
-        # with open(check50_format_json) as json_file:
-        #     self.check50_format = json.load(json_file)
 
         self.check50_format = check50_format
 
