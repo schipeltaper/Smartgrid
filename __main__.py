@@ -42,15 +42,15 @@ def main():
     input_text = ''
     if cable_rule == 1:
          input_text = "Choose algorithm: \n 1. Random \n 2. Greedy \n 3. Random hill descent \n \
-        4. Random Greedy \n 5. Simulated Annealing \n 6. Hill Climber followed by Simulated Annealing \n"
+        4. Random Greedy \n 5. Simulated Annealing \n 6. Greedy then Hill Climber \n"
     if cable_rule == 2:
         input_text = "Choose algorithm: \n 1. Optimum Deluxe \n 2. Greedy \n 3. Random Greedy \n \
             4. Simulated Annealing \n"
     algorithm_id = input(input_text)
     algorithm_id = int(algorithm_id) + 6 * (cable_rule - 1)
-    
+
     print('Algorithm will run now. Afterwards, a visualization and the meta information will be shown.')
-    
+
     # Run algorithm.
     if algorithm_id == 1:
         optimization = Random_house_sort(district_id)
@@ -73,10 +73,10 @@ def main():
         optimization = Combining_algorithms(district_id)
         check50_result = optimization.simulated_annealing_house_manhatten_cable(cable_sharing)
     if algorithm_id == 6:
-        #run Hill Climber followed by Simulated Annealing
+        #run Greedy then Hill Climber
         step_num = input("How many steps would you like to take during you climb on the hill?")
         config = Combining_algorithms(district_id)
-        check50_result = config.annealing_hill_climber(int(step_num), False)
+        check50_result = config.greedy_then_hill_climber(int(step_num), False)
     if algorithm_id == 7:
         #run Optimum Deluxe
         print('Please note that this algorithm takes approx. 5 hours to run.')

@@ -54,6 +54,7 @@ class Check50_to_visualization():
                     cable = cable_segment.split(",")
                     cables.extend([int(cable[0]), int(cable[1])])
                 cables.append("end cable sequence")
+            cables.append("end cables battery")
 
         # creates the lists for all x- and y-coordinates for houses and batteries
         houses_x = list(map(lambda x: x[0], houses))
@@ -67,12 +68,18 @@ class Check50_to_visualization():
 
         # plots all the cables
         index = 0
+        colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+        color_number = 0
         while index < len(cables):
             # plots all cable sequences seperately
             if cables[index + 2] == "end cable sequence":
-                index += 3
+                if cables[index + 3] == "end cables battery":
+                    index += 4
+                    color_number += 1
+                else:
+                    index += 3
             else:
-                plt.plot([cables[index], cables[index + 2]], [cables[index + 1], cables[index + 3]], 'k-', lw = 0.5)
+                plt.plot([cables[index], cables[index + 2]], [cables[index + 1], cables[index + 3]], colors[color_number], lw = 0.5)
                 index += 2
 
         # makes sure we have a 51 by 51 grid
